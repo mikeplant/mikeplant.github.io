@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>LIBRARYmanager - Add Books</title>
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body id="addBooks">
+    <header>
+      <h1><a href="./index.html">[LIBRARY]manager</a></h1>
+      <div id="activeUserDiv">
+          <button class="checkButton"id="userBtn" onclick="changeActiveUser()">Change Customer</button>
+          <div class="aud">
+          <span id="activeUserSpan"></span>
+          </div>
+        </div>
+      <div id="searchBarDiv">
+        <form id="addBookSearchForm">  
+          <label for="addSearch"> 
+            <input name="addSearch" type="text" id="addSearch" placeholder="Find a book to add...">
+          </label>
+        </form>
+        <div class="dropDown"></div>
+      </div>
+      <nav class="mainNav">
+        <ul>
+            <li><a href="index.html">All Books</a></li>
+            <li><a href="instock.html">In Stock</a></li>
+            <li><a href="members.html">Users</a></li>
+            <li><a href="search.html">Search</a></li>
+            <li><a href="addbooks.html">Add Books</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+        <div id="formDiv"></div>
+        <div id="booksDiv">
+          <div>
+            <p>
+                  <b>Title: </b><input type="input"><br>
+                  <b>Author: </b><input type="input"><br>
+                  <b>Series: </b><input type="input"><br>
+                  <b>Genre: </b><input type="input"><br>
+                  <b>Pages: </b><input type="input"><br>
+                  <b>ISBN: </b><input type="input"><br>
+                <input placeholder="Enter initial stock quantity" class="stockQuantity">
+                <button class="addButton" type="button">Confirm</button>
+            </p>
+          </div>
+        </div>
+    </main>
+    <script src="js/books.js"></script>
+    <script src="js/users.js"></script>
+    <script src="js/library.js"></script>
+  </body>
+</html>

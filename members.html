@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>LIBRARYmanager - Members</title>
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body id="users">
+    <header>
+      <h1><a href="./index.html">[LIBRARY]manager</a></h1>
+      <div id="activeUserDiv">
+          <button class="checkButton"id="userBtn" onclick="changeActiveUser()">Change Member</button>
+          <div class="aud">
+          <span id="activeUserSpan"></span>
+          </div>
+        </div>
+      <div id="searchBarDiv">
+        <label for="searchBar"> 
+          <input name="searchBar" type="text" id="searchBar" placeholder="Find a member...">
+        </label>
+        <div class="dropDown"></div>
+      </div>
+      <nav class="mainNav">
+        <ul>
+            <li><a href="index.html">All Books</a></li>
+            <li><a href="instock.html">In Stock</a></li>
+            <li><a href="members.html">Users</a></li>
+            <li><a href="search.html">Search</a></li>
+            <li><a href="addbooks.html">Add Books</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div id="usersDiv"></div>
+    </main>
+    <script src="js/books.js"></script>
+    <script src="js/users.js"></script>
+    <script src="js/library.js"></script>
+  </body>
+</html>

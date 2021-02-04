@@ -1,0 +1,317 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: #fff;
+  font-size: 1em;
+  font-family: "Gotham Rounded A", "Gotham Rounded B", "Gotham Rounded", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  background-image: url("../img/farmer.png");
+  background-repeat: repeat;
+  margin: 0;
+}
+
+header {
+ background-color: grey;
+ background-image: url("../img/green-fibers.png");
+ background-repeat: repeat;
+ width: 100%;
+ height: 175px;
+ position: relative;
+ margin: 0;
+ padding: 0;
+}
+
+header h1 {
+  float: right;
+  margin:20px;
+}
+
+header h1 a {
+  color: #fff;
+  text-decoration: none;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  /*padding: 40px 0 0;*/
+  margin: 5%;
+  margin-top: 30px;
+}
+
+h2 {
+  font-size: 2.5em;
+  font-weight: normal;
+  text-align: left;
+  padding-left: 20px;
+  color: #103517;
+  font-weight: bold;
+}
+
+main p {
+  font-size: 1.5em;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.aud {
+  float: right;
+  padding: 12px;
+}
+
+#activeUserDiv {
+  float: left;
+}
+
+#activeUserDiv a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#activeUserDiv a:hover {
+  color: #26946E;
+}
+
+#searchBarDiv {
+  text-align: center;
+  font-size: 1.5em;
+  width: 600px;
+  /*padding: 50px 310px;*/
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 50px;
+}
+
+#searchBarDiv input {
+  height: 50px;
+  width: 600px;
+  font-size: 1em;
+  padding: 0.2em;
+  padding-left: 0.5em; 
+  border-radius: 15px;
+  border-color: #A5E0CC;
+}
+
+.dropDown {
+  background-color: #fff;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  width: 570px;
+}
+
+.mainNav {
+  display: block;
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5em;
+  position: absolute;
+  margin-bottom: 10px;
+  bottom: 0;
+}
+
+.mainNav li {
+  display: inline;
+  padding: 28px;
+}
+
+.mainNav li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.mainNav li a:hover {
+  color: #26946E;
+}
+
+#booksDiv { 
+  width: 100%;
+  font-size: .8em;
+  line-height: 1.5;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#booksDiv div {
+  display: inline-block;
+  float: left;
+  padding: 20px;
+  background-color: grey;
+  background-image: url("../img/tweed.png");
+  width:460px;
+  height: 290px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+#booksDiv div input {
+  font-size: 1em;
+  padding: 2px;
+  width: 340px;
+  float: right;
+  border-radius: 1px;
+  border-width: 0;
+}
+
+#booksDiv div ul {
+  list-style-type: none;
+}
+
+#booksDiv p span:hover {
+  color: grey;
+  cursor: pointer;
+}
+
+
+#usersDiv { 
+  width: 100%;
+  font-size: .8em;
+  line-height: 1.5;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#usersDiv div {
+  display: inline-block;
+  float: left;
+  padding: 20px;
+  background-color: grey;
+  background-image: url("../img/tweed.png");
+  width:540px;
+  height: 190px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+
+#userMainDiv { 
+  width: 100%;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+
+#userMainDiv h2 {
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+#userMainDiv h2 {
+  text-decoration: underline #26946E;
+}
+
+#userDiv {
+  display: inline-block;
+  float: left;
+  padding: 20px;
+  background-color: grey;
+  background-image: url("../img/tweed.png");
+  height: 100%;
+  width: 540px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+#booksCheckedOut  {
+  display: inline-block;
+  float: left;
+  font-size: .8em;
+  padding: 20px;
+  background-color: grey;
+  background-image: url("../img/tweed.png");
+  margin: 10px;
+  border-radius: 5px;
+}
+
+#previouslyBorrowed  {
+  display: inline-block;
+  float: left;
+  font-size: .8em;
+  padding: 20px;
+  background-color: grey;
+  background-image: url("../img/tweed.png");
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.checkButton {
+  height: 40px;
+  width: 90px;
+  border-radius: 10px;
+  border-color: #544D3E;
+  border: none;
+  background-color: #FBF9F4;
+  transition: background-color .3s;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.checkButton:hover {
+  background-color: #B3E9D7;
+  cursor: pointer;
+}
+
+.chkBtnTxt {
+  color: #DADD52;
+  float: right;
+  padding-top: 30px;
+  font-size: .7em;
+}
+
+.addButton {
+  float: right;
+  height: 40px;
+  width: 90px;
+  border-radius: 10px;
+  border-color: #544D3E;
+  border: none;
+  background-color: #0c8a3c;
+  color: #fff;
+  transition: background-color .3s;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.addButton:hover {
+  background-color: #B3E9D7;
+  color: #252117;
+  cursor: pointer;
+}
+
+.cancelButton {
+  float: right;
+  height: 40px;
+  width: 90px;
+  border-radius: 10px;
+  border-color: #544D3E;
+  border: none;
+  background-color: #9e2929;
+  color: #fff;
+  transition: background-color .3s;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.cancelButton:hover {
+  background-color: #e9b3b3;
+  color: #252117;
+  cursor: pointer;
+}
+
+#userBtn {
+  margin: 10px; 
+}
+
+#available {
+  color: #33C593;
+}
+
+#unavailable {
+  color: #DD003F;
+}
