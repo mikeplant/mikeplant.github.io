@@ -1,19 +1,31 @@
 class Library {
     constructor() {
-        this.staff = [];
-        this.members = [];
-        this.stock = [];
+        this.items = [];
+        this.users = new Users();
         this.rentCounter = {};
-        this.usedItemIds = [99];
+        this.usedStockNums = [99];
     }
 
-    get activeMember() {
-        return this.members.find(member => member.active);
-    }
+    /**
+     * Creates an item, adds a stockNum and adds it to the library.
+     * @param {Class} type - A class type to be instantiated. eg Book
+     * @param {Array} argsArr - The required arguments for the class.
+     */
+    addItem(type, argsArr) {
+        const item = new type(...argsArr);
 
-    changeActiveMember(accNum) {
-        this.activeMember.active = false;
-        const newActiveMember = this.members.find(member => member.accNum === accNum);
-        newActiveMember.active = true;
+        for(let i=0;i<this.items.length;i++) {
+            if(this.items[i][0].isbn === item.isbn) {
+                item.stockNum = this.items[i][0].stockNum;
+                this.items[i].push(item);
+            } 
+        }
+        if(!item.stockNum) {
+            const prevRef = this.usedStockNums.slice(-1);
+            const stockNum = prevRef[0] + 1;
+            this.usedStockNums.push(stockNum);
+            item.stockNum = stockNum;
+            this.items.push([item]);
+        }   
     }
 }
