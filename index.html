@@ -7,8 +7,16 @@
   </head>
   <body id="index">
     <header>
+      <div id="activeUsersDiv">
+        <p>
+          Staff: <span class="active-staff"></span>
+        </p>
+        <p>
+          Member: <span class="active-member"></span>
+        </p>
+      </div>
       <h1><a href="">LIBRARYmanager</a></h1>
-      <nav id="main-navbar">
+      <nav id="header-navbar">
         <ul>
           <li>
             ITEMS
@@ -41,11 +49,30 @@
               </ul>
             </div>
           </li>
+          <li class="change-member">
+            CHANGE MEMBER
+            <div class="dropdown-content">
+              <ul>
+                <li><input type="text" class="change-member-input"></li>
+                <li class="change-member-confirm">Confirm</li>
+              </ul>
+            </div>
+          </li>
+          <li class="sign-out">
+            SIGN OUT
+            <div class="dropdown-content">
+              <ul>
+                <li>Confirm</li>
+              </ul>
+            </div>
+          </li>
         </ul>  
       </nav>
     </header>
     <main>
     </main>
+    <script src="js/Data.js"></script>
+    <script src="js/ViewHandler.js"></script>
     <script src="js/Library.js"></script>
     <script src="js/Book.js"></script>
     <script src="js/Users.js"></script>

@@ -5,23 +5,26 @@ class Users {
         this.activeStaff;
         this.activeMember;
     }
-    /**
-     * Returns the Active user
-     * @param {}
-     * @returns {Object} - The active user
-     */
-    // get activeUser(users) {
-    //     return this.users.find(users => user.active);
-    // }
 
     /**
      * Changes the active member
      * @param {number} accNum 
      */
     changeActiveMember(accNum) {
-        this.activeMember.active = false;
+        this.activeMember = undefined;
         const newActiveMember = this.members.find(member => member.accNum === accNum);
-        newActiveMember.active = true;
+        this.activeMember = newActiveMember;
+        viewHandler.displayActiveMember();
+        data.setData();
+    }
+
+    
+    validateAccNum(accNum) {
+        if(isNaN(accNum) || this.members.find(member => member.accNum === accNum) === undefined) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**

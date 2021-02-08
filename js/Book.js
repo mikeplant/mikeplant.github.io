@@ -11,7 +11,7 @@ class Book {
     }
     
 	getString() {
-		
+		console.log('test');
 	}
 }
 

@@ -1,5 +1,5 @@
 class Member {
-    constructor(accNum, name, age, address, phone, email, active=false) {
+    constructor(accNum, name, age, address, phone, email) {
         this.accNum = accNum;
         this.name = name;
         this.age = age;
@@ -8,6 +8,5 @@ class Member {
         this.contactDetails = {phone: `${phone}`, email: `${email}`};
         this.currentRentals = [];
         this.previousRentals = [];
-        this.active = active;
     }
 }
