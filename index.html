@@ -2,36 +2,54 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>LIBRARYmanager - All Books</title>
+    <title>LIBRARYmanager - Index</title>
     <link href="css/style.css" rel="stylesheet">
   </head>
   <body id="index">
     <header>
-      <h1><a href="./index.html">[LIBRARY]manager</a></h1>
-      <div id="activeUserDiv">
-        <button class="checkButton"id="userBtn" onclick="changeActiveUser()">Change Customer</button>
-        <div class="aud">
-        <span id="activeUserSpan"></span>
-        </div>
-      </div>
-      <nav class="mainNav">
+      <h1><a href="">LIBRARYmanager</a></h1>
+      <nav id="main-navbar">
         <ul>
-            <li><a href="index.html">All Books</a></li>
-            <li><a href="instock.html">In Stock</a></li>
-            <li><a href="members.html">Users</a></li>
-            <li><a href="search.html">Search</a></li>
-            <li><a href="addbooks.html">Add Books</a></li>
-        </ul>
+          <li>
+            ITEMS
+            <div class="dropdown-content">
+              <ul>
+                <li>All</li>
+                <li>In Stock</li>
+                <li>Add</li>
+                <li>Edit</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            MEMBERS
+            <div class="dropdown-content">
+              <ul>
+                <li>All</li>
+                <li>Add</li>
+                <li>Edit</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            SEARCH
+            <div class="dropdown-content">
+              <ul>
+                <li>Items</li>
+                <li>In Stock</li>
+                <li>Members</li>
+              </ul>
+            </div>
+          </li>
+        </ul>  
       </nav>
     </header>
     <main>
-      <div id="booksDiv"></div>
     </main>
     <script src="js/Library.js"></script>
     <script src="js/Book.js"></script>
     <script src="js/Users.js"></script>
     <script src="js/Member.js"></script>
-    
     <script src="js/app.js"></script>
   </body>
 </html>

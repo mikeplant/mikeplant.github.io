@@ -3,7 +3,7 @@ class Staff {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.isAdmin = this.isAdmin;
+        this.isAdmin = isAdmin;
         this.active = active;
     }
 }

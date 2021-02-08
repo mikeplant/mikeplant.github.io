@@ -1,7 +1,12 @@
+const mainNavbar = document.querySelector('#main-navbar');
 const library = new Library();
 
-
-
+// mainNavbar.addEventListener('click', (e) => {
+//     console.log(e.target.tagname)
+//     if (e.target === 'li') {
+//         document.querySelector('.dropdown').style.display = 'block';
+//     }
+// });
 
 
 

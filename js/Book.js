@@ -7,9 +7,11 @@ class Book {
 		this.pages = pages;
 		this.isbn = isbn;
         this.inStock = inStock;
-        //this.stockNum = this.assignStockNum();
+		this.withMember;
     }
     
-    
+	getString() {
+		
+	}
 }
 

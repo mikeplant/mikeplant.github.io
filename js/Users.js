@@ -5,9 +5,14 @@ class Users {
         this.activeStaff;
         this.activeMember;
     }
-    get activeMember() {
-        return this.members.find(member => member.active);
-    }
+    /**
+     * Returns the Active user
+     * @param {}
+     * @returns {Object} - The active user
+     */
+    // get activeUser(users) {
+    //     return this.users.find(users => user.active);
+    // }
 
     /**
      * Changes the active member
@@ -19,7 +24,12 @@ class Users {
         newActiveMember.active = true;
     }
 
-    checkOutItem(item) {
+    /**
+     * Checks item out to provided user
+     * @param {Object} item - The item to be checked out.
+     * @param {Object} user - The user the item will be checked out to.
+     * */
+    checkOutItem(item, user) {
 
     }
 }

@@ -6,6 +6,10 @@ class Library {
         this.usedStockNums = [99];
     }
 
+    setActiveStaff() {
+        
+    }
+
     /**
      * Creates an item, adds a stockNum and adds it to the library.
      * @param {Class} type - A class type to be instantiated. eg Book
@@ -13,19 +17,32 @@ class Library {
      */
     addItem(type, argsArr) {
         const item = new type(...argsArr);
+        const items = this.items;
+        const usedStockNums = this.usedStockNums;
+        let existingItemArr;
 
-        for(let i=0;i<this.items.length;i++) {
-            if(this.items[i][0].isbn === item.isbn) {
-                item.stockNum = this.items[i][0].stockNum;
-                this.items[i].push(item);
-            } 
+        function assignStockNum() {
+            for(let i=0;i<items.length;i++) {
+                if(items[i][0].isbn === item.isbn) {
+                    item.stockNum = items[i][0].stockNum;
+                    existingItemArr = items[i];
+                } 
+            }
+            if(!item.stockNum) {
+                const prevRef = usedStockNums.slice(-1);
+                const stockNum = prevRef[0] + 1;
+                usedStockNums.push(stockNum);
+                item.stockNum = stockNum;
+                
+            }   
         }
-        if(!item.stockNum) {
-            const prevRef = this.usedStockNums.slice(-1);
-            const stockNum = prevRef[0] + 1;
-            this.usedStockNums.push(stockNum);
-            item.stockNum = stockNum;
-            this.items.push([item]);
-        }   
+
+        assignStockNum();
+
+        if(existingItemArr) {
+            existingItemArr.push(item);
+        } else {
+            items.push([item]);
+        }
     }
 }
