@@ -22,10 +22,10 @@
             ITEMS
             <div class="dropdown-content">
               <ul>
-                <li>All</li>
-                <li>In Stock</li>
-                <li>Add</li>
-                <li>Edit</li>
+                <li class="allItems">All</li>
+                <li class="inStock">In Stock</li>
+                <li class="addItem">Add</li>
+                <li class="editItem">Edit</li>
               </ul>
             </div>
           </li>
@@ -70,13 +70,33 @@
       </nav>
     </header>
     <main>
+      <h2 id="main-heading">Welcome</h2>
+      <div class="main-content"> 
+        <div id="add-books-div">
+          <!-- ITEM DISPLAY
+          <div class="item-div">
+            <p>
+              <strong>Title: </strong>${this.title}<br>
+              <strong>Author: </strong><span class="searchByClick">${this.author}</span><br>
+              <strong>Series: </strong>${this.series}<br>
+              <strong>Genre: </strong>${this.genre}<br>
+              <strong>Pages: </strong>${this.pages}<br>
+              <strong>ISBN: </strong>${this.isbn}<br>
+            </p>
+            <p class="unavailable">Out of stock</p>
+          </div> 
+        END -->
+        </div>     
+        
+      </div>
     </main>
+    <footer></footer>
     <script src="js/Data.js"></script>
-    <script src="js/ViewHandler.js"></script>
     <script src="js/Library.js"></script>
     <script src="js/Book.js"></script>
     <script src="js/Users.js"></script>
     <script src="js/Member.js"></script>
+    <script src="js/ViewHandler.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

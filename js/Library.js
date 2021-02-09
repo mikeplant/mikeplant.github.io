@@ -12,33 +12,28 @@ class Library {
      * @param {Array} argsArr - The required arguments for the class.
      */
     addItem(type, argsArr) {
-        const item = new type(...argsArr);
+        const newItem = new type(...argsArr);
         const items = this.items;
         const usedStockNums = this.usedStockNums;
-        let existingItemArr;
 
         function assignStockNum() {
+            let isNewItem = true;
             for(let i=0;i<items.length;i++) {
-                if(items[i][0].isbn === item.isbn) {
-                    item.stockNum = items[i][0].stockNum;
-                    existingItemArr = items[i];
+                if(items[i].isbn === newItem.isbn) {
+                    items[i].inStock += newItem.inStock;
+                    isNewItem = false;
                 } 
             }
-            if(!item.stockNum) {
+            if(isNewItem) {
                 const prevRef = usedStockNums.slice(-1);
                 const stockNum = prevRef[0] + 1;
                 usedStockNums.push(stockNum);
-                item.stockNum = stockNum;
-                
+                newItem.stockNum = stockNum;   
+                items.push(newItem);  
             }   
         }
 
         assignStockNum();
-
-        if(existingItemArr) {
-            existingItemArr.push(item);
-        } else {
-            items.push([item]);
-        }
+        data.saveItems();
     }
 }

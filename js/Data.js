@@ -6,7 +6,7 @@ class Data {
     }
 
     checkIfStorageExists() {
-        if(localStorage.getItem('users') !== null) {
+        if(localStorage.getItem('items') !== null) {
             return true;
         } else {
             return false;
@@ -22,7 +22,6 @@ class Data {
         library.users.staff.forEach(staff => {
             usersToSave.staff.push(JSON.parse(staff.getJSON()))
         });
-
         library.users.members.forEach(member => {
             usersToSave.members.push(JSON.parse(member.getJSON()))
         });
@@ -33,8 +32,9 @@ class Data {
         if(this.activeStaff) {
             localStorage.setItem('activeStaff', JSON.stringify(this.activeStaff.accNum));
         }
-        
+
         localStorage.setItem('users', JSON.stringify(usersToSave));
+        this.storageExists = true;
     }
 
     loadUsers() {
@@ -55,5 +55,38 @@ class Data {
 
         let activeMemberNum = JSON.parse(localStorage.getItem('activeMember'));
         this.activeMember = library.users.members.filter(member => member.accNum === activeMemberNum)[0];
+    }
+
+    saveItems() {
+        let itemsToSave = [];
+
+        library.items.forEach(item => {
+            itemsToSave.push(JSON.parse(item.getJSON()))
+        });
+
+        localStorage.setItem('items', JSON.stringify(itemsToSave));
+        localStorage.setItem('rentCounter', JSON.stringify(library.rentCounter));
+        localStorage.setItem('usedStockNums', JSON.stringify(library.usedStockNums));
+        this.storageExists = true;
+    }
+
+    loadItems() {
+        let loadedItems = JSON.parse(localStorage.getItem('items'));
+
+        loadedItems.forEach(book => {
+            let newBook = new Book();
+            newBook.title = book.title;
+            newBook.author = book.author;
+            newBook.series = book.series;
+            newBook.genre = book.genre;
+            newBook.pages = book.pages;
+            newBook.isbn = book.isbn;
+            newBook.inStock = book.inStock;
+            newBook.stockNum = book.stockNum;
+            library.items.push(newBook);
+        });
+
+        library.rentCounter = JSON.parse(localStorage.getItem('rentCounter'));
+        library.usedStockNums = JSON.parse(localStorage.getItem('usedStockNums'));
     }
 }
