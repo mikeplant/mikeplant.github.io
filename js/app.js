@@ -1,22 +1,17 @@
 const data = new Data();
-let library = new Library();
+const library = new Library();
 const viewHandler = new ViewHandler();
 const changeMemberConfirm = document.querySelector('.change-member-confirm');
 
 if (data.storageExists) {
-    data.getData()
+    data.loadUsers()
     viewHandler.displayActiveMember();
 } 
 
 
 
-changeMemberConfirm.addEventListener('click', (e) => {
-    let accNum = parseInt(document.querySelector('.change-member-input').value);
-    if(library.users.validateAccNum(accNum)) {
-        library.users.changeActiveMember(accNum);
-    } else {
-        alert('enter valid acc num')
-    }
+changeMemberConfirm.addEventListener('click', () => {
+        library.users.changeActiveMember();
 })
 
 
@@ -67,5 +62,5 @@ if (!data.storageExists) {
     library.users.members.push(new Member(9000, 'Drew Borrowmore', 42, '123, Any Street, Anytown, RE12AD', '01256445556', 'some@email.com'),
                         new Member(9001, 'Toby Lenderson', 45, '456, Some Street, Sometown, BO010KS', '01256541236', 'some@email.com'));
 
-    data.setData();
+    data.saveUsers();
 }

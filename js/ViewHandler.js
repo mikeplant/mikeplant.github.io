@@ -4,6 +4,6 @@ class ViewHandler {
     }
 
     displayActiveMember() {
-        this.activeMemberSpan.textContent = `${library.users.activeMember.accNum} - ${library.users.activeMember.name}`;
+        this.activeMemberSpan.textContent = `${data.activeMember.accNum} - ${data.activeMember.name}`;
     }
 }

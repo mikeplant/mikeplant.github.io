@@ -6,10 +6,6 @@ class Library {
         this.usedStockNums = [99];
     }
 
-    setActiveStaff() {
-        
-    }
-
     /**
      * Creates an item, adds a stockNum and adds it to the library.
      * @param {Class} type - A class type to be instantiated. eg Book

@@ -6,4 +6,15 @@ class Staff {
         this.isAdmin = isAdmin;
         this.active = active;
     }
+
+    getJSON() {
+        let data = {};
+        data.accNum = this.accNum;
+        data.name = this.name;
+        data.password = this.password;
+        data.isAdmin = this.isAdmin;
+        data.active = this.active;
+
+        return JSON.stringify(data);
+    }
 }

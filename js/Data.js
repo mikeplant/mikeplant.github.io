@@ -1,56 +1,59 @@
 class Data {
     constructor() {
         this.storageExists = this.checkIfStorageExists();
+        this.activeMember;
+        this.activeStaff;
     }
 
     checkIfStorageExists() {
-        if(localStorage.getItem("itemsData")) {
+        if(localStorage.getItem('users') !== null) {
             return true;
         } else {
             return false;
         }
     }
-    
-    // const load = () => {
-    //     let loadedSave = JSON.parse(localStorage.getItem("projects"));
-    //     loadedSave.forEach((project) => {
-    //       let loadedProject = Project(project.title, project.favourite);
-    //       addProject(loadedProject);
-    //       project.tasks.forEach((task) => {
-    //         let loadedToDoItem = ToDoItem(
-    //           task.title,
-    //           task.description,
-    //           task.dueDate,
-    //           task.priority,
-    //           task.notes,
-    //           task.checklist
-    //         );
-    //         loadedToDoItem.setComplete(task.completed);
-    //         loadedToDoItem.setCompletionDate(task.completionDate);
-    //         loadedToDoItem.setCreationDate(task.creationDate);
-    //         loadedProject.addTask(loadedToDoItem, false);
-    //       });
-    //     });
-    //   };
+ 
+    saveUsers() {
+        let usersToSave = {
+            staff: [],
+            members: []
+        };
 
-    getData() {
-        for (const key in library) {
-            library[key] = JSON.parse(localStorage.getItem(`${key}Data`));
+        library.users.staff.forEach(staff => {
+            usersToSave.staff.push(JSON.parse(staff.getJSON()))
+        });
+
+        library.users.members.forEach(member => {
+            usersToSave.members.push(JSON.parse(member.getJSON()))
+        });
+
+        if(this.activeMember) {
+            localStorage.setItem('activeMember', JSON.stringify(this.activeMember.accNum));
+        }
+        if(this.activeStaff) {
+            localStorage.setItem('activeStaff', JSON.stringify(this.activeStaff.accNum));
         }
         
-        for (const key in library.users) {
-            library.users[key] = JSON.parse(localStorage.getItem(`${key}Data`));
-        }
-
+        localStorage.setItem('users', JSON.stringify(usersToSave));
     }
 
-    setData() {
-        for (const key in library) {
-            localStorage.setItem(`${key}Data`, JSON.stringify(library[key]));
-        }
+    loadUsers() {
+        let loadedUsers = JSON.parse(localStorage.getItem('users'));
+        library.users = new Users();
 
-        for (const key in library.users) {
-            localStorage.setItem(`${key}Data`, JSON.stringify(library.users[key]));
-        }
+        loadedUsers.members.forEach(member => {
+            let newMember = new Member();
+            newMember.accNum = member.accNum;
+            newMember.name = member.name;
+            newMember.age = member.age;
+            newMember.address = member.address;
+            newMember.contactDetails = member.contactDetails;
+            newMember.currentRentals = member.currentRentals;
+            newMember.previousRentals = member.previousRentals;
+            library.users.members.push(newMember);
+        });
+
+        let activeMemberNum = JSON.parse(localStorage.getItem('activeMember'));
+        this.activeMember = library.users.members.filter(member => member.accNum === activeMemberNum)[0];
     }
 }
