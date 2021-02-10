@@ -1,0 +1,6 @@
+TO DO
+
+Add items page -
+
+Add text explaining required fields on form.
+Add checkbox for if adding stock only.
