@@ -1,6 +1,22 @@
 TO DO
 
-Add items page -
+BUGS - 
+
+* Navbar dropdown adding margin unnecessarily
+
+VIEWHANDLER -
+
+Update content on member change.
+
+USERS - 
+
+Check out functions to finish.
+
+DATA - 
+
+Save user books to local storage.
+
+ADD ITEMS PAGE -
 
 Add text explaining required fields on form.
 Add checkbox for if adding stock only.

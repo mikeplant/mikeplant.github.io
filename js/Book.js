@@ -10,6 +10,10 @@ class Book {
 		this.stockNum;
     }
 
+	isInStock() {
+		return (this.inStock > 0 ? true : false);
+	}
+
 	getJSON() {
         let data = {};
         data.title = this.title;
@@ -26,15 +30,19 @@ class Book {
 
 	/**
 	 * Returns html content according to params
-	 * @param {boolean} details - Prints full book details.
-	 * @param {boolean} stockQuantity - Prints stock quantity.
-	 * @param {boolean} button - Prints button depending on if in stock and if user has book.
+	 * @param {array} optionsArr - An array of options to create html from.
+	 * Options include: 
+	 * details - full book details.
+	 * stockQuantity - stock quantity of book.
+	 * button - button depending on stock and if user has a copy.
 	 */
-	getHTML(details, stockQuantity, button) {
-		let toPrint = '';
+	getHTML(optionsArr) {
+		let html = `<div id="${this.stockNum}" class="item-div">`;
+		const userHasItem = library.users.userHasItem(data.activeMember, this);
 
-		if(details) {
-			toPrint += `
+		const options = {
+			details: () => {
+				html += `
 				<p>
 				<strong>Title: </strong>${this.title}<br>
 				<strong>Author: </strong><span class="searchByClick">${this.author}</span><br>
@@ -44,29 +52,33 @@ class Book {
 				<strong>ISBN: </strong>${this.isbn}<br>
 				</p>
 				`;
-		}
-
-		if(stockQuantity) {
-			if(this.inStock > 0) {
-				toPrint += `
-					<p class="available">${this.inStock} in stock</p>
-				`;
-			} else {
-				toPrint += `
-					<p class="unavailable">Out of stock</p>
-				`;
+			},
+			stockQuantity: () => {
+				if(this.inStock > 0) {
+					html += `
+						<p class="available">${this.inStock} in stock</p>
+					`;
+				} else {
+					html += `
+						<p class="unavailable">Out of stock</p>
+					`;
+				}
+			},
+			button: () => {
+				if(this.isInStock() && !userHasItem) {
+					html += `<button class="selector-btn">Check Out</button>`;
+				} else if(userHasItem) {
+					html += `<button class="selector-btn">Check In</button>`;
+				}
 			}
 		}
 
-		if(button) {
-			if(this.inStock > 0) {
-				toPrint += `
-					<button class="selector-btn">Check Out</button>
-				`;
-			}
+		for (const option of optionsArr) {
+			options[option]();
 		}
-
-		return toPrint;
+		
+		html += `</div>`;
+		return html;
 	}
 }
 

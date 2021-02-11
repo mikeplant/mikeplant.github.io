@@ -3,11 +3,12 @@ const library = new Library();
 const viewHandler = new ViewHandler();
 const changeMemberConfirm = document.querySelector('.change-member-confirm');
 const dropdownContent = document.querySelector('.dropdown-content');
+const mainContent = document.querySelector('.main-content');
 
 if (data.storageExists) {
     data.loadUsers()
     data.loadItems();
-    viewHandler.displayActiveMember();
+    viewHandler.displayActiveMember(); //update
 } 
 
 dropdownContent.addEventListener('click', (e) => {
@@ -18,6 +19,16 @@ dropdownContent.addEventListener('click', (e) => {
 changeMemberConfirm.addEventListener('click', () => {
     library.users.changeActiveMember();
 })
+
+mainContent.addEventListener('click', (e) => {
+    const btnText = e.target.textContent;
+    const divID = parseInt(e.target.parentNode.id);
+    if(e.target.tagName === 'BUTTON') {
+        viewHandler.handleSelectorBtnClick(btnText, divID);
+    }
+})
+
+
 
 
 

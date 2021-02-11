@@ -3,6 +3,7 @@ class ViewHandler {
         this.activeMemberSpan = document.querySelector('.active-member');
         this.mainHeading = document.querySelector('#main-heading');
         this.itemsDiv = document.querySelector('.main-content');
+        this.prevDisplay = 'allItems';
     }
 
     displayActiveMember() {
@@ -17,34 +18,30 @@ class ViewHandler {
         return newElement;
     }
 
-    displayItems(option) {
+    displayItems(option = this.prevDisplay) {
         this.itemsDiv.innerHTML = '';
+        let content = ``;
 
-        function createAndAppendDiv(item) {
-            const div = viewHandler.createElement('div', 'id', `${item.stockNum}`);
-            div.className = 'item-div';
-            viewHandler.itemsDiv.appendChild(div);
-            div.innerHTML = item.getHTML(true, true, true);
-        }
-
-        const printOptions = {
+        const displayOptions = {
             allItems: () => {
                 this.mainHeading.textContent = 'All Items';
                 library.items.forEach(item => {
-                    createAndAppendDiv(item);
+                  content += item.getHTML(['details', 'stockQuantity', 'button']);
                 });
+                this.prevDisplay = 'allItems';
             },
             inStock: () => {
                 this.mainHeading.textContent = 'In Stock Items';
                 library.items.forEach(item => {
                     if (item.inStock > 0) {
-                        createAndAppendDiv(item);
+                      content += item.getHTML(['details', 'stockQuantity', 'button']);
                     }
-                })
+                });
+                this.prevDisplay = 'inStock';
             },
             addItem: () => {
                 this.mainHeading.textContent = 'Add Items'
-                viewHandler.itemsDiv.innerHTML = `<div id="add-items-div">
+                content = `<div id="add-items-div">
                 <div class="add-item-form-div">
                   <form>
                     <h3>Add a book manually:</h3>
@@ -68,27 +65,33 @@ class ViewHandler {
       
                 <div class="add-book-search-div">
                   <h2>Search for a book:</h2>
-                  <input type="text">
+                  <input type="text"><button class="selector-btn">Search</button>
                   <p>Find a book to add to the library by any of it's properties.<br>
                      For best results use the book's title, author, or ISBN number.</p>
                 </div>`;
+                this.prevDisplay = 'addItem';
             },
             editItem: () => {
                 this.mainHeading.textContent = 'Edit Items';
+                this.prevDisplay = 'editItem';
             }
         };
         
-        printOptions[option]();
-
+        displayOptions[option]();
+        this.itemsDiv.innerHTML = content;
     }
 
-    displayInStockItems() {
-        this.mainHeading.textContent = 'All Items';
-        this.itemsDiv.innerHTML = '';
-        library.items.forEach(item => {
-            const div = this.createElement('div', 'id', `${item.stockNum}`);
-            this.itemsDiv.appendChild(div);
-            div.innerHTML = item.getString();
-        });
+    handleSelectorBtnClick(btnText, stockNum) {
+      const action = btnText.replace(/\s+/g, '').toLowerCase();
+      const buttonAction = {
+        checkout: () => {library.users.checkOutItem(data.activeMember, stockNum)},
+        checkin: () => {}
+      };
+      buttonAction[action]();
+    }
+
+    updateDisplay() {
+      this.displayActiveMember();
+      this.displayItems();
     }
 }

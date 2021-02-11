@@ -6,6 +6,14 @@ class Library {
         this.usedStockNums = [99];
     }
 
+    getItemByStockNum(stockNum) {
+        for (const item of this.items) {
+            if(item.stockNum === stockNum) {
+                return item;
+            }
+        } 
+	}
+
     /**
      * Creates an item, adds a stockNum and adds it to the library.
      * @param {Class} type - A class type to be instantiated. eg Book
