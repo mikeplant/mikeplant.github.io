@@ -1,6 +1,7 @@
 const data = new Data();
 const library = new Library();
 const viewHandler = new ViewHandler();
+const modals = new Modals();
 const changeMemberConfirm = document.querySelector('.change-member-confirm');
 const dropdownContent = document.querySelector('.dropdown-content');
 const mainContent = document.querySelector('.main-content');
@@ -25,6 +26,7 @@ mainContent.addEventListener('click', (e) => {
     const divID = parseInt(e.target.parentNode.id);
     if(e.target.tagName === 'BUTTON') {
         viewHandler.handleSelectorBtnClick(btnText, divID);
+        viewHandler.updateDisplay();
     }
 })
 

@@ -85,7 +85,7 @@ class ViewHandler {
       const action = btnText.replace(/\s+/g, '').toLowerCase();
       const buttonAction = {
         checkout: () => {library.users.checkOutItem(data.activeMember, stockNum)},
-        checkin: () => {}
+        checkin: () => {library.users.checkInItem(data.activeMember, stockNum)}
       };
       buttonAction[action]();
     }

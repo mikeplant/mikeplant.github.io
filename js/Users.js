@@ -45,18 +45,27 @@ class Users {
 
     /**
      * Checks item out to provided user
-     * @param {Object} item - The item to be checked out.
      * @param {Object} user - The user the item will be checked out to.
+     * @param {Object} item - The item to be checked out.
      * */
     checkOutItem(user, stockNum) {
-        let item = library.getItemByStockNum(stockNum);
-        const itemCopy = {Item: item};
+        const item = library.getItemByStockNum(stockNum);
+        const itemToCheckOut = {Item: item};
         if(!this.userHasItem(user, item) && item.isInStock()) {
-            user.currentRentals.push(itemCopy);
-            user.previousRentals.push(itemCopy);
+            user.currentRentals.push(itemToCheckOut);
+            user.previousRentals.push(itemToCheckOut);
             item.inStock--;
+            library.updateRentCounter(item);
+            alert(`${item.title} checked out to ${user.name}`);
         } else {
         }
-        viewHandler.updateDisplay();
+        
+    }
+
+    checkInItem(user, stockNum) {
+        const item = library.getItemByStockNum(stockNum);
+        user.currentRentals = user.currentRentals.filter(rentedItem => rentedItem['Item'].stockNum !== stockNum);
+        item.inStock++;
+        alert(`${item.title} checked in. Updated stock: ${item.inStock}`);
     }
 }

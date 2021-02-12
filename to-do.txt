@@ -6,11 +6,9 @@ BUGS -
 
 VIEWHANDLER -
 
-Update content on member change.
-
 USERS - 
 
-Check out functions to finish.
+Add date to books checked out.
 
 DATA - 
 
@@ -18,5 +16,9 @@ Save user books to local storage.
 
 ADD ITEMS PAGE -
 
-Add text explaining required fields on form.
+Add text explaining required fields on form - in modal?
 Add checkbox for if adding stock only.
+
+LAYOUT -
+
+Change main-content and item-div to grid layout

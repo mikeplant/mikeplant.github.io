@@ -44,4 +44,14 @@ class Library {
         assignStockNum();
         data.saveItems();
     }
+
+    updateRentCounter(item) {
+        const itemStockNum = item.stockNum.toString();
+        if(this.rentCounter.hasOwnProperty(itemStockNum)) {
+            this.rentCounter[itemStockNum]++;
+        } else {
+            this.rentCounter[itemStockNum] = 1;
+        }
+        data.saveItems();
+    }
 }
