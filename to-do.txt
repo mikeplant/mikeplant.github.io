@@ -2,13 +2,17 @@ TO DO
 
 BUGS - 
 
-* Navbar dropdown adding margin unnecessarily
+* Books stock not saving correctly - linked to user books
 
 VIEWHANDLER -
+
+Refactor modal creation and dismissal in button handler.
+Add modals to replace alerts.
 
 USERS - 
 
 Add date to books checked out.
+Validate item days to be checked out.
 
 DATA - 
 
@@ -22,3 +26,7 @@ Add checkbox for if adding stock only.
 LAYOUT -
 
 Change main-content and item-div to grid layout
+
+GENERAL -
+
+Add rental history to items

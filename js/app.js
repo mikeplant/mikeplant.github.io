@@ -23,10 +23,9 @@ changeMemberConfirm.addEventListener('click', () => {
 
 mainContent.addEventListener('click', (e) => {
     const btnText = e.target.textContent;
-    const divID = parseInt(e.target.parentNode.id);
+    const div = e.target.parentNode;
     if(e.target.tagName === 'BUTTON') {
-        viewHandler.handleSelectorBtnClick(btnText, divID);
-        viewHandler.updateDisplay();
+        viewHandler.handleSelectorBtnClick(btnText, div);
     }
 })
 

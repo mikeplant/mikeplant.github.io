@@ -54,4 +54,20 @@ class Library {
         }
         data.saveItems();
     }
+
+    getReturnDate(rentalLength) {
+        const date = new Date();
+        date.setDate(date.getDate() + rentalLength);
+	    return date;
+    }
+
+    returnIsOverdue(rentedItem) {
+        const returnDate = rentedItem.returnDue;
+        const today = new Date();
+        return (today > returnDate)? true : false;
+    }
+
+    getDateString(date) {
+        return `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`;
+    }
 }

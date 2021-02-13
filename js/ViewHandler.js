@@ -12,12 +12,6 @@ class ViewHandler {
         }
     }
 
-    createElement(elementName, property, value) {
-        const newElement = document.createElement(elementName);
-        newElement[property] = value;
-        return newElement;
-    }
-
     displayItems(option = this.prevDisplay) {
         this.itemsDiv.innerHTML = '';
         let content = ``;
@@ -81,17 +75,45 @@ class ViewHandler {
         this.itemsDiv.innerHTML = content;
     }
 
-    handleSelectorBtnClick(btnText, stockNum) {
-      const action = btnText.replace(/\s+/g, '').toLowerCase();
-      const buttonAction = {
-        checkout: () => {library.users.checkOutItem(data.activeMember, stockNum)},
-        checkin: () => {library.users.checkInItem(data.activeMember, stockNum)}
-      };
-      buttonAction[action]();
+    handleSelectorBtnClick(btnText, div) {
+      	const action = btnText.replace(/\s+/g, '').toLowerCase();
+      	const buttonAction = {
+			checkout: () => {
+				const modal = modals.getCheckOutModalHTML();
+				div.appendChild(modal);
+				window.setTimeout(() => {
+					modal.classList.add('show-modal');
+				}, '100')
+			},
+			checkin: () => {
+				library.users.checkInItem(data.activeMember, parseInt(div.id));
+				this.updateDisplay();
+			},
+			confirm: () => {
+				const modal = document.querySelector('.item-card-modal');
+				const rentalLength = parseInt(document.querySelector('#days-input').value);
+				const stockNum = parseInt(div.parentNode.parentNode.id);
+				modal.classList.remove('show-modal');
+				window.setTimeout(() => {
+					library.users.checkOutItem(data.activeMember, stockNum, rentalLength);
+					div.remove(document.querySelector('.item-card-modal'));
+					this.updateDisplay();
+				}, '100')	
+			},
+			cancel: () => {
+				const modal = document.querySelector('.item-card-modal');
+				modal.classList.remove('show-modal');
+				window.setTimeout(() => {
+					div.remove(document.querySelector('.item-card-modal'));
+					this.updateDisplay();
+				}, '100')	
+			}
+      	};
+      	buttonAction[action]();
     }
 
     updateDisplay() {
-      this.displayActiveMember();
-      this.displayItems();
+		this.displayActiveMember();
+		this.displayItems();
     }
 }

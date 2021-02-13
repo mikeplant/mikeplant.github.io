@@ -36,7 +36,7 @@ class Users {
         const itemToCheck = item.stockNum;
         let hasItem = false;
         for (let rentedItem of user.currentRentals) {
-            if (rentedItem['Item'].stockNum === itemToCheck) {
+            if (rentedItem['item'].stockNum === itemToCheck) {
                 hasItem = true;
             }
         }
@@ -48,23 +48,32 @@ class Users {
      * @param {Object} user - The user the item will be checked out to.
      * @param {Object} item - The item to be checked out.
      * */
-    checkOutItem(user, stockNum) {
+    checkOutItem(user, stockNum, rentalLength) {
         const item = library.getItemByStockNum(stockNum);
-        const itemToCheckOut = {Item: item};
-        if(!this.userHasItem(user, item) && item.isInStock()) {
-            user.currentRentals.push(itemToCheckOut);
+        const itemToCheckOut = {item: item};
+
+        function updateUserItems() {
+            itemToCheckOut['dateCheckedOut'] = new Date();
+            itemToCheckOut['returnDue'] = library.getReturnDate(rentalLength);
             user.previousRentals.push(itemToCheckOut);
+            user.currentRentals.push(itemToCheckOut);
+        }
+
+        function updateLibrary() {
             item.inStock--;
             library.updateRentCounter(item);
-            alert(`${item.title} checked out to ${user.name}`);
-        } else {
         }
-        
+
+        if(!this.userHasItem(user, item) && item.isInStock()) {
+            updateUserItems();
+            updateLibrary();
+            alert(`${item.title} checked out to ${user.name}`);
+        } 
     }
 
     checkInItem(user, stockNum) {
         const item = library.getItemByStockNum(stockNum);
-        user.currentRentals = user.currentRentals.filter(rentedItem => rentedItem['Item'].stockNum !== stockNum);
+        user.currentRentals = user.currentRentals.filter(rentedItem => rentedItem['item'].stockNum !== stockNum);
         item.inStock++;
         alert(`${item.title} checked in. Updated stock: ${item.inStock}`);
     }

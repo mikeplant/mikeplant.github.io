@@ -68,7 +68,7 @@ class Book {
 				if(this.isInStock() && !userHasItem) {
 					html += `<button class="selector-btn">Check Out</button>`;
 				} else if(userHasItem) {
-					html += `<button class="selector-btn">Check In</button>`;
+					html += `<button class="selector-btn">Check In</button><span class="user-has-span">Checked out by active user</span>`;
 				}
 			}
 		}
