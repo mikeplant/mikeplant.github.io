@@ -46,15 +46,17 @@ class Book {
 		const options = {
 			details: () => {
 				html += `
-				<p>
-				<strong>Title: </strong>${this.title}<br>
-				<strong>Author: </strong><span class="searchByClick">${this.author}</span><br>
-				<strong>Series: </strong>${this.series}<br>
-				<strong>Genre: </strong>${this.genre}<br>
-				<strong>Pages: </strong>${this.pages}<br>
-				<strong>ISBN: </strong>${this.isbn}<br>
-				</p>
-				`;
+					<strong>Title: </strong><span>${this.title}</span>
+					<strong>Author: </strong><span>${this.author}</span>
+					<strong>Series: </strong><span>${this.series}</span>
+					<strong>Genre: </strong><span>${this.genre}</span>
+					<strong>Pages: </strong><span>${this.pages}</span>
+					<strong>ISBN: </strong><span>${this.isbn}</span>
+					<button class="selector-btn item-card-btn">Check Out</button>
+					`;
+					// if(userHasItem) {
+					// 	html += `<strong class="user-has-span">Checked out by active user</strong>`
+					// }
 			},
 			stockQuantity: () => {
 				if(this.inStock > 0) {
@@ -71,7 +73,7 @@ class Book {
 				if(this.isInStock() && !userHasItem) {
 					html += `<button class="selector-btn item-card-btn">Check Out</button>`;
 				} else if(userHasItem) {
-					html += `<button class="selector-btn item-card-btn">Check In</button><span class="user-has-span">Checked out by active user</span>`;
+					html += `<button class="selector-btn item-card-btn">Check In</button>`;
 				}
 			},
 			addButton: () => {
