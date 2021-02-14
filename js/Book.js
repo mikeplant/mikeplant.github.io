@@ -52,7 +52,6 @@ class Book {
 					<strong>Genre: </strong><span>${this.genre}</span>
 					<strong>Pages: </strong><span>${this.pages}</span>
 					<strong>ISBN: </strong><span>${this.isbn}</span>
-					<button class="selector-btn item-card-btn">Check Out</button>
 					`;
 					// if(userHasItem) {
 					// 	html += `<strong class="user-has-span">Checked out by active user</strong>`
