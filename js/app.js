@@ -40,6 +40,12 @@ mainContent.addEventListener('submit', (e) => {
             .then(response => response.json())
             .then(viewHandler.handleAddBookSearch)
             .catch(err => console.log('Error fetching books', err))
+
+        // if(document.querySelector('#search-results')) {
+        //     document.querySelector('#search-results').addEventListener('click', (cardClickEvent) => {
+        //         console.log(cardClickEvent.target)
+        //     });
+        // }
     }
 });
 
@@ -91,8 +97,8 @@ if (!data.storageExists) {
     library.addItem(Book, ['The Blade Itself','Joe Abercrombie','The First Law','Fiction','515','0575079797', 3]);
     library.addItem(Book, ['Before They Are Hanged','Joe Abercrombie','The First Law','Fiction','441','0575077883', 2]);
     library.addItem(Book, ['Last Argument of Kings','Joe Abercrombie','The First Law','Fiction','536','0575077905', 4]);
-    library.addItem(Book, ['Half A King','Joe Abercrombie','Shattered Sea','Fiction','416','0007550227', 2]);
-    library.addItem(Book, ['Good Omens', 'Terry Pratchett & Neil Gaiman', '', 'Fiction', '415', '0552171891', 0]);
+    library.addItem(Book, ['Half A King','Joe Abercrombie','Shattered Sea','Fiction','416','0007550227', 0]);
+    library.addItem(Book, ['Good Omens', 'Terry Pratchett & Neil Gaiman', '', 'Fiction', '415', '0552171891', 10]);
     library.addItem(Book, ['Animal Farm', 'George Orwell', '', 'Fiction', '122', '0452284244', 8]);
     library.addItem(Book, ['Reamde','Neil Stephenson', '', 'Fiction', '1044', '0062191497', 1]);
 

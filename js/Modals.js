@@ -47,6 +47,32 @@ class Modals {
 		return html;
 	}
 
+	getAddBookModal() {
+		const html = this.createElement('div', 'className', 'item-card-modal');
+		html.innerHTML = `
+		<div class="add-book-modal-content">
+            <form>
+              <h3>Confirm:</h3>
+              <label for="add-book-title">Title: </label>
+                <input type="text" id="add-book-title">
+              <label for="add-book-author">Author: </label>
+                <input type="text" id="add-book-author">
+              <label for="add-book-series">Series: </label>
+                <input type="text" id="add-book-series">
+              <label for="add-book-genre">Genre: </label>
+                <input type="text" id="add-book-genre">
+              <label for="add-book-pages">Pages: </label>
+                <input type="text" id="add-book-pages">
+              <label for="add-book-isbn">ISBN: </label>
+                <input type="text" id="add-book-isbn">
+              <label for="add-book-stock-quantity">Add Stock: </label>
+                <input type="text" id="add-book-stock-quantity">
+              <button id="add-book-cancel-btn" class="selector-btn add-item-card-btn">Cancel</button><button formaction="submit" id="add-book-confirm-btn" class="selector-btn add-item-card-btn">Confirm</button>
+              </form>
+            </div>`;
+		return html;
+	}
+
 	updateInnerHTML(action, element, item, user, rentalLength) {
 		const html = {
 			confirmCheckout: () => {

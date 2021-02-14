@@ -16,11 +16,15 @@ Save user books to local storage.
 
 MODALS -
 
+Fix button on add book modal on item cards that are wider.
 
 ADD ITEMS PAGE -
 
 Add text explaining required fields on form - in modal?
 Add checkbox for if adding stock only.
+
+Add required for required props when adding book.
+Add text to search result items if book already exists in library
 
 LAYOUT -
 

@@ -73,6 +73,9 @@ class Book {
 				} else if(userHasItem) {
 					html += `<button class="selector-btn item-card-btn">Check In</button><span class="user-has-span">Checked out by active user</span>`;
 				}
+			},
+			addButton: () => {
+				html += `<button class="selector-btn add-item-card-btn">Add</button>`;
 			}
 		}
 

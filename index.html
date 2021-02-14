@@ -74,10 +74,7 @@
     <main>
       <h2 id="main-heading">Welcome</h2>
       <div class="main-content"> 
-      </div>
-        
-        <!-- ITEM DISPLAY -->
-        <!-- <div class="item-div">
+        <div class="item-div">
           <p>
             <strong>Title: </strong>${this.title}<br>
             <strong>Author: </strong><span class="searchByClick">${this.author}</span><br>
@@ -87,7 +84,33 @@
             <strong>ISBN: </strong>${this.isbn}<br>
           </p>
           <p class="unavailable">Out of stock</p> 
-        </div>  -->
+          <div class="item-card-modal show-modal">
+            <div class="add-book-modal-content">
+            <form>
+              <h3>Confirm:</h3>
+              <label for="add-book-title">Title: </label>
+                <input type="text" id="add-book-title" required="">
+              <label for="add-book-author">Author: </label>
+                <input type="text" id="add-book-author" required="">
+              <label for="add-book-series">Series: </label>
+                <input type="text" id="add-book-series">
+              <label for="add-book-genre">Genre: </label>
+                <input type="text" id="add-book-genre">
+              <label for="add-book-pages">Pages: </label>
+                <input type="text" id="add-book-pages">
+              <label for="add-book-isbn">ISBN: </label>
+                <input type="text" id="add-book-isbn" required="">
+              <label for="add-book-stock-quantity">Add Stock: </label>
+                <input type="text" id="add-book-stock-quantity" required="">
+              <button id="add-book-cancel-btn" class="selector-btn">Cancel</button><button formaction="submit" id="add-book-confirm-btn" class="selector-btn">Add</button>
+              </form>
+            </div>
+          </div>
+        </div> 
+      </div>
+        
+        <!-- ITEM DISPLAY -->
+        
       <!-- END --> 
       </div>
     </main>

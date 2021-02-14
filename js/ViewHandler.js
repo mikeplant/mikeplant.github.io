@@ -90,7 +90,7 @@ class ViewHandler {
 				this.main.appendChild(searchContentHTML);
 
 				searchItems.forEach(item => {
-					document.querySelector('#search-results').appendChild(item.getHTML(['details']));
+					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'addButton']));
 				});
 			}
         };
@@ -113,16 +113,20 @@ class ViewHandler {
 		}, timeout);
     }
 
+	clearModalAndUpdateItemCard = (modal, modalTimeout, itemCardElement, cardTimeout) => {
+		modals.fadeOutModal(modal, modalTimeout);
+		window.setTimeout(() => {
+			if(!isNaN(itemCardElement.id) && itemCardElement.id !== '')	{
+				this.updateItemCard(itemCardElement);
+			} else {
+				itemCardElement.remove();
+			}
+		}, cardTimeout);
+	}
+
     handleItemCardBtnClick(btnText, div) {
 		const item = (!isNaN(parseInt(div.id))) ? library.getItemByStockNum(parseInt(div.id)) : library.getItemByStockNum(parseInt(div.parentNode.parentNode.id));
       	const action = btnText.replace(/\s+/g, '').toLowerCase();
-
-		const clearModalAndUpdateItemCard = (modal, itemCardElement, modalTimeout, cardTimeout) => {
-			modals.fadeOutModal(modal, modalTimeout);
-				window.setTimeout(() => {	
-					this.updateItemCard(itemCardElement);
-				}, cardTimeout);
-		}
 
       	const buttonAction = {
 			checkout: () => {
@@ -131,7 +135,7 @@ class ViewHandler {
 			checkin: () => {
 				modals.fadeInModal(modals.getCheckInModalHTML(item, data.activeMember), div, '100');
 				library.users.checkInItem(data.activeMember, item);
-				clearModalAndUpdateItemCard(div.querySelector('div'), div, '2000', '2500');
+				this.clearModalAndUpdateItemCard(div.querySelector('div'), '2000', div, '2500');
 			},
 			confirm: () => {
 				const input = div.querySelector('#days-input');
@@ -142,11 +146,11 @@ class ViewHandler {
 				} else {
 					modals.updateInnerHTML('confirmCheckout', div, item, data.activeMember, rentalLength);
 					library.users.checkOutItem(data.activeMember, item, rentalLength);
-					clearModalAndUpdateItemCard(div.parentNode, div.parentNode.parentNode, '2000', '2500');
+					this.clearModalAndUpdateItemCard(div.parentNode, '2000', div.parentNode.parentNode, '2500');
 				}			
 			},
 			cancel: () => {
-				clearModalAndUpdateItemCard(div.parentNode, div.parentNode.parentNode, '100', '150');
+				this.clearModalAndUpdateItemCard(div.parentNode, '100', div.parentNode.parentNode, '150');
 			}
       	};
       	buttonAction[action]();
@@ -179,5 +183,29 @@ class ViewHandler {
 			}
 		}
 		viewHandler.displayItems('searchResults', searchItems);
+		document.querySelector('#search-results').addEventListener('click', (e) => {
+			if(e.target.classList.contains('add-item-card-btn')) {
+				e.preventDefault();
+				viewHandler.handleAddItemCardBtnClick(e);
+			}
+		});
+	}
+
+	handleAddItemCardBtnClick(event) {
+		const action = event.target.textContent.replace(/\s+/g, '').toLowerCase();
+    	const parent = event.target.parentNode;
+		const buttonAction = {
+			add: () => {
+				modals.fadeInModal(modals.getAddBookModal(), parent, '100');
+			},
+			cancel: () => {
+				this.clearModalAndUpdateItemCard(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150');
+			},
+			confirm: () => {
+				console.log('confirm')
+			}
+		}
+
+		buttonAction[action]();
 	}
 }
