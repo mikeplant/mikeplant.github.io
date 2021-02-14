@@ -40,12 +40,6 @@ mainContent.addEventListener('submit', (e) => {
             .then(response => response.json())
             .then(viewHandler.handleAddBookSearch)
             .catch(err => console.log('Error fetching books', err))
-
-        // if(document.querySelector('#search-results')) {
-        //     document.querySelector('#search-results').addEventListener('click', (cardClickEvent) => {
-        //         console.log(cardClickEvent.target)
-        //     });
-        // }
     }
 });
 

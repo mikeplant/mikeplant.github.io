@@ -24,7 +24,9 @@ Add text explaining required fields on form - in modal?
 Add checkbox for if adding stock only.
 
 Add required for required props when adding book.
-Add text to search result items if book already exists in library
+Add text to search result items if book already exists in library.
+Add searching header before google books API returns results.
+Update search results to include ISBN10??
 
 LAYOUT -
 

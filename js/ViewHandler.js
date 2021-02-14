@@ -205,7 +205,6 @@ class ViewHandler {
 				console.log('confirm')
 			}
 		}
-
 		buttonAction[action]();
 	}
 }
