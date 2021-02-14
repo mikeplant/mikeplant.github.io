@@ -107,7 +107,7 @@ nav ul li {
     position: absolute;
     left: -1px;
     background-color: rgba(62, 114, 98, .95);
-    margin-top: 11px;
+    margin-top: 10px;
     text-align: left;
     font-size: 1.2rem;
 }
@@ -158,7 +158,9 @@ main {
 }
 
 .main-content {
-    display: block;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
     height: auto;
     min-height: 334px;
     width: 95vw;
@@ -179,13 +181,39 @@ main {
 }
 
 .item-div {
+    display: grid;
     position: relative;
-    width: auto;
+    grid-template-columns:  minmax(80px, 80px) 1fr 30%;
+    grid-template-rows: repeat(8);
+    width: fit-content;
     min-width: 350px;
     height: 290px;
-    margin: 5px 3px 0;
+    margin: 5px;
+    padding: 10px;
     font-size: 1.2rem;
-    
+}
+
+.item-div strong, .item-div span, .item-div p, .item-div button {
+    align-self: center;
+}
+
+.item-div strong {
+    grid-column: 1;
+}
+
+.item-div span {
+    grid-column: 2 / span 2;
+}
+
+.item-div p {
+    margin: 0;
+    padding: 0;
+}
+
+.item-div button {
+    grid-column: 3;
+    grid-row: 8;
+    justify-self: center;
 }
 
 .user-has-span {
@@ -280,11 +308,11 @@ main {
     grid-column: 3;
 }
 
-.item-div p {
+/* .item-div p {
     margin: 5px;
     padding: 0 10px;
     line-height: 1.5;
-}
+} */
 
 #add-items-div {
     display: flex;
@@ -378,7 +406,7 @@ main {
 }
 
 #search-results h2 {
-    margin: 0;
+    margin: 0 100% 0 0;
     padding: 0 13px 16px;
     text-align: left;
 }
@@ -449,11 +477,11 @@ main {
     border-radius: 5px;
     border: #4e4c4c solid 2px;
 }
-
+/* 
 .item-div .selector-btn {
     margin: 35px 0 12px 15px;
     font-size: .8rem;
-}
+} */
 
 .selector-btn:hover {
     background-color: #B3E9D7;

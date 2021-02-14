@@ -32,6 +32,8 @@ LAYOUT -
 
 Change main-content and item-div to grid layout
 
+Remove extra columns and rows in .item-card-modal, replace with margin.
+
 GENERAL -
 
 Add rental history to items

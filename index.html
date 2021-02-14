@@ -74,17 +74,17 @@
     <main>
       <h2 id="main-heading">Welcome</h2>
       <div class="main-content"> 
-        <div class="item-div">
-          <p>
-            <strong>Title: </strong>${this.title}<br>
-            <strong>Author: </strong><span class="searchByClick">${this.author}</span><br>
-            <strong>Series: </strong>${this.series}<br>
-            <strong>Genre: </strong>${this.genre}<br>
-            <strong>Pages: </strong>${this.pages}<br>
-            <strong>ISBN: </strong>${this.isbn}<br>
-          </p>
-          <p class="unavailable">Out of stock</p> 
-          <div class="item-card-modal show-modal">
+        <div id="101" class="item-div">
+          <strong>Title: </strong><span>Before They Are Hanged</span>
+          <strong>Author: </strong><span>Joe Abercrombie</span>
+          <strong>Series: </strong><span>The First Law</span>
+          <strong>Genre: </strong><span>Fiction</span>
+          <strong>Pages: </strong><span>441</span>
+          <strong>ISBN: </strong><span>0575077883</span>
+          <p class="available">2 in stock</p>
+          <button class="selector-btn item-card-btn">Check Out</button>
+        </div>
+          <!-- <div class="item-card-modal show-modal">
             <div class="add-book-modal-content">
             <form>
               <h3>Confirm:</h3>
@@ -105,7 +105,7 @@
               <button id="add-book-cancel-btn" class="selector-btn">Cancel</button><button formaction="submit" id="add-book-confirm-btn" class="selector-btn">Add</button>
               </form>
             </div>
-          </div>
+          </div> -->
         </div> 
       </div>
         
