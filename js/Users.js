@@ -13,7 +13,7 @@ class Users {
             data.activeMember = undefined;
             const newActiveMember = this.members.find(member => member.accNum === accNum);
             data.activeMember = newActiveMember;
-            viewHandler.updateDisplay();
+            viewHandler.updateDisplayAll();
             data.saveUsers();
         } else {
             alert(`Please enter a valid account number e.g. "9000"`)
@@ -48,8 +48,7 @@ class Users {
      * @param {Object} user - The user the item will be checked out to.
      * @param {Object} item - The item to be checked out.
      * */
-    checkOutItem(user, stockNum, rentalLength) {
-        const item = library.getItemByStockNum(stockNum);
+    checkOutItem(user, item, rentalLength) {
         const itemToCheckOut = {item: item};
 
         function updateUserItems() {
@@ -67,14 +66,12 @@ class Users {
         if(!this.userHasItem(user, item) && item.isInStock()) {
             updateUserItems();
             updateLibrary();
-            alert(`${item.title} checked out to ${user.name}`);
+            //alert(`${item.title} checked out to ${user.name}`);
         } 
     }
 
-    checkInItem(user, stockNum) {
-        const item = library.getItemByStockNum(stockNum);
-        user.currentRentals = user.currentRentals.filter(rentedItem => rentedItem['item'].stockNum !== stockNum);
+    checkInItem(user, item) {
+        user.currentRentals = user.currentRentals.filter(rentedItem => rentedItem['item'].stockNum !== item.stockNum);
         item.inStock++;
-        alert(`${item.title} checked in. Updated stock: ${item.inStock}`);
     }
 }

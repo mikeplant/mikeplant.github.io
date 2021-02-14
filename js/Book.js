@@ -1,5 +1,5 @@
 class Book {
-	constructor(title, author, series, genre, pages, isbn, inStock=1) {
+	constructor(title, author, series, genre, pages, isbn, inStock=0) {
 		this.title = title;
 		this.author = author;
 		this.series = series;
@@ -37,7 +37,10 @@ class Book {
 	 * button - button depending on stock and if user has a copy.
 	 */
 	getHTML(optionsArr) {
-		let html = `<div id="${this.stockNum}" class="item-div">`;
+		let div = document.createElement('div');
+		div.id = this.stockNum;
+		div.className = 'item-div';
+		let html = '';
 		const userHasItem = library.users.userHasItem(data.activeMember, this);
 
 		const options = {
@@ -66,19 +69,21 @@ class Book {
 			},
 			button: () => {
 				if(this.isInStock() && !userHasItem) {
-					html += `<button class="selector-btn">Check Out</button>`;
+					html += `<button class="selector-btn item-card-btn">Check Out</button>`;
 				} else if(userHasItem) {
-					html += `<button class="selector-btn">Check In</button><span class="user-has-span">Checked out by active user</span>`;
+					html += `<button class="selector-btn item-card-btn">Check In</button><span class="user-has-span">Checked out by active user</span>`;
 				}
 			}
 		}
 
 		for (const option of optionsArr) {
-			options[option]();
+			if(options.hasOwnProperty(option)) {
+				options[option]();
+			}
 		}
-		
-		html += `</div>`;
-		return html;
+
+		div.innerHTML = html;
+		return div;
 	}
 }
 

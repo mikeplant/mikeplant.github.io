@@ -2,6 +2,7 @@ class ViewHandler {
     constructor() {
         this.activeMemberSpan = document.querySelector('.active-member');
         this.mainHeading = document.querySelector('#main-heading');
+		this.main = document.querySelector('main');
         this.itemsDiv = document.querySelector('.main-content');
         this.prevDisplay = 'allItems';
     }
@@ -12,30 +13,38 @@ class ViewHandler {
         }
     }
 
-    displayItems(option = this.prevDisplay) {
-        this.itemsDiv.innerHTML = '';
-        let content = ``;
+    displayItems(option = this.prevDisplay, searchItems) {
+        
+		if(document.querySelector('#search-results')) {
+			document.querySelector('#search-results').remove();
+		}
 
+        let content = ``;
         const displayOptions = {
             allItems: () => {
+				this.itemsDiv.innerHTML = '';
                 this.mainHeading.textContent = 'All Items';
                 library.items.forEach(item => {
-                  content += item.getHTML(['details', 'stockQuantity', 'button']);
+					this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
                 });
                 this.prevDisplay = 'allItems';
             },
             inStock: () => {
+				this.itemsDiv.innerHTML = '';
                 this.mainHeading.textContent = 'In Stock Items';
                 library.items.forEach(item => {
                     if (item.inStock > 0) {
-                      content += item.getHTML(['details', 'stockQuantity', 'button']);
+						this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
                     }
                 });
                 this.prevDisplay = 'inStock';
             },
             addItem: () => {
+				this.itemsDiv.innerHTML = '';
                 this.mainHeading.textContent = 'Add Items'
-                content = `<div id="add-items-div">
+				let addItemsDiv = document.createElement('div');
+				addItemsDiv.id = "add-items-div";
+                addItemsDiv.innerHTML = `
                 <div class="add-item-form-div">
                   <form>
                     <h3>Add a book manually:</h3>
@@ -59,61 +68,116 @@ class ViewHandler {
       
                 <div class="add-book-search-div">
                   <h2>Search for a book:</h2>
-                  <input type="text"><button class="selector-btn">Search</button>
+                  	<form class="add-book-search-form">
+						<input type="text" id="add-book-search-input"><button class="selector-btn item-search-div-btn">Search</button>
+					</form>
                   <p>Find a book to add to the library by any of it's properties.<br>
                      For best results use the book's title, author, or ISBN number.</p>
                 </div>`;
                 this.prevDisplay = 'addItem';
+				this.itemsDiv.appendChild(addItemsDiv);
             },
             editItem: () => {
+				this.itemsDiv.innerHTML = '';
                 this.mainHeading.textContent = 'Edit Items';
                 this.prevDisplay = 'editItem';
-            }
+            },
+			searchResults: (searchItems) => {
+				const searchContentHTML = document.createElement('div');
+				searchContentHTML.id = 'search-results';
+				searchContentHTML.className = 'main-content';
+				searchContentHTML.innerHTML = `<h2>Search Results</h2>`;
+				this.main.appendChild(searchContentHTML);
+
+				searchItems.forEach(item => {
+					document.querySelector('#search-results').appendChild(item.getHTML(['details']));
+				});
+			}
         };
         
-        displayOptions[option]();
-        this.itemsDiv.innerHTML = content;
+        displayOptions[option](searchItems);
     }
 
-    handleSelectorBtnClick(btnText, div) {
+	updateItemCard(div) {
+		const stockNum = parseInt(div.id);
+		const item = library.items.filter(item => item.stockNum === stockNum);
+		const updatedDiv = item[0].getHTML(['details', 'stockQuantity', 'button']);
+		div.parentNode.insertBefore(updatedDiv, div);
+		div.remove();
+	}
+
+	updateDisplayAll(timeout) {
+		window.setTimeout(() => {
+			this.displayActiveMember();
+			this.displayItems();
+		}, timeout);
+    }
+
+    handleItemCardBtnClick(btnText, div) {
+		const item = (!isNaN(parseInt(div.id))) ? library.getItemByStockNum(parseInt(div.id)) : library.getItemByStockNum(parseInt(div.parentNode.parentNode.id));
       	const action = btnText.replace(/\s+/g, '').toLowerCase();
+
+		const clearModalAndUpdateItemCard = (modal, itemCardElement, modalTimeout, cardTimeout) => {
+			modals.fadeOutModal(modal, modalTimeout);
+				window.setTimeout(() => {	
+					this.updateItemCard(itemCardElement);
+				}, cardTimeout);
+		}
+
       	const buttonAction = {
 			checkout: () => {
-				const modal = modals.getCheckOutModalHTML();
-				div.appendChild(modal);
-				window.setTimeout(() => {
-					modal.classList.add('show-modal');
-				}, '100')
+        		modals.fadeInModal(modals.getCheckOutModalHTML(), div, '100');
 			},
 			checkin: () => {
-				library.users.checkInItem(data.activeMember, parseInt(div.id));
-				this.updateDisplay();
+				modals.fadeInModal(modals.getCheckInModalHTML(item, data.activeMember), div, '100');
+				library.users.checkInItem(data.activeMember, item);
+				clearModalAndUpdateItemCard(div.querySelector('div'), div, '2000', '2500');
 			},
 			confirm: () => {
-				const modal = document.querySelector('.item-card-modal');
-				const rentalLength = parseInt(document.querySelector('#days-input').value);
-				const stockNum = parseInt(div.parentNode.parentNode.id);
-				modal.classList.remove('show-modal');
-				window.setTimeout(() => {
-					library.users.checkOutItem(data.activeMember, stockNum, rentalLength);
-					div.remove(document.querySelector('.item-card-modal'));
-					this.updateDisplay();
-				}, '100')	
+				const input = div.querySelector('#days-input');
+				let rentalLength = parseInt(input.value);
+				if (isNaN(rentalLength) || rentalLength <= 0) {
+					input.style.border = 'red solid 1px';
+					div.querySelector('.invalid-days').style.display = 'grid';
+				} else {
+					modals.updateInnerHTML('confirmCheckout', div, item, data.activeMember, rentalLength);
+					library.users.checkOutItem(data.activeMember, item, rentalLength);
+					clearModalAndUpdateItemCard(div.parentNode, div.parentNode.parentNode, '2000', '2500');
+				}			
 			},
 			cancel: () => {
-				const modal = document.querySelector('.item-card-modal');
-				modal.classList.remove('show-modal');
-				window.setTimeout(() => {
-					div.remove(document.querySelector('.item-card-modal'));
-					this.updateDisplay();
-				}, '100')	
+				clearModalAndUpdateItemCard(div.parentNode, div.parentNode.parentNode, '100', '150');
 			}
       	};
       	buttonAction[action]();
     }
 
-    updateDisplay() {
-		this.displayActiveMember();
-		this.displayItems();
-    }
+	handleAddBookSearch(data) {
+		const books = data.items;
+		let searchItems = [];
+		for (const book of books) {
+			if(book.volumeInfo.hasOwnProperty('industryIdentifiers')) {
+				for (const isbnId of book.volumeInfo.industryIdentifiers) {
+					if(isbnId.type === 'ISBN_13') {
+						let args = [
+							book.volumeInfo.title,
+							book.volumeInfo.authors,
+							book.volumeInfo.subtitle,
+							book.volumeInfo.categories,
+							book.volumeInfo.pageCount,
+							isbnId.identifier
+						];
+						for(const property of args) {
+							if(property === undefined) {
+								let index = args.indexOf(property);
+								args.splice(index, 1, '');
+							}	
+						}
+						searchItems.push(new Book(...args));
+					}
+				}
+			}
+		}
+		viewHandler.displayItems('searchResults', searchItems);
+	}
 }

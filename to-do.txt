@@ -6,17 +6,16 @@ BUGS -
 
 VIEWHANDLER -
 
-Refactor modal creation and dismissal in button handler.
-Add modals to replace alerts.
-
 USERS - 
 
-Add date to books checked out.
-Validate item days to be checked out.
+Remove returnDue from previous rentals on check in.
 
 DATA - 
 
 Save user books to local storage.
+
+MODALS -
+
 
 ADD ITEMS PAGE -
 
@@ -30,3 +29,4 @@ Change main-content and item-div to grid layout
 GENERAL -
 
 Add rental history to items
+

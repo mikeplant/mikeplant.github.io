@@ -2,6 +2,7 @@ const data = new Data();
 const library = new Library();
 const viewHandler = new ViewHandler();
 const modals = new Modals();
+const googleBooksAPI = 'https://www.googleapis.com/books/v1/volumes?q=';
 const changeMemberConfirm = document.querySelector('.change-member-confirm');
 const dropdownContent = document.querySelector('.dropdown-content');
 const mainContent = document.querySelector('.main-content');
@@ -15,19 +16,38 @@ if (data.storageExists) {
 dropdownContent.addEventListener('click', (e) => {
     let option = e.target.className;
     viewHandler.displayItems(option);
-})
+});
 
 changeMemberConfirm.addEventListener('click', () => {
     library.users.changeActiveMember();
-})
+});
 
 mainContent.addEventListener('click', (e) => {
     const btnText = e.target.textContent;
     const div = e.target.parentNode;
-    if(e.target.tagName === 'BUTTON') {
-        viewHandler.handleSelectorBtnClick(btnText, div);
+
+    if(e.target.classList.contains('item-card-btn')) {
+        viewHandler.handleItemCardBtnClick(btnText, div);
     }
-})
+});
+
+mainContent.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(e.target.classList.contains('add-book-search-form')) {
+        const uri = encodeURI(document.querySelector('#add-book-search-input').value);
+        const search = googleBooksAPI + uri + '&maxResults=40';
+        fetch(search)
+            .then(response => response.json())
+            .then(viewHandler.handleAddBookSearch)
+            .catch(err => console.log('Error fetching books', err))
+    }
+});
+
+
+
+
+
+
 
 
 
