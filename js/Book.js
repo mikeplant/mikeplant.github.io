@@ -53,19 +53,19 @@ class Book {
 					<strong>Pages: </strong><span>${this.pages}</span>
 					<strong>ISBN: </strong><span>${this.isbn}</span>
 					`;
-					// if(userHasItem) {
-					// 	html += `<strong class="user-has-span">Checked out by active user</strong>`
-					// }
+					if(userHasItem) {
+						if(library.returnIsOverdue(library.users.getRentedItem(data.activeMember, this))) {
+							html += `<span class="user-has-span">Return overdue</span>`;
+						} else {
+							html += `<span class="user-has-span">Checked out by active user</span>`;
+						}
+					}
 			},
 			stockQuantity: () => {
 				if(this.inStock > 0) {
-					html += `
-						<p class="available">${this.inStock} in stock</p>
-					`;
+					html += `<p class="available">${this.inStock} in stock</p>`;
 				} else {
-					html += `
-						<p class="unavailable">Out of stock</p>
-					`;
+					html += `<p class="unavailable">Out of stock</p>`;
 				}
 			},
 			button: () => {

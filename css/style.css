@@ -184,7 +184,7 @@ main {
     display: grid;
     position: relative;
     grid-template-columns:  minmax(80px, 80px) 1fr 30%;
-    grid-template-rows: repeat(8);
+    grid-template-rows: repeat(9, 1fr);
     width: fit-content;
     min-width: 350px;
     height: 290px;
@@ -208,17 +208,19 @@ main {
 .item-div p {
     margin: 0;
     padding: 0;
+    grid-column: 1 / span 2;
 }
 
 .item-div button {
     grid-column: 3;
-    grid-row: 8;
-    justify-self: center;
+    grid-row: 9;
+    justify-self: end;
 }
 
 .user-has-span {
+    grid-row: 8;
+    justify-self: end;
     font-size: 0.9rem;
-    padding-left: 60px;
     font-style: italic;
     color: rgb(231 243 181);
 }

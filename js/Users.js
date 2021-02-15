@@ -43,6 +43,10 @@ class Users {
         return hasItem;
     }
 
+    getRentedItem(user, item) {
+            return user.currentRentals.find(rentedItem => rentedItem['item'].stockNum === item.stockNum);
+    }
+
     /**
      * Checks item out to provided user
      * @param {Object} user - The user the item will be checked out to.
