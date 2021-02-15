@@ -23,6 +23,8 @@ ADD ITEMS PAGE -
 
 Add add book validation
 
+Change form to submit, then use formData or form.element to make code more reusable
+
 Add text explaining required fields on form - in modal?
 Add checkbox for if adding stock only.
 
