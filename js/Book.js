@@ -55,7 +55,7 @@ class Book {
 					`;
 					if(userHasItem) {
 						if(library.returnIsOverdue(library.users.getRentedItem(data.activeMember, this))) {
-							html += `<span class="user-has-span">Return overdue</span>`;
+							html += `<span class="user-has-span overdue">Return overdue</span>`;
 						} else {
 							html += `<span class="user-has-span">Checked out by active user</span>`;
 						}

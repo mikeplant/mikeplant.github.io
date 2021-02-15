@@ -46,7 +46,7 @@ class ViewHandler {
 				addItemsDiv.id = "add-items-div";
                 addItemsDiv.innerHTML = `
                 <div class="add-item-form-div">
-                  <form>
+                  <form class="manual-add-book-form">
                     <h3>Add a book manually:</h3>
                     <label for="add-book-title">Title: </label>
                       <input type="text" id="add-book-title" required>
@@ -62,7 +62,7 @@ class ViewHandler {
                       <input type="text" id="add-book-isbn" required>
                     <label for="add-book-stock-quantity">Add Stock: </label>
                       <input type="text" id="add-book-stock-quantity" required>
-                    <button formaction="submit" class="selector-btn">Add</button>
+                    <button class="selector-btn manual-add-book-btn">Confirm</button>
                   </form>
                 </div>
       
@@ -196,15 +196,48 @@ class ViewHandler {
     	const parent = event.target.parentNode;
 		const buttonAction = {
 			add: () => {
+				const itemProperties = this.getPropertiesFromItemCard(parent, 'span');
 				modals.fadeInModal(modals.getAddBookModal(), parent, '100');
+				this.populateAddItemForm(parent.querySelector('form'), itemProperties);
 			},
 			cancel: () => {
 				this.clearModalAndUpdateItemCard(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150');
 			},
 			confirm: () => {
-				console.log('confirm')
+				library.addItem(Book, this.getPropertiesFromItemCard(parent, 'input'));
 			}
 		}
 		buttonAction[action]();
+	}
+
+	getPropertiesFromItemCard(element, propertyElement) {
+		const children = Array.from(element.children);
+		let itemProperties = [];
+
+		const elementTypeAction = {
+			span: () => {
+				const propertySpans = children.filter(child => child.tagName === 'SPAN');
+				propertySpans.forEach(span => {
+					itemProperties.push(span.textContent);
+					});
+				},
+			input: () => {
+				const propertyInputs = children.filter(child => child.tagName === 'INPUT');
+				propertyInputs.forEach(input => {
+					itemProperties.push(input.value);
+					});
+			}
+		}
+		elementTypeAction[propertyElement]();
+		return itemProperties;
+	}
+
+	populateAddItemForm(element, itemProperties) {
+		const children = Array.from(element.children);
+		const inputs = children.filter(child => child.tagName === 'INPUT');
+
+		for(let i=0;i<itemProperties.length;i++) {
+			inputs[i].value = itemProperties[i];
+		}
 	}
 }

@@ -9,6 +9,7 @@ VIEWHANDLER -
 USERS - 
 
 Remove returnDue from previous rentals on check in.
+Add late check out counter
 
 DATA - 
 
@@ -16,9 +17,11 @@ Save user books to local storage.
 
 MODALS -
 
-Fix button on add book modal on item cards that are wider.
+
 
 ADD ITEMS PAGE -
+
+Add add book validation
 
 Add text explaining required fields on form - in modal?
 Add checkbox for if adding stock only.
@@ -31,10 +34,11 @@ Update search results to include ISBN10??
 LAYOUT -
 
 Change main-content and item-div to grid layout
+Sort formatting on confirm checkout modal
 
 Remove extra columns and rows in .item-card-modal, replace with margin.
 
 GENERAL -
 
 Add rental history to items
-
+Settings page - max book rentals allowed at a time, max late rentals before blocking, max rental length.
