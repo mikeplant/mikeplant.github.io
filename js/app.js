@@ -27,7 +27,9 @@ mainContent.addEventListener('click', (e) => {
     const parent = e.target.parentNode;
 
     if(e.target.classList.contains('manual-add-book-btn')) {
-        viewHandler.handleAddItemCardBtnClick(e);
+        if(library.validateForm(parent)) {
+            viewHandler.handleAddItemCardBtnClick(e);
+        }
     }
 
     if(e.target.classList.contains('item-card-btn')) {
@@ -37,7 +39,6 @@ mainContent.addEventListener('click', (e) => {
 
 mainContent.addEventListener('submit', (e) => {
     e.preventDefault();
-
     if(e.target.classList.contains('add-book-search-form')) {
         const uri = encodeURI(document.querySelector('#add-book-search-input').value);
         const search = googleBooksAPI + uri + '&maxResults=40';

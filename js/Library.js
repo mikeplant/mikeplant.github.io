@@ -70,4 +70,18 @@ class Library {
     getDateString(date) {
         return `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`;
     }
+
+    validateForm(form) {
+        const children = form.children;
+        let isValid = true;
+        for (const child of children) {
+            if (child.hasAttribute('required') && child.value === '') {
+                child.classList.add('required');
+                isValid = false;
+            } else if(child.hasAttribute('required')) {
+                child.classList.remove('required');
+            }
+        }
+        return isValid;
+    }
 }

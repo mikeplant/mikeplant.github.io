@@ -489,6 +489,10 @@ main {
     color: #dd7575;
 }
 
+.required {
+    border: red solid 1px;
+}
+
 .add-item-form-div .selector-btn {
     grid-column: 2;
     grid-row: 11;

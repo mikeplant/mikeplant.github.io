@@ -233,8 +233,12 @@ class ViewHandler {
 			input: () => {
 				const propertyInputs = children.filter(child => child.tagName === 'INPUT');
 				propertyInputs.forEach(input => {
-					itemProperties.push(input.value);
-					});
+					if(input.id === 'add-book-stock-quantity') {
+						itemProperties.push(parseInt(input.value.trim()));
+					} else {
+						itemProperties.push(input.value.trim());
+					}
+				});		
 			}
 		}
 		elementTypeAction[propertyElement]();

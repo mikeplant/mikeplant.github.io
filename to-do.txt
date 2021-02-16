@@ -24,7 +24,7 @@ ADD ITEMS PAGE -
 Add add book validation
 
 * Update manual add form confirmation modal layout. Also form is being removed on confirm. Needs new confirm modal - 
-* Change form to submit, then use formData or form.element to make code more reusable - need stock adding to parseint!
+* Change form to submit, then use formData or form.element to make code more reliable and reusable.
 
 Add text explaining required fields on form - in modal?
 Add checkbox for if adding stock only.
