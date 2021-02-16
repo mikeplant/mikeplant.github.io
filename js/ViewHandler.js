@@ -41,7 +41,7 @@ class ViewHandler {
             },
             addItem: () => {
 				this.itemsDiv.innerHTML = '';
-                this.mainHeading.textContent = 'Add Items'
+                this.mainHeading.textContent = 'Add Items';
 				let addItemsDiv = document.createElement('div');
 				addItemsDiv.id = "add-items-div";
                 addItemsDiv.innerHTML = `
@@ -63,6 +63,7 @@ class ViewHandler {
                     <label for="add-book-stock-quantity">Add Stock: </label>
                       <input type="text" id="add-book-stock-quantity" required>
                     <button class="selector-btn manual-add-book-btn">Confirm</button>
+					<span class="required-span">Highlighted fields required</span>
                   </form>
                 </div>
       
@@ -124,33 +125,34 @@ class ViewHandler {
 		}, cardTimeout);
 	}
 
-    handleItemCardBtnClick(btnText, div) {
-		const item = (!isNaN(parseInt(div.id))) ? library.getItemByStockNum(parseInt(div.id)) : library.getItemByStockNum(parseInt(div.parentNode.parentNode.id));
-      	const action = btnText.replace(/\s+/g, '').toLowerCase();
+    handleItemCardBtnClick(e) {
+		const parent = e.target.parentNode;
+		const item = (!isNaN(parseInt(parent.id))) ? library.getItemByStockNum(parseInt(parent.id)) : library.getItemByStockNum(parseInt(parent.parentNode.parentNode.id));
+      	const action = e.target.textContent.replace(/\s+/g, '').toLowerCase();
 
       	const buttonAction = {
 			checkout: () => {
-        		modals.fadeInModal(modals.getCheckOutModalHTML(), div, '100');
+        		modals.fadeInModal(modals.getCheckOutModalHTML(), parent, '100');
 			},
 			checkin: () => {
-				modals.fadeInModal(modals.getCheckInModalHTML(item, data.activeMember), div, '100');
+				modals.fadeInModal(modals.getCheckInModalHTML(item, data.activeMember), parent, '100');
 				library.users.checkInItem(data.activeMember, item);
-				this.clearModalAndUpdateItemCard(div.querySelector('div'), '2000', div, '2500');
+				this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2000', parent, '2500');
 			},
 			confirm: () => {
-				const input = div.querySelector('#days-input');
+				const input = parent.querySelector('#days-input');
 				let rentalLength = parseInt(input.value);
 				if (isNaN(rentalLength) || rentalLength <= 0) {
 					input.style.border = 'red solid 1px';
-					div.querySelector('.invalid-days').style.display = 'grid';
+					parent.querySelector('.invalid-days').style.display = 'grid';
 				} else {
-					modals.updateInnerHTML('confirmCheckout', div, item, data.activeMember, rentalLength);
+					modals.updateInnerHTML('confirmCheckout', parent, item, data.activeMember, rentalLength);
 					library.users.checkOutItem(data.activeMember, item, rentalLength);
-					this.clearModalAndUpdateItemCard(div.parentNode, '2000', div.parentNode.parentNode, '2500');
+					this.clearModalAndUpdateItemCard(parent.parentNode, '2000', parent.parentNode.parentNode, '2500');
 				}			
 			},
 			cancel: () => {
-				this.clearModalAndUpdateItemCard(div.parentNode, '100', div.parentNode.parentNode, '150');
+				this.clearModalAndUpdateItemCard(parent.parentNode, '100', parent.parentNode.parentNode, '150');
 			}
       	};
       	buttonAction[action]();
@@ -206,14 +208,16 @@ class ViewHandler {
 			confirm: () => {
 				const div = parent.parentNode.parentNode;
 				const itemProperties = this.getPropertiesFromItemCard(parent, 'input');
-				library.addItem(Book, itemProperties);
-				if(div.classList.contains('item-card-modal')){
-					modals.updateInnerHTML('confirmAddBook', parent.parentNode, itemProperties);
-					this.clearModalAndUpdateItemCard(div, '2000', div, '2500');	
-				} else {
-					modals.fadeInModal(modals.getManualAddConfirmModal(itemProperties), parent.parentNode, '100');
-					this.clearModalAndUpdateItemCard(div.querySelector('.add-book-manual-modal'), '2000', div.querySelector('.add-book-manual-modal'), '2500');
-				}
+				if(library.validateForm(parent)) {
+					library.addItem(Book, itemProperties);
+					if(div.classList.contains('item-card-modal')){
+						modals.updateInnerHTML('confirmAddBook', parent.parentNode, itemProperties);
+						this.clearModalAndUpdateItemCard(div, '2000', div, '2500');	
+					} else {
+						modals.fadeInModal(modals.getManualAddConfirmModal(itemProperties), parent.parentNode, '100');
+						this.clearModalAndUpdateItemCard(div.querySelector('.add-book-manual-modal'), '2000', div.querySelector('.add-book-manual-modal'), '2500');
+					}
+				}	
 			}
 		}
 		buttonAction[action]();

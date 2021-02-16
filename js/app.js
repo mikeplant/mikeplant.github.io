@@ -23,17 +23,13 @@ changeMemberConfirm.addEventListener('click', () => {
 });
 
 mainContent.addEventListener('click', (e) => {
-    const btnText = e.target.textContent;
-    const parent = e.target.parentNode;
 
     if(e.target.classList.contains('manual-add-book-btn')) {
-        if(library.validateForm(parent)) {
-            viewHandler.handleAddItemCardBtnClick(e);
-        }
+        viewHandler.handleAddItemCardBtnClick(e);
     }
 
     if(e.target.classList.contains('item-card-btn')) {
-        viewHandler.handleItemCardBtnClick(btnText, parent);
+        viewHandler.handleItemCardBtnClick(e);
     }
 });
 

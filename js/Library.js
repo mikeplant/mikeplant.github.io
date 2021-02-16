@@ -74,8 +74,10 @@ class Library {
     validateForm(form) {
         const children = form.children;
         let isValid = true;
+        form.querySelector('.required-span').style.display = 'none';
         for (const child of children) {
-            if (child.hasAttribute('required') && child.value === '') {
+            if (child.hasAttribute('required') && child.value.trim() === '') {
+                form.querySelector('.required-span').style.display = 'block';
                 child.classList.add('required');
                 isValid = false;
             } else if(child.hasAttribute('required')) {

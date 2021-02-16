@@ -63,9 +63,9 @@ class Modals {
             <form>
               <h3>Confirm:</h3>
               <label for="add-book-title">Title: </label>
-                <input type="text" id="add-book-title">
+                <input type="text" id="add-book-title" required>
               <label for="add-book-author">Author: </label>
-                <input type="text" id="add-book-author">
+                <input type="text" id="add-book-author" required>
               <label for="add-book-series">Series: </label>
                 <input type="text" id="add-book-series">
               <label for="add-book-genre">Genre: </label>
@@ -73,10 +73,11 @@ class Modals {
               <label for="add-book-pages">Pages: </label>
                 <input type="text" id="add-book-pages">
               <label for="add-book-isbn">ISBN: </label>
-                <input type="text" id="add-book-isbn">
+                <input type="text" id="add-book-isbn" required>
               <label for="add-book-stock-quantity">Add Stock: </label>
-                <input type="text" id="add-book-stock-quantity">
-              <button id="add-book-cancel-btn" class="selector-btn add-item-card-btn">Cancel</button><button formaction="submit" id="add-book-confirm-btn" class="selector-btn add-item-card-btn">Confirm</button>
+                <input type="text" id="add-book-stock-quantity" required>
+				<button id="add-book-cancel-btn" class="selector-btn add-item-card-btn">Cancel</button><button id="add-book-confirm-btn" class="selector-btn add-item-card-btn">Confirm</button>
+				<span class="required-span">Highlighted fields required</span>
               </form>
             </div>`;
 		return html;

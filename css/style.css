@@ -287,7 +287,7 @@ main {
 
 .check-out-modal-content .invalid-days {
     display: none;
-    grid-column: 2 / span 2;
+    grid-column: 3 / span 2;
     grid-row: 2;
     align-self: end;
     color: rgb(255, 0, 0);
@@ -491,6 +491,15 @@ main {
 
 .required {
     border: red solid 1px;
+}
+
+.required-span {
+    display: none;
+    color: red;
+    grid-column: 1 / span 2;
+    grid-row: 11;
+    font-style: italic;
+    font-size: .9rem;
 }
 
 .add-item-form-div .selector-btn {

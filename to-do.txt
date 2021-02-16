@@ -22,6 +22,7 @@ MODALS -
 ADD ITEMS PAGE -
 
 Add add book validation
+Clear manual form after submit
 
 * Update manual add form confirmation modal layout. Also form is being removed on confirm. Needs new confirm modal - 
 * Change form to submit, then use formData or form.element to make code more reliable and reusable.
