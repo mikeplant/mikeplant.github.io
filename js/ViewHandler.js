@@ -207,8 +207,13 @@ class ViewHandler {
 				const div = parent.parentNode.parentNode;
 				const itemProperties = this.getPropertiesFromItemCard(parent, 'input');
 				library.addItem(Book, itemProperties);
-				modals.updateInnerHTML('confirmAddBook', parent.parentNode, itemProperties);
-				//this.clearModalAndUpdateItemCard(div, '2000', div, '2500');	
+				if(div.classList.contains('item-card-modal')){
+					modals.updateInnerHTML('confirmAddBook', parent.parentNode, itemProperties);
+					this.clearModalAndUpdateItemCard(div, '2000', div, '2500');	
+				} else {
+					modals.fadeInModal(modals.getManualAddConfirmModal(itemProperties), parent.parentNode, '100');
+					this.clearModalAndUpdateItemCard(div.querySelector('.add-book-manual-modal'), '2000', div.querySelector('.add-book-manual-modal'), '2500');
+				}
 			}
 		}
 		buttonAction[action]();

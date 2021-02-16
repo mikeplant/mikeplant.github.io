@@ -47,6 +47,15 @@ class Modals {
 		return html;
 	}
 
+	getManualAddConfirmModal(item) {
+		const html = this.createElement('div', 'className', 'add-book-manual-modal');
+		html.innerHTML = `
+			<div class="check-in-modal-content">
+			<span class="confirm-check-in-out">${item[0]} by ${item[1]} added to library.</span>
+			</div>`
+		return html;
+	}
+
 	getAddBookModal() {
 		const html = this.createElement('div', 'className', 'item-card-modal');
 		html.innerHTML = `
