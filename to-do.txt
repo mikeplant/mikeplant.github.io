@@ -23,6 +23,8 @@ ADD ITEMS PAGE -
 
 Add add book validation
 
+Update manual add form confirmation modal layout.
+
 Add text explaining required fields on form - in modal?
 Add checkbox for if adding stock only.
 

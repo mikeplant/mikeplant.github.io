@@ -77,6 +77,9 @@ class Modals {
 		const html = {
 			confirmCheckout: () => {
 				element.innerHTML = `<span class="confirm-check-in-out">${item.title} by ${item.author} checked out by ${user.name} for ${rentalLength} days.</span>`;
+			},
+			confirmAddBook: () => {
+				element.innerHTML = `<span class="confirm-add-item">${item[0]} by ${item[1]} added to library</span>`;
 			}
 		};
 		html[action]();

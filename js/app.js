@@ -24,14 +24,14 @@ changeMemberConfirm.addEventListener('click', () => {
 
 mainContent.addEventListener('click', (e) => {
     const btnText = e.target.textContent;
-    const div = e.target.parentNode;
+    const parent = e.target.parentNode;
 
     if(e.target.classList.contains('manual-add-book-btn')) {
         viewHandler.handleAddItemCardBtnClick(e);
     }
 
     if(e.target.classList.contains('item-card-btn')) {
-        viewHandler.handleItemCardBtnClick(btnText, div);
+        viewHandler.handleItemCardBtnClick(btnText, parent);
     }
 });
 

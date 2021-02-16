@@ -204,7 +204,11 @@ class ViewHandler {
 				this.clearModalAndUpdateItemCard(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150');
 			},
 			confirm: () => {
-				library.addItem(Book, this.getPropertiesFromItemCard(parent, 'input'));
+				const div = parent.parentNode.parentNode;
+				const itemProperties = this.getPropertiesFromItemCard(parent, 'input');
+				library.addItem(Book, itemProperties);
+				modals.updateInnerHTML('confirmAddBook', parent.parentNode, itemProperties);
+				//this.clearModalAndUpdateItemCard(div, '2000', div, '2500');	
 			}
 		}
 		buttonAction[action]();
