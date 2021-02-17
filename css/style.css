@@ -420,7 +420,8 @@ main {
 }
 
 #search-results h2 {
-    margin: 0 100% 0 0;
+    width: 100%;
+    margin: 10px 0;
     padding: 0 13px 16px;
     text-align: left;
 }

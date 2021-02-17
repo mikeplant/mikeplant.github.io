@@ -1,5 +1,9 @@
 TO DO
 
+NEXT - 
+
+* Add validation to remove item - must not be any checked out.
+
 BUGS - 
 
 * Books stock not saving correctly - linked to user books
