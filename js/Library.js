@@ -14,6 +14,27 @@ class Library {
         } 
 	}
 
+    getItemsBySearchTerm(searchTerm) {
+        const sTerm = searchTerm.toLowerCase().trim();
+        let searchResults = [];
+        for (const item of this.items) {
+            if (Object.values(item).toString().toLowerCase().includes(sTerm)) {
+                searchResults.push(item);
+            };
+        }
+        return searchResults;
+    }
+
+    getInStockItems() {
+        let inStockItems = [];
+        for (const item of this.items) {
+            if (item.inStock > 0) {
+                inStockItems.push(item);
+            }
+        }
+        return inStockItems;
+    }
+
     /**
      * Creates an item, adds a stockNum and adds it to the library.
      * @param {Class} type - A class type to be instantiated. eg Book
@@ -43,6 +64,10 @@ class Library {
 
         assignStockNum();
         data.saveItems();
+    }
+
+    removeItem(item) {
+        this.items = this.items.filter(itemToRemove => itemToRemove.stockNum !== item.stockNum);
     }
 
     updateRentCounter(item) {

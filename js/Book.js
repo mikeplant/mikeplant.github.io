@@ -28,6 +28,15 @@ class Book {
         return JSON.stringify(data);
     }
 
+	updateDetails(itemProperties) {
+		this.title = itemProperties[0];
+		this.author = itemProperties[1];
+		this.series = itemProperties[2];
+		this.genre = itemProperties[3];
+		this.pages = itemProperties[4];
+		this.isbn = itemProperties[5];
+	}
+
 	/**
 	 * Returns html content according to params
 	 * @param {array} optionsArr - An array of options to create html from.
@@ -77,6 +86,9 @@ class Book {
 			},
 			addButton: () => {
 				html += `<button class="selector-btn add-item-card-btn">Add</button>`;
+			},
+			editButtons: () => {
+				html += `<button id="remove-item-btn" class="selector-btn edit-item-card-btn">Remove</button><button id="edit-item-btn" class="selector-btn edit-item-card-btn">Edit</button>`;
 			}
 		}
 

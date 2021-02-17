@@ -1,5 +1,6 @@
 const data = new Data();
 const library = new Library();
+const htmlContent = new HTMLContent();
 const viewHandler = new ViewHandler();
 const modals = new Modals();
 const googleBooksAPI = 'https://www.googleapis.com/books/v1/volumes?q=';
@@ -15,7 +16,7 @@ if (data.storageExists) {
 
 dropdownContent.addEventListener('click', (e) => {
     let option = e.target.className;
-    viewHandler.displayItems(option);
+    viewHandler.updateMainDisplay(option);
 });
 
 changeMemberConfirm.addEventListener('click', () => {
@@ -23,7 +24,6 @@ changeMemberConfirm.addEventListener('click', () => {
 });
 
 mainContent.addEventListener('click', (e) => {
-
     if(e.target.classList.contains('manual-add-book-btn')) {
         viewHandler.handleAddItemCardBtnClick(e);
     }
@@ -35,15 +35,20 @@ mainContent.addEventListener('click', (e) => {
 
 mainContent.addEventListener('submit', (e) => {
     e.preventDefault();
-    if(e.target.classList.contains('add-book-search-form')) {
-        const uri = encodeURI(document.querySelector('#add-book-search-input').value);
+    if(e.target.classList.contains('add-item-search-form')) {
+        const uri = encodeURI(document.querySelector('.add-item-search-input').value);
         const search = googleBooksAPI + uri + '&maxResults=40';
         fetch(search)
             .then(response => response.json())
             .then(viewHandler.handleAddBookSearch)
             .catch(err => console.log('Error fetching books', err))
     }
+    if(e.target.classList.contains('item-search-form')) {
+        viewHandler.handleItemSearch(document.querySelector('.add-item-search-input').value);
+    }
 });
+
+
 
 
 

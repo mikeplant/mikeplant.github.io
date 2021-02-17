@@ -9,8 +9,7 @@ class Modals {
 		  }, timeout);
   	}
 
-	fadeOutModal(modal, timeout) {
-		
+	fadeOutModal(modal, timeout) {	
 		window.setTimeout(() => {
 			modal.classList.remove('show-modal');
 			//element.removeChild(modal);
@@ -22,6 +21,7 @@ class Modals {
       newElement[property] = value;
       return newElement;
   	}
+	
 
     getCheckOutModalHTML() {
         const html = this.createElement('div', 'className', 'item-card-modal');
@@ -47,6 +47,18 @@ class Modals {
 		return html;
 	}
 
+	getConfirmRemoveModal(item) {
+        const html = this.createElement('div', 'className', 'item-card-modal');
+		html.innerHTML = `
+			<div class="confirm-remove-modal-content">
+			<h3>Confirm Item Removal</h3>
+			<span>Are you sure you want to permanently remove ${item.title} from the library?</span>
+			<button id="cancel-remove-btn" class="selector-btn edit-item-card-btn">Cancel</button>
+			<button id="confirm-remove-btn" class="selector-btn edit-item-card-btn">DELETE</button>
+			</div>`
+		return html;
+    }
+
 	getManualAddConfirmModal(item) {
 		const html = this.createElement('div', 'className', 'add-book-manual-modal');
 		html.innerHTML = `
@@ -57,30 +69,59 @@ class Modals {
 	}
 
 	getAddBookModal() {
-		const html = this.createElement('div', 'className', 'item-card-modal');
-		html.innerHTML = `
-		<div class="add-book-modal-content">
-            <form>
-              <h3>Confirm:</h3>
-              <label for="add-book-title">Title: </label>
-                <input type="text" id="add-book-title" required>
-              <label for="add-book-author">Author: </label>
-                <input type="text" id="add-book-author" required>
-              <label for="add-book-series">Series: </label>
-                <input type="text" id="add-book-series">
-              <label for="add-book-genre">Genre: </label>
-                <input type="text" id="add-book-genre">
-              <label for="add-book-pages">Pages: </label>
-                <input type="text" id="add-book-pages">
-              <label for="add-book-isbn">ISBN: </label>
-                <input type="text" id="add-book-isbn" required>
-              <label for="add-book-stock-quantity">Add Stock: </label>
-                <input type="text" id="add-book-stock-quantity" required>
-				<button id="add-book-cancel-btn" class="selector-btn add-item-card-btn">Cancel</button><button id="add-book-confirm-btn" class="selector-btn add-item-card-btn">Confirm</button>
-				<span class="required-span">Highlighted fields required</span>
-              </form>
-            </div>`;
-		return html;
+		const addBookModal = htmlContent.createElement('div', {
+			className: 'item-card-modal', 
+			innerHTML: `
+				<div class="add-book-modal-content">
+					<form>
+						<h3>Confirm:</h3>
+						<label for="add-book-title">Title: </label>
+						<input type="text" id="add-book-title" required>
+						<label for="add-book-author">Author: </label>
+						<input type="text" id="add-book-author" required>
+						<label for="add-book-series">Series: </label>
+						<input type="text" id="add-book-series">
+						<label for="add-book-genre">Genre: </label>
+						<input type="text" id="add-book-genre">
+						<label for="add-book-pages">Pages: </label>
+						<input type="text" id="add-book-pages">
+						<label for="add-book-isbn">ISBN: </label>
+						<input type="text" id="add-book-isbn" required>
+						<label for="add-book-stock-quantity">Add Stock: </label>
+						<input type="text" id="add-book-stock-quantity" required>
+						<button id="add-book-cancel-btn" class="selector-btn add-item-card-btn">Cancel</button><button id="add-book-confirm-btn" class="selector-btn add-item-card-btn">Confirm</button>
+						<span class="required-span">Highlighted fields required</span>
+					</form>
+				</div>`
+		});
+		return addBookModal;
+	}
+
+	getEditBookModal() {
+		const editBookModal = htmlContent.createElement('div', {
+			className: 'item-card-modal', 
+			innerHTML: `
+				<div class="add-book-modal-content">
+					<form>
+						<h3>Confirm details:</h3>
+						<label for="add-book-title">Title: </label>
+						<input type="text" id="add-book-title" required>
+						<label for="add-book-author">Author: </label>
+						<input type="text" id="add-book-author" required>
+						<label for="add-book-series">Series: </label>
+						<input type="text" id="add-book-series">
+						<label for="add-book-genre">Genre: </label>
+						<input type="text" id="add-book-genre">
+						<label for="add-book-pages">Pages: </label>
+						<input type="text" id="add-book-pages">
+						<label for="add-book-isbn">ISBN: </label>
+						<input type="text" id="add-book-isbn" required>
+						<button id="add-book-cancel-btn" class="selector-btn edit-item-card-btn">Cancel</button><button id="add-book-confirm-btn" class="selector-btn edit-item-card-btn">Confirm</button>
+						<span class="required-span">Highlighted fields required</span>
+					</form>
+				</div>`
+		});
+		return editBookModal;
 	}
 
 	updateInnerHTML(action, element, item, user, rentalLength) {
@@ -89,7 +130,13 @@ class Modals {
 				element.innerHTML = `<span class="confirm-check-in-out">${item.title} by ${item.author} checked out by ${user.name} for ${rentalLength} days.</span>`;
 			},
 			confirmAddBook: () => {
-				element.innerHTML = `<span class="confirm-add-item">${item[0]} by ${item[1]} added to library</span>`;
+				element.innerHTML = `<span class="confirm-add-item">${item[0]} by ${item[1]} added to the library</span>`;
+			},
+			confirmEditBook: () => {
+				element.innerHTML = `<span class="confirm-add-item">${item[0]} by ${item[1]} has been updated</span>`;
+			},
+			confirmDeleteItem: () => {
+				element.innerHTML = `<span class="confirm-add-item">${item.title} has been removed from the library</span>`;
 			}
 		};
 		html[action]();

@@ -151,9 +151,9 @@ main {
     border-bottom-right-radius: 5px;
 }
 
-.main-content, .item-div, #add-books-div, #add-items-div, .add-item-form-div, 
-    .add-book-search-div, .check-out-modal, .check-out-modal-content,
-        .check-in-modal-content, .add-book-modal-content {
+.main-content, .item-div, #add-books-div, .sub-content, .add-item-form-div, 
+    .item-search-div, .check-out-modal, .check-out-modal-content,
+        .check-in-modal-content, .add-book-modal-content, .confirm-remove-modal-content {
     border-radius: 5px;
 }
 
@@ -171,7 +171,7 @@ main {
     text-align: center;
 }
 
-#add-items-div, .item-div {
+.sub-content, .item-div {
     display: inline-block;
     border: rgb(71, 71, 71) solid 1px;
     background: rgb(78, 78, 78) url("../img/tweed.png") repeat;
@@ -250,7 +250,7 @@ main {
     transition: opacity 100ms;
 }
 
-.check-out-modal-content, .check-in-modal-content, .add-book-modal-content {
+.check-out-modal-content, .check-in-modal-content, .add-book-modal-content, .confirm-remove-modal-content {
     display: grid;
     grid-template-columns: minmax(100px, 50px) 1fr 100px 100px;
     grid-template-rows: 33% 34% 33%;
@@ -299,7 +299,7 @@ main {
     text-align: center;
 }
 
-.check-out-modal-content span, .check-in-modal-content span {
+.check-out-modal-content span, .check-in-modal-content span, .confirm-remove-modal-content span {
     grid-column: 1 / span 4;
     grid-row: 1 / span 3;
     align-self: center;
@@ -323,7 +323,7 @@ main {
     line-height: 1.5;
 } */
 
-#add-items-div {
+.sub-content {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -332,41 +332,45 @@ main {
     text-align: left;
 }
 
-.add-item-form-div, .add-book-search-div {
+.add-item-form-div, .item-search-div {
     height: 80%;
     background: gray url("../img/farmer.png") repeat;
     color: #000;
     margin: 0 auto;
 }
 
-.add-book-search-div, .add-item-form-div form{
+.item-search-div, .add-item-form-div form{
     display: grid;
 }
 
-.add-book-search-div {
-    width: 50%;
+.item-search-div {
+    width: 95%;
     grid-template-columns: 5% 90% 5%;
     grid-template-rows: 10% 30% 20% 30% 10%;
 }
 
-.add-book-search-div h2, .add-book-search-div input, 
-    .add-book-search-div .selector-btn, .add-book-search-div p {
+.add-item-search-div {
+    width: 50%;
+}
+
+.item-search-div h2, .item-search-div input, 
+    .item-search-div .selector-btn, .item-search-div p {
         align-self: center;
     }
 
-.add-book-search-div h2 {
+.item-search-div h2 {
     grid-column: 2 / span 3;
     grid-row: 2;
     margin: 0;
 }
 
-.add-book-search-div form input, .add-book-search-div form .selector-btn {
+.item-search-div form input, .item-search-div form .selector-btn {
     grid-column: 1;
     grid-row: 1;
     height: 80%;
 }
 
-.add-book-search-div form {
+.item-search-div form {
     grid-column: 2;
     grid-row: 3;
     display: grid;
@@ -374,17 +378,17 @@ main {
     grid-template-rows: 100%;
 }
 
-.add-book-search-div form input {
+.item-search-div form input {
     font-size: 1.3em;
     padding-left: 5px;
 }
 
-.add-book-search-div form .selector-btn {
+.item-search-div form .selector-btn {
     justify-self: end;
     border-radius: 0 5px 5px 0;
 }
 
-.add-book-search-div p {
+.item-search-div p {
     grid-column: 2;
     grid-row: 4;
 }
@@ -476,6 +480,40 @@ main {
     grid-row: 2;
     text-align: center;
 }
+
+.confirm-remove-modal-content h3 {
+    grid-column: 1 / span 4;
+    grid-row: 1
+}
+
+.confirm-remove-modal-content span {
+    text-align: center;
+}
+
+#confirm-remove-btn, #cancel-remove-btn {
+    grid-row: 3;
+}
+
+#confirm-remove-btn {
+    grid-column: 4;
+    color: #fff;
+    background: #943838;
+}
+
+#confirm-remove-btn:hover {
+    background: red;
+}
+
+#cancel-remove-btn {
+    grid-column: 3;
+}
+
+#remove-item-btn {
+    grid-column: 2;
+    justify-self: end;
+}
+
+
 
 .available, .unavailable {
     font-style: italic;

@@ -13,112 +13,107 @@ class ViewHandler {
         }
     }
 
-    displayItems(option = this.prevDisplay, searchItems) {
-        
+	clearCurrentContent() {
+		this.itemsDiv.innerHTML = '';
+	}
+
+	clearSearchResultsDisplay() {
 		if(document.querySelector('#search-results')) {
 			document.querySelector('#search-results').remove();
 		}
+	}
 
-        let content = ``;
+	updateMainHeading(heading) {
+		this.mainHeading.textContent = heading;
+	}
+
+	prepareMainDisplay(heading, prevDisplay) {
+		this.clearCurrentContent();
+		this.updateMainHeading(heading);
+		this.prevDisplay = prevDisplay;
+	}
+
+    updateMainDisplay(option = this.prevDisplay, searchItems) {
+        
+		this.clearSearchResultsDisplay();
+
         const displayOptions = {
             allItems: () => {
-				this.itemsDiv.innerHTML = '';
-                this.mainHeading.textContent = 'All Items';
+                this.prepareMainDisplay('All Items', 'allItems');
                 library.items.forEach(item => {
 					this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
                 });
-                this.prevDisplay = 'allItems';
             },
             inStock: () => {
-				this.itemsDiv.innerHTML = '';
-                this.mainHeading.textContent = 'In Stock Items';
-                library.items.forEach(item => {
-                    if (item.inStock > 0) {
-						this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
-                    }
+                this.prepareMainDisplay('In Stock Items', 'inStock');
+                library.getInStockItems().forEach(item => {
+					this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
                 });
-                this.prevDisplay = 'inStock';
             },
             addItem: () => {
-				this.itemsDiv.innerHTML = '';
-                this.mainHeading.textContent = 'Add Items';
-				let addItemsDiv = document.createElement('div');
-				addItemsDiv.id = "add-items-div";
-                addItemsDiv.innerHTML = `
-                <div class="add-item-form-div">
-                  <form class="manual-add-book-form">
-                    <h3>Add a book manually:</h3>
-                    <label for="add-book-title">Title: </label>
-                      <input type="text" id="add-book-title" required>
-                    <label for="add-book-author">Author: </label>
-                      <input type="text" id="add-book-author" required>
-                    <label for="add-book-series">Series: </label>
-                      <input type="text" id="add-book-series">
-                    <label for="add-book-genre">Genre: </label>
-                      <input type="text" id="add-book-genre">
-                    <label for="add-book-pages">Pages: </label>
-                      <input type="text" id="add-book-pages">
-                    <label for="add-book-isbn">ISBN: </label>
-                      <input type="text" id="add-book-isbn" required>
-                    <label for="add-book-stock-quantity">Add Stock: </label>
-                      <input type="text" id="add-book-stock-quantity" required>
-                    <button class="selector-btn manual-add-book-btn">Confirm</button>
-					<span class="required-span">Highlighted fields required</span>
-                  </form>
-                </div>
-      
-                <div class="add-book-search-div">
-                  <h2>Search for a book:</h2>
-                  	<form class="add-book-search-form">
-						<input type="text" id="add-book-search-input"><button class="selector-btn item-search-div-btn">Search</button>
-					</form>
-                  <p>Find a book to add to the library by any of it's properties.<br>
-                     For best results use the book's title, author, or ISBN number.</p>
-                </div>`;
-                this.prevDisplay = 'addItem';
-				this.itemsDiv.appendChild(addItemsDiv);
+				this.prepareMainDisplay('Add Items', 'addItem');
+				this.itemsDiv.appendChild(htmlContent.getAddItemPageHTML());
             },
             editItem: () => {
-				this.itemsDiv.innerHTML = '';
-                this.mainHeading.textContent = 'Edit Items';
-                this.prevDisplay = 'editItem';
-            },
-			searchResults: (searchItems) => {
-				const searchContentHTML = document.createElement('div');
-				searchContentHTML.id = 'search-results';
-				searchContentHTML.className = 'main-content';
-				searchContentHTML.innerHTML = `<h2>Search Results</h2>`;
-				this.main.appendChild(searchContentHTML);
+                this.prepareMainDisplay('Edit Items', 'editItem');
+				this.itemsDiv.appendChild(htmlContent.getEditItemPageHTML());
 
-				searchItems.forEach(item => {
-					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'addButton']));
+				document.querySelector('.item-search-div').addEventListener('keyup', (e) => {
+					if(e.target.classList.contains('add-item-search-input')) { 
+						viewHandler.handleItemSearch(document.querySelector('.add-item-search-input').value);
+					}
 				});
-			}
+            }
         };
         
         displayOptions[option](searchItems);
     }
 
-	updateItemCard(div) {
+	updateSearchResultsDisplay(option, searchItems) {
+		this.clearSearchResultsDisplay();
+		const displayOptions = {
+			add: (searchItems) => {
+				this.main.appendChild(htmlContent.getSearchResultHTML());
+				searchItems.forEach(item => {
+					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'addButton']));
+				});
+			},
+			edit: (searchItems) => {
+				this.main.appendChild(htmlContent.getSearchResultHTML());
+				searchItems.forEach(item => {
+					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'editButtons']));
+				});
+			}
+		}
+
+		displayOptions[option](searchItems);
+	}
+
+	updateItemCard(div, option) {
 		const stockNum = parseInt(div.id);
 		const item = library.items.filter(item => item.stockNum === stockNum);
-		const updatedDiv = item[0].getHTML(['details', 'stockQuantity', 'button']);
-		div.parentNode.insertBefore(updatedDiv, div);
+		let updatedCard;
+		const options = {
+			main: () => {updatedCard = item[0].getHTML(['details', 'stockQuantity', 'button'])},
+			edit: () => {updatedCard = item[0].getHTML(['details', 'editButtons'])}
+		};
+		options[option]();
+		div.parentNode.insertBefore(updatedCard, div);
 		div.remove();
 	}
 
 	updateDisplayAll(timeout) {
 		window.setTimeout(() => {
 			this.displayActiveMember();
-			this.displayItems();
+			this.updateMainDisplay();
 		}, timeout);
     }
 
-	clearModalAndUpdateItemCard = (modal, modalTimeout, itemCardElement, cardTimeout) => {
+	clearModalAndUpdateItemCard = (modal, modalTimeout, itemCardElement, cardTimeout, option) => {
 		modals.fadeOutModal(modal, modalTimeout);
 		window.setTimeout(() => {
 			if(!isNaN(itemCardElement.id) && itemCardElement.id !== '')	{
-				this.updateItemCard(itemCardElement);
+				this.updateItemCard(itemCardElement, option);
 			} else {
 				itemCardElement.remove();
 			}
@@ -137,7 +132,7 @@ class ViewHandler {
 			checkin: () => {
 				modals.fadeInModal(modals.getCheckInModalHTML(item, data.activeMember), parent, '100');
 				library.users.checkInItem(data.activeMember, item);
-				this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2000', parent, '2500');
+				this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2000', parent, '2500', 'main');
 			},
 			confirm: () => {
 				const input = parent.querySelector('#days-input');
@@ -148,11 +143,11 @@ class ViewHandler {
 				} else {
 					modals.updateInnerHTML('confirmCheckout', parent, item, data.activeMember, rentalLength);
 					library.users.checkOutItem(data.activeMember, item, rentalLength);
-					this.clearModalAndUpdateItemCard(parent.parentNode, '2000', parent.parentNode.parentNode, '2500');
+					this.clearModalAndUpdateItemCard(parent.parentNode, '2000', parent.parentNode.parentNode, '2500', 'main');
 				}			
 			},
 			cancel: () => {
-				this.clearModalAndUpdateItemCard(parent.parentNode, '100', parent.parentNode.parentNode, '150');
+				this.clearModalAndUpdateItemCard(parent.parentNode, '100', parent.parentNode.parentNode, '150', 'main');
 			}
       	};
       	buttonAction[action]();
@@ -184,11 +179,13 @@ class ViewHandler {
 				}
 			}
 		}
-		viewHandler.displayItems('searchResults', searchItems);
+		viewHandler.updateSearchResultsDisplay('add', searchItems);
 		document.querySelector('#search-results').addEventListener('click', (e) => {
+			e.preventDefault();
 			if(e.target.classList.contains('add-item-card-btn')) {
-				e.preventDefault();
 				viewHandler.handleAddItemCardBtnClick(e);
+			} else if(e.target.classList.contains('edit-item-card-btn')) {
+				viewHandler.handleEditItemCardBtnClick(e);
 			}
 		});
 	}
@@ -203,7 +200,7 @@ class ViewHandler {
 				this.populateAddItemForm(parent.querySelector('form'), itemProperties);
 			},
 			cancel: () => {
-				this.clearModalAndUpdateItemCard(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150');
+				this.clearModalAndUpdateItemCard(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150', 'main');
 			},
 			confirm: () => {
 				const div = parent.parentNode.parentNode;
@@ -212,10 +209,10 @@ class ViewHandler {
 					library.addItem(Book, itemProperties);
 					if(div.classList.contains('item-card-modal')){
 						modals.updateInnerHTML('confirmAddBook', parent.parentNode, itemProperties);
-						this.clearModalAndUpdateItemCard(div, '2000', div, '2500');	
+						this.clearModalAndUpdateItemCard(div, '2000', div, '2500', 'main');	
 					} else {
 						modals.fadeInModal(modals.getManualAddConfirmModal(itemProperties), parent.parentNode, '100');
-						this.clearModalAndUpdateItemCard(div.querySelector('.add-book-manual-modal'), '2000', div.querySelector('.add-book-manual-modal'), '2500');
+						this.clearModalAndUpdateItemCard(div.querySelector('.add-book-manual-modal'), '2000', div.querySelector('.add-book-manual-modal'), '2500', 'main');
 					}
 				}	
 			}
@@ -256,5 +253,51 @@ class ViewHandler {
 		for(let i=0;i<itemProperties.length;i++) {
 			inputs[i].value = itemProperties[i];
 		}
+	}
+
+	handleItemSearch(searchTerm) {
+		viewHandler.updateSearchResultsDisplay('edit', library.getItemsBySearchTerm(searchTerm));
+		document.querySelector('#search-results').addEventListener('click', (e) => {
+			if(e.target.classList.contains('edit-item-card-btn')) {
+				e.preventDefault();
+				viewHandler.handleEditItemCardBtnClick(e);
+			}
+		});
+	}
+
+	handleEditItemCardBtnClick(e) {
+		const action = e.target.textContent.replace(/\s+/g, '').toLowerCase();
+    	const parent = e.target.parentNode;
+		const buttonAction = {
+			edit: () => {
+				const itemProperties = this.getPropertiesFromItemCard(parent, 'span');
+				modals.fadeInModal(modals.getEditBookModal(), parent, '100');
+				this.populateAddItemForm(parent.querySelector('form'), itemProperties);
+			},
+			remove: () => {
+				const item = library.getItemByStockNum(parseInt(parent.id));
+				modals.fadeInModal(modals.getConfirmRemoveModal(item), parent, '100');
+			},
+			delete: () => {
+				const itemToRemove = library.getItemByStockNum(parseInt(parent.parentNode.parentNode.id));
+				library.removeItem(itemToRemove);
+				modals.updateInnerHTML('confirmDeleteItem', parent, itemToRemove);
+			},
+			confirm: () => {
+				const div = parent.parentNode.parentNode;
+				const itemCardID = div.parentNode;
+				const itemProperties = this.getPropertiesFromItemCard(parent, 'input');
+				if(library.validateForm(parent)) {
+					const item = library.getItemByStockNum(parseInt(itemCardID.id))
+					item.updateDetails(itemProperties);
+					modals.updateInnerHTML('confirmEditBook', parent.parentNode, itemProperties);
+					this.clearModalAndUpdateItemCard(div, '2000', itemCardID, '2500', 'edit');	
+				}	
+			},
+			cancel: () => {
+				this.clearModalAndUpdateItemCard(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150', 'edit');
+			}
+		};
+		buttonAction[action]();
 	}
 }

@@ -14,14 +14,15 @@ Add late check out counter
 DATA - 
 
 Save user books to local storage.
+Save on remove, edit items.
 
 MODALS -
 
-
+Make Modals a subclass of HTMLContent?
 
 ADD ITEMS PAGE -
 
-Add add book validation
+Add add book validation - stock quantity
 Clear manual form after submit
 
 * Update manual add form confirmation modal layout. Also form is being removed on confirm. Needs new confirm modal - 
@@ -41,6 +42,10 @@ Change main-content and item-div to grid layout
 Sort formatting on confirm checkout modal
 
 Remove extra columns and rows in .item-card-modal, replace with margin.
+
+CSS -
+
+Needs refactoring to reuse classes, modals in particular.
 
 GENERAL -
 
