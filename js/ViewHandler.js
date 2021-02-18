@@ -224,6 +224,15 @@ class ViewHandler {
 		buttonAction[action]();
 	}
 
+	handleRemoveItem(parent, item) {
+		if(!library.itemIsCurrentlyRented(item)) {
+			modals.fadeInModal(modals.getConfirmRemoveModal(item), parent, '100');
+		} else {
+			modals.fadeInModal(modals.getRemoveNotAllowedModal(), parent, '100');
+			this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2500', parent, '3000', 'edit');
+		}
+	}
+
 	handleEditItemCardBtnClick(e) {
 		const action = e.target.textContent.replace(/\s+/g, '').toLowerCase();
     	const parent = e.target.parentNode;
@@ -235,7 +244,7 @@ class ViewHandler {
 			},
 			remove: () => {
 				const item = library.getItemByStockNum(parseInt(parent.id));
-				modals.fadeInModal(modals.getConfirmRemoveModal(item), parent, '100');
+				this.handleRemoveItem(parent, item);
 			},
 			delete: () => {
 				const itemToRemove = library.getItemByStockNum(parseInt(parent.parentNode.parentNode.id));

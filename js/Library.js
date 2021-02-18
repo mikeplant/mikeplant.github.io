@@ -83,6 +83,15 @@ class Library {
         data.saveItems();
     }
 
+    itemIsCurrentlyRented(item) {
+        for (const member of this.users.members) {
+            if (member.currentRentals.find(rental => rental['item'].stockNum === item.stockNum)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     removeItem(item) {
         this.items = this.items.filter(itemToRemove => itemToRemove.stockNum !== item.stockNum);
     }

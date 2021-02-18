@@ -124,6 +124,15 @@ class Modals {
 		return editBookModal;
 	}
 
+	getRemoveNotAllowedModal() {
+		const html = this.createElement('div', 'className', 'item-card-modal');
+		html.innerHTML = `
+			<div class="check-in-modal-content">
+			<span class="confirm-add-item">This item can not be removed as stock is currently checked out</span>
+			</div>`;
+		return html;
+	}
+
 	updateInnerHTML(action, element, item, user, rentalLength) {
 		const html = {
 			confirmCheckout: () => {
