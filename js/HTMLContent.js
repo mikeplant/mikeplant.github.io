@@ -53,19 +53,24 @@ class HTMLContent {
         return addItemsDiv;
     }
 
-    getEditItemPageHTML() {
-        const editItemsDiv = this.createElement('div', {
+    getItemSearchDiv() {
+        return `
+        <div class="item-search-div">
+            <h2>Search for an item:</h2>
+            <form class="item-search-form">
+                <input type="text" class="add-item-search-input"><button class="selector-btn item-search-div-btn">Search</button>
+            </form>
+            <p>Find an item in the library by any of it's properties.<br>
+                For best results use an item's title, author, or ISBN number.</p>
+        </div>`
+    }
+
+    getSearchHTML(type) {
+        const searchHTML = this.createElement('div', {
             className: 'sub-content', 
-            innerHTML: `
-                <div class="item-search-div">
-                    <h2>Search for an item:</h2>
-                    <form class="item-search-form">
-                        <input type="text" class="add-item-search-input"><button class="selector-btn item-search-div-btn">Search</button>
-                    </form>
-                    <p>Find an item in the library by any of it's properties.<br>
-                        For best results use an item's title, author, or ISBN number.</p>
-                </div>`
+            innerHTML: `${this.getItemSearchDiv()}`
         });
-        return editItemsDiv;
+        searchHTML.querySelector('form').classList.add(type);
+        return searchHTML;
     }
 }

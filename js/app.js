@@ -5,6 +5,7 @@ const viewHandler = new ViewHandler();
 const modals = new Modals();
 const googleBooksAPI = 'https://www.googleapis.com/books/v1/volumes?q=';
 const changeMemberConfirm = document.querySelector('.change-member-confirm');
+const headerNavbar = document.querySelector('#header-navbar');
 const dropdownContent = document.querySelector('.dropdown-content');
 const mainContent = document.querySelector('.main-content');
 
@@ -14,9 +15,11 @@ if (data.storageExists) {
     viewHandler.displayActiveMember(); //update
 } 
 
-dropdownContent.addEventListener('click', (e) => {
-    let option = e.target.className;
-    viewHandler.updateMainDisplay(option);
+headerNavbar.addEventListener('click', (e) => {
+    if(e.target.parentNode.parentNode.classList.contains('dropdown-content')) {
+        let option = e.target.className;
+        viewHandler.handleNavbarClick(option);
+    }
 });
 
 changeMemberConfirm.addEventListener('click', () => {

@@ -35,7 +35,7 @@ class ViewHandler {
 		this.prevDisplay = prevDisplay;
 	}
 
-    updateMainDisplay(option = this.prevDisplay, searchItems) {
+    handleNavbarClick(option = this.prevDisplay) {
         
 		this.clearSearchResultsDisplay();
 
@@ -58,18 +58,28 @@ class ViewHandler {
             },
             editItem: () => {
                 this.prepareMainDisplay('Edit Items', 'editItem');
-				this.itemsDiv.appendChild(htmlContent.getEditItemPageHTML());
-
-				document.querySelector('.item-search-div').addEventListener('keyup', (e) => {
-					if(e.target.classList.contains('add-item-search-input')) { 
-						viewHandler.handleItemSearch(document.querySelector('.add-item-search-input').value);
-					}
-				});
-            }
+				this.itemsDiv.appendChild(htmlContent.getSearchHTML('edit-search'));
+				this.getSearchDivListener();
+				
+            },
+			itemSearch: () => {
+				this.prepareMainDisplay('Item Search', 'itemSearch');
+				this.itemsDiv.appendChild(htmlContent.getSearchHTML('item-search'));
+				this.getSearchDivListener();
+			}
         };
-        
-        displayOptions[option](searchItems);
+        displayOptions[option]();
     }
+
+	//MOVE
+
+	getSearchDivListener() {
+		document.querySelector('.item-search-div').addEventListener('keyup', (e) => {
+			if(e.target.classList.contains('add-item-search-input')) { 
+				viewHandler.handleItemSearch(document.querySelector('.add-item-search-input').value);
+			}
+		});
+	}
 
 	updateItemCard(div, option) {
 		const stockNum = parseInt(div.id);
@@ -87,7 +97,7 @@ class ViewHandler {
 	updateDisplayAll(timeout) {
 		window.setTimeout(() => {
 			this.displayActiveMember();
-			this.updateMainDisplay();
+			this.handleNavbarClick();
 		}, timeout);
     }
 
@@ -115,6 +125,12 @@ class ViewHandler {
 				this.main.appendChild(htmlContent.getSearchResultHTML());
 				searchItems.forEach(item => {
 					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'editButtons']));
+				});
+			},
+			itemSearch: () => {
+				this.main.appendChild(htmlContent.getSearchResultHTML());
+				searchItems.forEach(item => {
+					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
 				});
 			}
 		}

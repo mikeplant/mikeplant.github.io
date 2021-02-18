@@ -2,7 +2,7 @@ TO DO
 
 NEXT - 
 
-* Add validation to remove item - must not be any checked out.
+Finish item search page.
 
 BUGS - 
 
