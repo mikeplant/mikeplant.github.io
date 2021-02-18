@@ -7,6 +7,8 @@ class ViewHandler {
         this.prevDisplay = 'allItems';
     }
 
+	// Main Display Functions
+
     displayActiveMember() {
         if(data.activeMember) {
             this.activeMemberSpan.textContent = `${data.activeMember.accNum} - ${data.activeMember.name}`;
@@ -69,26 +71,6 @@ class ViewHandler {
         displayOptions[option](searchItems);
     }
 
-	updateSearchResultsDisplay(option, searchItems) {
-		this.clearSearchResultsDisplay();
-		const displayOptions = {
-			add: (searchItems) => {
-				this.main.appendChild(htmlContent.getSearchResultHTML());
-				searchItems.forEach(item => {
-					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'addButton']));
-				});
-			},
-			edit: (searchItems) => {
-				this.main.appendChild(htmlContent.getSearchResultHTML());
-				searchItems.forEach(item => {
-					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'editButtons']));
-				});
-			}
-		}
-
-		displayOptions[option](searchItems);
-	}
-
 	updateItemCard(div, option) {
 		const stockNum = parseInt(div.id);
 		const item = library.items.filter(item => item.stockNum === stockNum);
@@ -119,6 +101,28 @@ class ViewHandler {
 			}
 		}, cardTimeout);
 	}
+
+	updateSearchResultsDisplay(option, searchItems) {
+		this.clearSearchResultsDisplay();
+		const displayOptions = {
+			add: (searchItems) => {
+				this.main.appendChild(htmlContent.getSearchResultHTML());
+				searchItems.forEach(item => {
+					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'addButton']));
+				});
+			},
+			edit: (searchItems) => {
+				this.main.appendChild(htmlContent.getSearchResultHTML());
+				searchItems.forEach(item => {
+					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'editButtons']));
+				});
+			}
+		}
+
+		displayOptions[option](searchItems);
+	}
+
+	// Event Handler Functions
 
     handleItemCardBtnClick(e) {
 		const parent = e.target.parentNode;
@@ -195,7 +199,7 @@ class ViewHandler {
     	const parent = event.target.parentNode;
 		const buttonAction = {
 			add: () => {
-				const itemProperties = this.getPropertiesFromItemCard(parent, 'span');
+				const itemProperties = this.getPropertiesFromItemCard(parent);
 				modals.fadeInModal(modals.getAddBookModal(), parent, '100');
 				this.populateAddItemForm(parent.querySelector('form'), itemProperties);
 			},
@@ -204,7 +208,7 @@ class ViewHandler {
 			},
 			confirm: () => {
 				const div = parent.parentNode.parentNode;
-				const itemProperties = this.getPropertiesFromItemCard(parent, 'input');
+				const itemProperties = this.getPropertiesFromItemCard(parent);
 				if(library.validateForm(parent)) {
 					library.addItem(Book, itemProperties);
 					if(div.classList.contains('item-card-modal')){
@@ -220,57 +224,12 @@ class ViewHandler {
 		buttonAction[action]();
 	}
 
-	getPropertiesFromItemCard(element, propertyElement) {
-		const children = Array.from(element.children);
-		let itemProperties = [];
-
-		const elementTypeAction = {
-			span: () => {
-				const propertySpans = children.filter(child => child.tagName === 'SPAN');
-				propertySpans.forEach(span => {
-					itemProperties.push(span.textContent);
-					});
-				},
-			input: () => {
-				const propertyInputs = children.filter(child => child.tagName === 'INPUT');
-				propertyInputs.forEach(input => {
-					if(input.id === 'add-book-stock-quantity') {
-						itemProperties.push(parseInt(input.value.trim()));
-					} else {
-						itemProperties.push(input.value.trim());
-					}
-				});		
-			}
-		}
-		elementTypeAction[propertyElement]();
-		return itemProperties;
-	}
-
-	populateAddItemForm(element, itemProperties) {
-		const children = Array.from(element.children);
-		const inputs = children.filter(child => child.tagName === 'INPUT');
-
-		for(let i=0;i<itemProperties.length;i++) {
-			inputs[i].value = itemProperties[i];
-		}
-	}
-
-	handleItemSearch(searchTerm) {
-		viewHandler.updateSearchResultsDisplay('edit', library.getItemsBySearchTerm(searchTerm));
-		document.querySelector('#search-results').addEventListener('click', (e) => {
-			if(e.target.classList.contains('edit-item-card-btn')) {
-				e.preventDefault();
-				viewHandler.handleEditItemCardBtnClick(e);
-			}
-		});
-	}
-
 	handleEditItemCardBtnClick(e) {
 		const action = e.target.textContent.replace(/\s+/g, '').toLowerCase();
     	const parent = e.target.parentNode;
 		const buttonAction = {
 			edit: () => {
-				const itemProperties = this.getPropertiesFromItemCard(parent, 'span');
+				const itemProperties = this.getPropertiesFromItemCard(parent);
 				modals.fadeInModal(modals.getEditBookModal(), parent, '100');
 				this.populateAddItemForm(parent.querySelector('form'), itemProperties);
 			},
@@ -286,7 +245,7 @@ class ViewHandler {
 			confirm: () => {
 				const div = parent.parentNode.parentNode;
 				const itemCardID = div.parentNode;
-				const itemProperties = this.getPropertiesFromItemCard(parent, 'input');
+				const itemProperties = this.getPropertiesFromItemCard(parent);
 				if(library.validateForm(parent)) {
 					const item = library.getItemByStockNum(parseInt(itemCardID.id))
 					item.updateDetails(itemProperties);
@@ -299,5 +258,37 @@ class ViewHandler {
 			}
 		};
 		buttonAction[action]();
+	}
+
+	handleItemSearch(searchTerm) {
+		viewHandler.updateSearchResultsDisplay('edit', library.getItemsBySearchTerm(searchTerm));
+		document.querySelector('#search-results').addEventListener('click', (e) => {
+			if(e.target.classList.contains('edit-item-card-btn')) {
+				e.preventDefault();
+				viewHandler.handleEditItemCardBtnClick(e);
+			}
+		});
+	}
+
+	// Other Functions
+
+	getPropertiesFromItemCard(element) {
+		let itemProperties = {};
+		const children = Array.from(element.children);
+
+		children.filter(child => child.classList.contains('item-property'))
+			.forEach(property => itemProperties[property.id.split('-')[1]] = (property.tagName === 'SPAN') ? property.textContent : property.value);
+		if (itemProperties.inStock) itemProperties.inStock = parseInt(itemProperties.inStock);
+		return itemProperties;
+	}
+
+	populateAddItemForm(element, itemProperties) {
+		const children = Array.from(element.children);
+		children.filter(child => child.classList.contains('item-property'))
+			.forEach(input => {
+				if(itemProperties[input.id.split('-')[1]]) {
+					element.querySelector(`#${input.id}`).value = itemProperties[input.id.split('-')[1]];
+				}
+			});
 	}
 }

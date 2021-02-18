@@ -63,7 +63,7 @@ class Modals {
 		const html = this.createElement('div', 'className', 'add-book-manual-modal');
 		html.innerHTML = `
 			<div class="check-in-modal-content">
-			<span class="confirm-check-in-out">${item[0]} by ${item[1]} added to library.</span>
+			<span class="confirm-check-in-out">${item.title} by ${item.author} added to library.</span>
 			</div>`
 		return html;
 	}
@@ -75,20 +75,20 @@ class Modals {
 				<div class="add-book-modal-content">
 					<form>
 						<h3>Confirm:</h3>
-						<label for="add-book-title">Title: </label>
-						<input type="text" id="add-book-title" required>
-						<label for="add-book-author">Author: </label>
-						<input type="text" id="add-book-author" required>
-						<label for="add-book-series">Series: </label>
-						<input type="text" id="add-book-series">
-						<label for="add-book-genre">Genre: </label>
-						<input type="text" id="add-book-genre">
-						<label for="add-book-pages">Pages: </label>
-						<input type="text" id="add-book-pages">
-						<label for="add-book-isbn">ISBN: </label>
-						<input type="text" id="add-book-isbn" required>
-						<label for="add-book-stock-quantity">Add Stock: </label>
-						<input type="text" id="add-book-stock-quantity" required>
+						<label for="item-title">Title: </label>
+						<input type="text" id="item-title" class="item-property" required>
+						<label for="item-author">Author: </label>
+						<input type="text" id="item-author" class="item-property" required>
+						<label for="item-series">Series: </label>
+						<input type="text" id="item-series" class="item-property">
+						<label for="item-genre">Genre: </label>
+						<input type="text" id="item-genre" class="item-property">
+						<label for="item-pages">Pages: </label>
+						<input type="text" id="item-pages" class="item-property">
+						<label for="item-isbn">ISBN: </label>
+						<input type="text" id="item-isbn" class="item-property" required>
+						<label for="item-inStock">Add Stock: </label>
+						<input type="text" id="item-inStock" class="item-property" required>
 						<button id="add-book-cancel-btn" class="selector-btn add-item-card-btn">Cancel</button><button id="add-book-confirm-btn" class="selector-btn add-item-card-btn">Confirm</button>
 						<span class="required-span">Highlighted fields required</span>
 					</form>
@@ -104,18 +104,18 @@ class Modals {
 				<div class="add-book-modal-content">
 					<form>
 						<h3>Confirm details:</h3>
-						<label for="add-book-title">Title: </label>
-						<input type="text" id="add-book-title" required>
-						<label for="add-book-author">Author: </label>
-						<input type="text" id="add-book-author" required>
-						<label for="add-book-series">Series: </label>
-						<input type="text" id="add-book-series">
-						<label for="add-book-genre">Genre: </label>
-						<input type="text" id="add-book-genre">
-						<label for="add-book-pages">Pages: </label>
-						<input type="text" id="add-book-pages">
-						<label for="add-book-isbn">ISBN: </label>
-						<input type="text" id="add-book-isbn" required>
+						<label for="item-title">Title: </label>
+						<input type="text" id="item-title" class="item-property" required>
+						<label for="item-author">Author: </label>
+						<input type="text" id="item-author" class="item-property" required>
+						<label for="item-series">Series: </label>
+						<input type="text" id="item-series" class="item-property">
+						<label for="item-genre">Genre: </label>
+						<input type="text" id="item-genre" class="item-property">
+						<label for="item-pages">Pages: </label>
+						<input type="text" id="item-pages" class="item-property">
+						<label for="item-isbn">ISBN: </label>
+						<input type="text" id="item-isbn" class="item-property" required>
 						<button id="add-book-cancel-btn" class="selector-btn edit-item-card-btn">Cancel</button><button id="add-book-confirm-btn" class="selector-btn edit-item-card-btn">Confirm</button>
 						<span class="required-span">Highlighted fields required</span>
 					</form>
@@ -130,10 +130,10 @@ class Modals {
 				element.innerHTML = `<span class="confirm-check-in-out">${item.title} by ${item.author} checked out by ${user.name} for ${rentalLength} days.</span>`;
 			},
 			confirmAddBook: () => {
-				element.innerHTML = `<span class="confirm-add-item">${item[0]} by ${item[1]} added to the library</span>`;
+				element.innerHTML = `<span class="confirm-add-item">${item.title} by ${item.author} added to the library</span>`;
 			},
 			confirmEditBook: () => {
-				element.innerHTML = `<span class="confirm-add-item">${item[0]} by ${item[1]} has been updated</span>`;
+				element.innerHTML = `<span class="confirm-add-item">${item.title} by ${item.author} has been updated</span>`;
 			},
 			confirmDeleteItem: () => {
 				element.innerHTML = `<span class="confirm-add-item">${item.title} has been removed from the library</span>`;

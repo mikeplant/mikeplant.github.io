@@ -26,6 +26,7 @@ Make Modals a subclass of HTMLContent?
 
 ADD ITEMS PAGE -
 
+Keyup listener on manual add book form
 Add add book validation - stock quantity
 Clear manual form after submit
 

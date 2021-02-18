@@ -70,7 +70,6 @@ class Users {
         if(!this.userHasItem(user, item) && item.isInStock()) {
             updateUserItems();
             updateLibrary();
-            //alert(`${item.title} checked out to ${user.name}`);
         } 
     }
 

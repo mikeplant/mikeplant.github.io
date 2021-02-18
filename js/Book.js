@@ -29,12 +29,12 @@ class Book {
     }
 
 	updateDetails(itemProperties) {
-		this.title = itemProperties[0];
-		this.author = itemProperties[1];
-		this.series = itemProperties[2];
-		this.genre = itemProperties[3];
-		this.pages = itemProperties[4];
-		this.isbn = itemProperties[5];
+		this.title = itemProperties.title;
+		this.author = itemProperties.author;
+		this.series = itemProperties.series;
+		this.genre = itemProperties.genre;
+		this.pages = itemProperties.pages;
+		this.isbn = itemProperties.isbn;
 	}
 
 	/**
@@ -55,12 +55,12 @@ class Book {
 		const options = {
 			details: () => {
 				html += `
-					<strong>Title: </strong><span>${this.title}</span>
-					<strong>Author: </strong><span>${this.author}</span>
-					<strong>Series: </strong><span>${this.series}</span>
-					<strong>Genre: </strong><span>${this.genre}</span>
-					<strong>Pages: </strong><span>${this.pages}</span>
-					<strong>ISBN: </strong><span>${this.isbn}</span>
+					<strong>Title: </strong><span id="item-title" class="item-property">${this.title}</span>
+					<strong>Author: </strong><span id="item-author" class="item-property">${this.author}</span>
+					<strong>Series: </strong><span id="item-series" class="item-property">${this.series}</span>
+					<strong>Genre: </strong><span id="item-genre" class="item-property">${this.genre}</span>
+					<strong>Pages: </strong><span id="item-pages" class="item-property">${this.pages}</span>
+					<strong>ISBN: </strong><span id="item-isbn" class="item-property">${this.isbn}</span>
 					`;
 					if(userHasItem) {
 						if(library.returnIsOverdue(library.users.getRentedItem(data.activeMember, this))) {

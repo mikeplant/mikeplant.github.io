@@ -22,20 +22,20 @@ class HTMLContent {
                 <div class="add-item-form-div">
                     <form class="manual-add-book-form">
                     <h3>Add a book manually:</h3>
-                    <label for="add-book-title">Title: </label>
-                        <input type="text" id="add-book-title" required>
-                    <label for="add-book-author">Author: </label>
-                        <input type="text" id="add-book-author" required>
-                    <label for="add-book-series">Series: </label>
-                        <input type="text" id="add-book-series">
-                    <label for="add-book-genre">Genre: </label>
-                        <input type="text" id="add-book-genre">
-                    <label for="add-book-pages">Pages: </label>
-                        <input type="text" id="add-book-pages">
-                    <label for="add-book-isbn">ISBN: </label>
-                        <input type="text" id="add-book-isbn" required>
-                    <label for="add-book-stock-quantity">Add Stock: </label>
-                        <input type="text" id="add-book-stock-quantity" required>
+                    <label for="item-title">Title: </label>
+                        <input type="text" id="item-title" class="item-property" required>
+                    <label for="item-author">Author: </label>
+                        <input type="text" id="item-author" class="item-property" required>
+                    <label for="item-series">Series: </label>
+                        <input type="text" id="item-series" class="item-property">
+                    <label for="item-genre">Genre: </label>
+                        <input type="text" id="item-genre" class="item-property">
+                    <label for="item-pages">Pages: </label>
+                        <input type="text" id="item-pages" class="item-property">
+                    <label for="item-isbn">ISBN: </label>
+                        <input type="text" id="item-isbn" class="item-property" required>
+                    <label for="item-inStock">Add Stock: </label>
+                        <input type="text" id="item-inStock" class="item-property" required>
                     <button class="selector-btn manual-add-book-btn">Confirm</button>
                     <span class="required-span">Highlighted fields required</span>
                     </form>

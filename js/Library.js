@@ -6,6 +6,8 @@ class Library {
         this.usedStockNums = [99];
     }
 
+    // Get item Functions
+
     getItemByStockNum(stockNum) {
         for (const item of this.items) {
             if(item.stockNum === stockNum) {
@@ -35,34 +37,49 @@ class Library {
         return inStockItems;
     }
 
+    getItemByPropertyValue(item, property) {
+        return this.items.find(existingItem => existingItem[property] === item[property]);
+    }
+
+    itemExists(item) {
+        if(item.isbn) {
+            return this.items.some(existingItem => existingItem.isbn === item.isbn);
+        }
+    }
+
+    // Add or remove item functions
+
+    createItem(type, argsObj) {
+        const newItem = new type();
+        
+        for (const [key, value] of Object.entries(argsObj)) {
+            newItem[key] = value;
+        }
+
+        return newItem;
+    }
+
+    assignStockNum(newItem) {
+        const prevRef = this.usedStockNums.slice(-1);
+        const stockNum = prevRef[0] + 1;
+        this.usedStockNums.push(stockNum);
+        newItem.stockNum = stockNum;        
+    }
+
     /**
      * Creates an item, adds a stockNum and adds it to the library.
      * @param {Class} type - A class type to be instantiated. eg Book
-     * @param {Array} argsArr - The required arguments for the class.
+     * @param {Object} argsObj - The required arguments for the class.
      */
-    addItem(type, argsArr) {
-        const newItem = new type(...argsArr);
-        const items = this.items;
-        const usedStockNums = this.usedStockNums;
-
-        function assignStockNum() {
-            let isNewItem = true;
-            for(let i=0;i<items.length;i++) {
-                if(items[i].isbn === newItem.isbn) {
-                    items[i].inStock += newItem.inStock;
-                    isNewItem = false;
-                } 
-            }
-            if(isNewItem) {
-                const prevRef = usedStockNums.slice(-1);
-                const stockNum = prevRef[0] + 1;
-                usedStockNums.push(stockNum);
-                newItem.stockNum = stockNum;   
-                items.push(newItem);  
-            }   
+    addItem(type, itemToAdd) {
+        if(this.itemExists(itemToAdd)) {
+            this.getItemByPropertyValue(itemToAdd, 'isbn').inStock += itemToAdd.inStock;
+        } else {
+            const newItem = this.createItem(Book, itemToAdd);
+            this.assignStockNum(newItem);
+            this.items.push(newItem);
         }
 
-        assignStockNum();
         data.saveItems();
     }
 
@@ -70,15 +87,7 @@ class Library {
         this.items = this.items.filter(itemToRemove => itemToRemove.stockNum !== item.stockNum);
     }
 
-    updateRentCounter(item) {
-        const itemStockNum = item.stockNum.toString();
-        if(this.rentCounter.hasOwnProperty(itemStockNum)) {
-            this.rentCounter[itemStockNum]++;
-        } else {
-            this.rentCounter[itemStockNum] = 1;
-        }
-        data.saveItems();
-    }
+    // Date functions
 
     getReturnDate(rentalLength) {
         const date = new Date();
@@ -94,6 +103,18 @@ class Library {
 
     getDateString(date) {
         return `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`;
+    }
+
+    // Other functions
+
+    updateRentCounter(item) {
+        const itemStockNum = item.stockNum.toString();
+        if(this.rentCounter.hasOwnProperty(itemStockNum)) {
+            this.rentCounter[itemStockNum]++;
+        } else {
+            this.rentCounter[itemStockNum] = 1;
+        }
+        data.saveItems();
     }
 
     validateForm(form) {
