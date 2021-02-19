@@ -7,7 +7,7 @@ class ViewHandler {
         this.prevDisplay = 'allItems';
     }
 
-	// Main Display Functions
+	// Main Display Functions -----
 
     displayActiveMember() {
         if(data.activeMember) {
@@ -17,12 +17,6 @@ class ViewHandler {
 
 	clearCurrentContent() {
 		this.itemsDiv.innerHTML = '';
-	}
-
-	clearSearchResultsDisplay() {
-		if(document.querySelector('#search-results')) {
-			document.querySelector('#search-results').remove();
-		}
 	}
 
 	updateMainHeading(heading) {
@@ -35,51 +29,13 @@ class ViewHandler {
 		this.prevDisplay = prevDisplay;
 	}
 
-    handleNavbarClick(option = this.prevDisplay) {
-        
-		this.clearSearchResultsDisplay();
-
-        const displayOptions = {
-            allItems: () => {
-                this.prepareMainDisplay('All Items', 'allItems');
-                library.items.forEach(item => {
-					this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
-                });
-            },
-            inStock: () => {
-                this.prepareMainDisplay('In Stock Items', 'inStock');
-                library.getInStockItems().forEach(item => {
-					this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
-                });
-            },
-            addItem: () => {
-				this.prepareMainDisplay('Add Items', 'addItem');
-				this.itemsDiv.appendChild(htmlContent.getAddItemPageHTML());
-            },
-            editItem: () => {
-                this.prepareMainDisplay('Edit Items', 'editItem');
-				this.itemsDiv.appendChild(htmlContent.getSearchHTML('edit-search'));
-				this.getSearchDivListener();
-				
-            },
-			itemSearch: () => {
-				this.prepareMainDisplay('Item Search', 'itemSearch');
-				this.itemsDiv.appendChild(htmlContent.getSearchHTML('item-search'));
-				this.getSearchDivListener();
-			}
-        };
-        displayOptions[option]();
-    }
-
-	//MOVE
-
-	getSearchDivListener() {
-		document.querySelector('.item-search-div').addEventListener('keyup', (e) => {
-			if(e.target.classList.contains('add-item-search-input')) { 
-				viewHandler.handleItemSearch(document.querySelector('.add-item-search-input').value);
-			}
-		});
+	clearSearchResultsDisplay() {
+		if(document.querySelector('#search-results')) {
+			document.querySelector('#search-results').remove();
+		}
 	}
+
+	// Update Display Functions -----
 
 	updateItemCard(div, option) {
 		const stockNum = parseInt(div.id);
@@ -115,13 +71,13 @@ class ViewHandler {
 	updateSearchResultsDisplay(option, searchItems) {
 		this.clearSearchResultsDisplay();
 		const displayOptions = {
-			add: (searchItems) => {
+			add: () => {
 				this.main.appendChild(htmlContent.getSearchResultHTML());
 				searchItems.forEach(item => {
 					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'addButton']));
 				});
 			},
-			edit: (searchItems) => {
+			edit: () => {
 				this.main.appendChild(htmlContent.getSearchResultHTML());
 				searchItems.forEach(item => {
 					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'editButtons']));
@@ -132,13 +88,62 @@ class ViewHandler {
 				searchItems.forEach(item => {
 					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
 				});
+			},
+			inStockSearch: () => {
+				this.main.appendChild(htmlContent.getSearchResultHTML());
+				searchItems.filter(item => item.isInStock()).forEach(item => {
+					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
+				});
 			}
 		}
 
 		displayOptions[option](searchItems);
 	}
 
-	// Event Handler Functions
+	// Event Handler Functions -----
+
+	handleNavbarClick(option = this.prevDisplay) {
+        
+		this.clearSearchResultsDisplay();
+
+        const displayOptions = {
+            allItems: () => {
+                this.prepareMainDisplay('All Items', 'allItems');
+                library.items.forEach(item => {
+					this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
+                });
+            },
+            inStock: () => {
+                this.prepareMainDisplay('All In Stock', 'inStock');
+                library.getInStockItems().forEach(item => {
+					this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
+                });
+            },
+            addItem: () => {
+				this.prepareMainDisplay('Add Items', 'addItem');
+				this.itemsDiv.appendChild(htmlContent.getAddItemPageHTML());
+            },
+            editItem: () => {
+                this.prepareMainDisplay('Edit Items', 'editItem');
+				this.itemsDiv.appendChild(htmlContent.getSearchHTML('editSearch'));
+				this.getSearchDivListener();
+				
+            },
+			itemSearch: () => {
+				this.prepareMainDisplay('Item Search', 'itemSearch');
+				this.itemsDiv.appendChild(htmlContent.getSearchHTML('itemSearch'));
+				this.getSearchDivListener();
+			},
+			inStockSearch: () => {
+				this.prepareMainDisplay('In Stock Search', 'inStockSearch');
+				this.itemsDiv.appendChild(htmlContent.getSearchHTML('inStockSearch'));
+				this.getSearchDivListener();
+			}
+        };
+        displayOptions[option]();
+    }
+
+	//Item Card Handlers
 
     handleItemCardBtnClick(e) {
 		const parent = e.target.parentNode;
@@ -173,43 +178,6 @@ class ViewHandler {
       	buttonAction[action]();
     }
 
-	handleAddBookSearch(data) {
-		const books = data.items;
-		let searchItems = [];
-		for (const book of books) {
-			if(book.volumeInfo.hasOwnProperty('industryIdentifiers')) {
-				for (const isbnId of book.volumeInfo.industryIdentifiers) {
-					if(isbnId.type === 'ISBN_13') {
-						let args = [
-							book.volumeInfo.title,
-							book.volumeInfo.authors,
-							book.volumeInfo.subtitle,
-							book.volumeInfo.categories,
-							book.volumeInfo.pageCount,
-							isbnId.identifier
-						];
-						for(const property of args) {
-							if(property === undefined) {
-								let index = args.indexOf(property);
-								args.splice(index, 1, '');
-							}	
-						}
-						searchItems.push(new Book(...args));
-					}
-				}
-			}
-		}
-		viewHandler.updateSearchResultsDisplay('add', searchItems);
-		document.querySelector('#search-results').addEventListener('click', (e) => {
-			e.preventDefault();
-			if(e.target.classList.contains('add-item-card-btn')) {
-				viewHandler.handleAddItemCardBtnClick(e);
-			} else if(e.target.classList.contains('edit-item-card-btn')) {
-				viewHandler.handleEditItemCardBtnClick(e);
-			}
-		});
-	}
-
 	handleAddItemCardBtnClick(event) {
 		const action = event.target.textContent.replace(/\s+/g, '').toLowerCase();
     	const parent = event.target.parentNode;
@@ -238,15 +206,6 @@ class ViewHandler {
 			}
 		}
 		buttonAction[action]();
-	}
-
-	handleRemoveItem(parent, item) {
-		if(!library.itemIsCurrentlyRented(item)) {
-			modals.fadeInModal(modals.getConfirmRemoveModal(item), parent, '100');
-		} else {
-			modals.fadeInModal(modals.getRemoveNotAllowedModal(), parent, '100');
-			this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2500', parent, '3000', 'edit');
-		}
 	}
 
 	handleEditItemCardBtnClick(e) {
@@ -285,17 +244,102 @@ class ViewHandler {
 		buttonAction[action]();
 	}
 
-	handleItemSearch(searchTerm) {
-		viewHandler.updateSearchResultsDisplay('edit', library.getItemsBySearchTerm(searchTerm));
+	//Search Handlers
+
+	handleAddBookSearch(data) {
+		const books = data.items;
+		let searchItems = [];
+		for (const book of books) {
+			if(book.volumeInfo.hasOwnProperty('industryIdentifiers')) {
+				for (const isbnId of book.volumeInfo.industryIdentifiers) {
+					if(isbnId.type === 'ISBN_13') {
+						let args = [
+							book.volumeInfo.title,
+							book.volumeInfo.authors,
+							book.volumeInfo.subtitle,
+							book.volumeInfo.categories,
+							book.volumeInfo.pageCount,
+							isbnId.identifier
+						];
+						for(const property of args) {
+							if(property === undefined) {
+								let index = args.indexOf(property);
+								args.splice(index, 1, '');
+							}	
+						}
+						searchItems.push(new Book(...args));
+					}
+				}
+			}
+		}
+		viewHandler.updateSearchResultsDisplay('add', searchItems);
 		document.querySelector('#search-results').addEventListener('click', (e) => {
-			if(e.target.classList.contains('edit-item-card-btn')) {
-				e.preventDefault();
+			e.preventDefault();
+			if(e.target.classList.contains('add-item-card-btn')) {
+				viewHandler.handleAddItemCardBtnClick(e);
+			} else if(e.target.classList.contains('edit-item-card-btn')) {
 				viewHandler.handleEditItemCardBtnClick(e);
 			}
 		});
 	}
 
-	// Other Functions
+	handleItemSearchEvent(searchTerm, event) {
+		const parentClassList = [...event.target.parentNode.classList];
+		let option = '';
+
+		const eventOptions = {
+			itemSearch: () => {
+				viewHandler.updateSearchResultsDisplay('itemSearch', library.getItemsBySearchTerm(searchTerm));
+			},
+			inStockSearch: () => {
+				viewHandler.updateSearchResultsDisplay('inStockSearch', library.getItemsBySearchTerm(searchTerm));
+			},
+			editSearch: () => {
+				viewHandler.updateSearchResultsDisplay('edit', library.getItemsBySearchTerm(searchTerm));
+			}
+		};
+
+		for (const clas of parentClassList) {
+			if (Object.keys(eventOptions).includes(clas)) {
+				option = parentClassList[parentClassList.indexOf(clas)];
+			}
+		}
+
+		eventOptions[option]();
+	}
+
+	handleItemSearch(searchTerm, event) {
+		this.handleItemSearchEvent(searchTerm, event);
+		document.querySelector('#search-results').addEventListener('click', (e) => {
+			e.preventDefault();
+			if(e.target.classList.contains('edit-item-card-btn')) {
+				viewHandler.handleEditItemCardBtnClick(e);
+			} else if (e.target.classList.contains('item-card-btn')) {
+				viewHandler.handleItemCardBtnClick(e);
+			}
+		});
+	}
+
+	getSearchDivListener() {
+		document.querySelector('.item-search-div').addEventListener('keyup', (e) => {
+			if(e.target.classList.contains('add-item-search-input')) { 
+				viewHandler.handleItemSearch(document.querySelector('.add-item-search-input').value, e);
+			}
+		});
+	}
+
+	//Remove Handlers
+
+	handleRemoveItem(parent, item) {
+		if(!library.itemIsCurrentlyRented(item)) {
+			modals.fadeInModal(modals.getConfirmRemoveModal(item), parent, '100');
+		} else {
+			modals.fadeInModal(modals.getRemoveNotAllowedModal(), parent, '100');
+			this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2500', parent, '3000', 'edit');
+		}
+	}
+
+	// Other Functions -----
 
 	getPropertiesFromItemCard(element) {
 		let itemProperties = {};

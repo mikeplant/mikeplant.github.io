@@ -2,7 +2,7 @@ TO DO
 
 NEXT - 
 
-Finish item search page.
+Fix search button on search form
 
 BUGS - 
 
