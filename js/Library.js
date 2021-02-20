@@ -4,6 +4,7 @@ class Library {
         this.users = new Users();
         this.rentCounter = {};
         this.usedStockNums = [99];
+        this.lateReturnLimit = 5;
     }
 
     // Get item Functions

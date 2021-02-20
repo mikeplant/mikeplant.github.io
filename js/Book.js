@@ -37,6 +37,14 @@ class Book {
 		this.isbn = itemProperties.isbn;
 	}
 
+	updateStock(option, amount) {
+        const options = {
+            add: () => {this.inStock += amount;},
+            remove: () => {this.inStock -= amount;}
+        }
+		options[option]();
+    }
+
 	/**
 	 * Returns html content according to params
 	 * @param {array} optionsArr - An array of options to create html from.
@@ -50,7 +58,7 @@ class Book {
 		div.id = this.stockNum;
 		div.className = 'item-div';
 		let html = '';
-		const userHasItem = library.users.userHasItem(data.activeMember, this);
+		const userHasItem = data.activeMember.userHasItem(this);
 
 		const options = {
 			details: () => {
@@ -63,7 +71,7 @@ class Book {
 					<strong>ISBN: </strong><span id="item-isbn" class="item-property">${this.isbn}</span>
 					`;
 					if(userHasItem) {
-						if(library.returnIsOverdue(library.users.getRentedItem(data.activeMember, this))) {
+						if(library.returnIsOverdue(data.activeMember.getRentedItem(this))) {
 							html += `<span class="user-has-span overdue">Return overdue</span>`;
 						} else {
 							html += `<span class="user-has-span">Checked out by active user</span>`;
@@ -78,7 +86,7 @@ class Book {
 				}
 			},
 			button: () => {
-				if(this.isInStock() && !userHasItem) {
+				if(this.isInStock() && !userHasItem && !data.activeMember.isBanned) {
 					html += `<button class="selector-btn item-card-btn">Check Out</button>`;
 				} else if(userHasItem) {
 					html += `<button class="selector-btn item-card-btn">Check In</button>`;

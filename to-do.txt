@@ -7,6 +7,7 @@ Fix search button on search form
 BUGS - 
 
 * Books stock not saving correctly - linked to user books
+Confirm edit item span layout.
 
 VIEWHANDLER -
 

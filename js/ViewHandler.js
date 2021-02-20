@@ -152,11 +152,15 @@ class ViewHandler {
 
       	const buttonAction = {
 			checkout: () => {
-        		modals.fadeInModal(modals.getCheckOutModalHTML(), parent, '100');
+				if (!data.activeMember.isBanned) { 
+					modals.fadeInModal(modals.getCheckOutModalHTML(), parent, '100'); 
+				} else {
+					alert('Member banned!');
+				}
 			},
 			checkin: () => {
 				modals.fadeInModal(modals.getCheckInModalHTML(item, data.activeMember), parent, '100');
-				library.users.checkInItem(data.activeMember, item);
+				data.activeMember.checkInItem(item);
 				this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2000', parent, '2500', 'main');
 			},
 			confirm: () => {
@@ -167,7 +171,7 @@ class ViewHandler {
 					parent.querySelector('.invalid-days').style.display = 'grid';
 				} else {
 					modals.updateInnerHTML('confirmCheckout', parent, item, data.activeMember, rentalLength);
-					library.users.checkOutItem(data.activeMember, item, rentalLength);
+					data.activeMember.checkOutItem(item, rentalLength);
 					this.clearModalAndUpdateItemCard(parent.parentNode, '2000', parent.parentNode.parentNode, '2500', 'main');
 				}			
 			},

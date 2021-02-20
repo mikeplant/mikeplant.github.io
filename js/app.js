@@ -47,7 +47,6 @@ mainContent.addEventListener('submit', (e) => {
             .catch(err => console.log('Error fetching books', err))
     }
     if(e.target.classList.contains('item-search-form')) {
-        console.log(e.target)
         viewHandler.handleItemSearch(document.querySelector('.add-item-search-input').value, e.submitter);
     }
 });

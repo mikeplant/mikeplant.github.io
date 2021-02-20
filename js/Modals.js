@@ -116,8 +116,9 @@ class Modals {
 						<input type="text" id="item-pages" class="item-property">
 						<label for="item-isbn">ISBN: </label>
 						<input type="text" id="item-isbn" class="item-property" required>
-						<button id="add-book-cancel-btn" class="selector-btn edit-item-card-btn">Cancel</button><button id="add-book-confirm-btn" class="selector-btn edit-item-card-btn">Confirm</button>
 						<span class="required-span">Highlighted fields required</span>
+						<button id="add-book-cancel-btn" class="selector-btn edit-item-card-btn">Cancel</button><button id="add-book-confirm-btn" class="selector-btn edit-item-card-btn">Confirm</button>
+						
 					</form>
 				</div>`
 		});
