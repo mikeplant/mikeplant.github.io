@@ -1,15 +1,19 @@
 class Member {
-    constructor(accNum, name, age, address, phone, email, lateReturns = 0, isBanned = this.isOverLateReturnLimit()) {
+    constructor(accNum, name, age, address, phone, email, joinDate = new Date(), lateReturns = 0, isBanned = this.isOverLateReturnLimit()) {
         this.accNum = accNum;
         this.name = name;
         this.age = age;
         this.address = address;
-        this.contactDetails = {phone: `${phone}`, email: `${email}`};
+        this.phone = phone;
+        this.email = email;
+        this.joinDate = joinDate;
         this.lateReturns = lateReturns;
         this.isBanned = isBanned;
         this.currentRentals = [];
         this.previousRentals = [];
     }
+
+    //Get data functions
 
     getJSON() {
         let data = {};
@@ -24,8 +28,16 @@ class Member {
         return JSON.stringify(data);
     }
 
-    isOverLateReturnLimit() {
-        return (this.lateReturns >= library.lateReturnLimit ? true : false);
+    getMemberStatusString() {
+        if(this.isBanned) {
+            return `Banned`;
+        } else {
+            return `Active`;
+        }
+    }
+
+    getRentedItem(item) {
+        return this.currentRentals.find(rentedItem => rentedItem['item'].stockNum === item.stockNum);
     }
 
     userHasItem(item) {
@@ -39,16 +51,7 @@ class Member {
         return hasItem;
     }
 
-    getRentedItem(item) {
-        return this.currentRentals.find(rentedItem => rentedItem['item'].stockNum === item.stockNum);
-    }
-
-    addToRentals(itemToCheckOut, rentalLength) {
-        itemToCheckOut['dateCheckedOut'] = new Date();
-        itemToCheckOut['returnDue'] = library.getReturnDate(rentalLength);
-        this.previousRentals.push(itemToCheckOut);
-        this.currentRentals.push(itemToCheckOut);
-    }
+    // Item checking in/out functions ---
 
     checkOutItem(item, rentalLength) {
         const itemToCheckOut = {item: item};
@@ -66,8 +69,21 @@ class Member {
         item.updateStock('add', 1);
     }
 
+    addToRentals(itemToCheckOut, rentalLength) {
+        itemToCheckOut['dateCheckedOut'] = new Date();
+        itemToCheckOut['returnDue'] = library.getReturnDate(rentalLength);
+        this.previousRentals.push(itemToCheckOut);
+        this.currentRentals.push(itemToCheckOut);
+    }
+
+    //Late return handlers
+
     handleLateReturn() {
         this.lateReturns++;
         if(this.isOverLateReturnLimit()) { this.isBanned = true; }
+    }
+
+    isOverLateReturnLimit() {
+        return (this.lateReturns >= library.lateReturnLimit ? true : false);
     }
 }

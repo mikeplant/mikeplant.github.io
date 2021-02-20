@@ -3,6 +3,7 @@ TO DO
 NEXT - 
 
 Fix search button on search form
+Update all books to remove buttons on user banning, viewhandler.
 
 BUGS - 
 

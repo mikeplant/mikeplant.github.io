@@ -35,10 +35,10 @@
             MEMBERS
             <div class="dropdown-content">
               <ul>
-                <li>Active</li>
-                <li>All</li>
-                <li>Add</li>
-                <li>Edit</li>
+                <li class="activeMember">Active</li>
+                <li class="allMembers">All</li>
+                <li class="addMember">Add</li>
+                <li class="editMember">Edit</li>
               </ul>
             </div>
           </li>
@@ -48,7 +48,7 @@
               <ul>
                 <li class="itemSearch">Items</li>
                 <li class="inStockSearch">In Stock</li>
-                <li>Members</li>
+                <li class="memberSearch">Members</li>
               </ul>
             </div>
           </li>
@@ -57,7 +57,7 @@
             <div class="dropdown-content">
               <ul>
                 <li><input type="text" class="change-member-input"></li>
-                <li class="change-member-confirm">Confirm</li>
+                <li class="changeActiveMember">Confirm</li>
               </ul>
             </div>
           </li>
@@ -75,6 +75,25 @@
     <main>
       <h2 id="main-heading">Welcome</h2>
       <div class="main-content"> 
+        <div class="sub-content">
+          <div class="user-details">
+            <h3>Member Details</h3>
+            <span>Name:</span> <p>Drew Borrowmore</p>
+            <span>Account No:</span> <p>9000</p>
+            <span>Age:</span> <p>9000</p>
+            <span>Phone:</span> <p>9000</p>
+            <span>Email:</span> <p>9000</p>
+            <span>Address:</span> <p>123, This Really Long Street Name, This Really Long Street Name, This Really Long Street Name, A long town name here, RE12AD</p>
+          </div>
+          <div class="user-details">
+            <h3>Library Info</h3>
+            <span>Member Status:</span> <p>Active</p>
+            <span>Joined:</span> <p>18/02/2021</p>
+            <span>Current Rentals:</span> <p>9</p>
+            <span>Total Rentals:</span> <p>34</p>
+            <span>Late Returns:</span> <p>3</p>
+          </div>
+        </div>
         <!-- <div id="101" class="item-div">
           <strong>Title: </strong><span>Before They Are Hanged</span>
           <strong>Author: </strong><span>Joe Abercrombie</span>

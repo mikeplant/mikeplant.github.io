@@ -15,6 +15,8 @@ if (data.storageExists) {
     viewHandler.displayActiveMember(); //update
 } 
 
+//Navbar listener
+
 headerNavbar.addEventListener('click', (e) => {
     if(e.target.parentNode.parentNode.classList.contains('dropdown-content')) {
         let option = e.target.className;
@@ -22,9 +24,7 @@ headerNavbar.addEventListener('click', (e) => {
     }
 });
 
-changeMemberConfirm.addEventListener('click', () => {
-    library.users.changeActiveMember();
-});
+//Item card listener
 
 mainContent.addEventListener('click', (e) => {
     if(e.target.classList.contains('manual-add-book-btn')) {
@@ -35,6 +35,8 @@ mainContent.addEventListener('click', (e) => {
         viewHandler.handleItemCardBtnClick(e);
     }
 });
+
+//Add book search form listener
 
 mainContent.addEventListener('submit', (e) => {
     e.preventDefault();

@@ -3,7 +3,7 @@ class ViewHandler {
         this.activeMemberSpan = document.querySelector('.active-member');
         this.mainHeading = document.querySelector('#main-heading');
 		this.main = document.querySelector('main');
-        this.itemsDiv = document.querySelector('.main-content');
+        this.mainContent = document.querySelector('.main-content');
         this.prevDisplay = 'allItems';
     }
 
@@ -16,7 +16,7 @@ class ViewHandler {
     }
 
 	clearCurrentContent() {
-		this.itemsDiv.innerHTML = '';
+		this.mainContent.innerHTML = '';
 	}
 
 	updateMainHeading(heading) {
@@ -110,34 +110,52 @@ class ViewHandler {
             allItems: () => {
                 this.prepareMainDisplay('All Items', 'allItems');
                 library.items.forEach(item => {
-					this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
+					this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
                 });
             },
             inStock: () => {
                 this.prepareMainDisplay('All In Stock', 'inStock');
                 library.getInStockItems().forEach(item => {
-					this.itemsDiv.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
+					this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
                 });
             },
             addItem: () => {
 				this.prepareMainDisplay('Add Items', 'addItem');
-				this.itemsDiv.appendChild(htmlContent.getAddItemPageHTML());
+				this.mainContent.appendChild(htmlContent.getAddItemPageHTML());
             },
             editItem: () => {
                 this.prepareMainDisplay('Edit Items', 'editItem');
-				this.itemsDiv.appendChild(htmlContent.getSearchHTML('editSearch'));
-				this.getSearchDivListener();
-				
+				this.mainContent.appendChild(htmlContent.getSearchHTML('editSearch'));
+				this.getSearchDivListener();	
             },
+			activeMember: () => {
+				this.prepareMainDisplay('Active Member', 'activeMember');
+				this.mainContent.appendChild(htmlContent.getUserDetailsPageHTML(data.activeMember));
+			},
+			allMembers: () => {
+				this.prepareMainDisplay('All Members', 'allMembers');
+			},
+			addMember: () => {
+				this.prepareMainDisplay('Add Member', 'addMember');
+			},
+			editMember: () => {
+				this.prepareMainDisplay('Edit Member', 'editMember');
+			},
 			itemSearch: () => {
 				this.prepareMainDisplay('Item Search', 'itemSearch');
-				this.itemsDiv.appendChild(htmlContent.getSearchHTML('itemSearch'));
+				this.mainContent.appendChild(htmlContent.getSearchHTML('itemSearch'));
 				this.getSearchDivListener();
 			},
 			inStockSearch: () => {
 				this.prepareMainDisplay('In Stock Search', 'inStockSearch');
-				this.itemsDiv.appendChild(htmlContent.getSearchHTML('inStockSearch'));
+				this.mainContent.appendChild(htmlContent.getSearchHTML('inStockSearch'));
 				this.getSearchDivListener();
+			},
+			memberSearch: () => {
+				this.prepareMainDisplay('Member Search', 'memberSearch');
+			},
+			changeActiveMember: () => {
+				library.users.changeActiveMember();
 			}
         };
         displayOptions[option]();

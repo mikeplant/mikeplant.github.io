@@ -155,7 +155,8 @@ main {
 
 .main-content, .item-div, #add-books-div, .sub-content, .add-item-form-div, 
     .item-search-div, .check-out-modal, .check-out-modal-content,
-        .check-in-modal-content, .add-book-modal-content, .confirm-remove-modal-content {
+        .check-in-modal-content, .add-book-modal-content, .confirm-remove-modal-content,
+        .user-details {
     border-radius: 5px;
 }
 
@@ -334,7 +335,7 @@ main {
     text-align: left;
 }
 
-.add-item-form-div, .item-search-div {
+.add-item-form-div, .item-search-div, .user-details {
     height: 80%;
     background: gray url("../img/farmer.png") repeat;
     color: #000;
@@ -349,6 +350,28 @@ main {
     width: 95%;
     grid-template-columns: 5% 90% 5%;
     grid-template-rows: 10% 30% 20% 30% 10%;
+}
+
+.user-details {
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr 100px 100px;
+    grid-template-rows: minmax(40px, 40px);
+    width: 45%;
+    padding: 10px;
+}
+
+.user-details h3 {
+    grid-column: 1 / span 2;
+    margin: 0;
+}
+
+.user-details span {
+    grid-column: 1;
+}
+
+.user-details p {
+    grid-column: 2 / span 4;
+    margin: 0;
 }
 
 .add-item-search-div {

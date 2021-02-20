@@ -73,4 +73,33 @@ class HTMLContent {
         searchHTML.querySelector('form').classList.add(type);
         return searchHTML;
     }
+
+    getUserDetailsDiv(user) {
+        return `
+        <div class="user-details">
+            <h3>Member Details</h3>
+            <span>Name:</span> <p>${user.name}</p>
+            <span>Account No:</span> <p>${user.accNum}</p>
+            <span>Age:</span> <p>${user.age}</p>
+            <span>Phone:</span> <p>${user.phone}</p>
+            <span>Email:</span> <p>${user.email}</p>
+            <span>Address:</span> <p>${user.address}</p>
+        </div>
+        <div class="user-details">
+            <h3>Library Info</h3>
+            <span>Member Status:</span> <p>${user.getMemberStatusString()}</p>
+            <span>Joined:</span> <p>${library.getDateString(user.joinDate)}</p>
+            <span>Current Rentals:</span> <p>${user.currentRentals.length}</p>
+            <span>Total Rentals:</span> <p>${user.previousRentals.length}</p>
+            <span>Late Returns:</span> <p>${user.lateReturns}</p>
+        </div>`
+    }
+
+    getUserDetailsPageHTML(user) {
+        const html = this.createElement('div', {
+            className: 'sub-content',
+            innerHTML: `${this.getUserDetailsDiv(user)}`
+        });
+        return html;
+    }
 }

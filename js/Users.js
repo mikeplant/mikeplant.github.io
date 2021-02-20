@@ -17,10 +17,6 @@ class Users {
         }
     }
 
-    /**
-     * Checks if user input is an integer and if accNum exists
-     * @return {boolean} - is valid.
-     */
     validateAccNum(accNum) {
         if(isNaN(accNum) || this.members.find(member => member.accNum === accNum) === undefined) {
             return false;
