@@ -35,6 +35,15 @@ class ViewHandler {
 		}
 	}
 
+	clearUserItemsDisplay() {
+		if(document.querySelector('#current-rentals')) {
+			document.querySelector('#current-rentals').remove();
+		}
+		if(document.querySelector('#previous-rentals')) {
+			document.querySelector('#previous-rentals').remove();
+		}
+	}
+
 	// Update Display Functions -----
 
 	updateItemCard(div, option) {
@@ -61,7 +70,12 @@ class ViewHandler {
 		modals.fadeOutModal(modal, modalTimeout);
 		window.setTimeout(() => {
 			if(!isNaN(itemCardElement.id) && itemCardElement.id !== '')	{
-				this.updateItemCard(itemCardElement, option);
+				if(itemCardElement.classList.contains('previous-item') || itemCardElement.classList.contains('current-item')) {
+					this.clearUserItemsDisplay();
+					this.displayMemberItems(library.users.getMemberByAccNum(document.querySelector('#user-accNum')));
+				} else {
+					this.updateItemCard(itemCardElement, option);
+				}
 			} else {
 				itemCardElement.remove();
 			}
@@ -104,6 +118,7 @@ class ViewHandler {
 
 	handleNavbarClick(option = this.prevDisplay) {
         
+		this.clearUserItemsDisplay();
 		this.clearSearchResultsDisplay();
 
         const displayOptions = {
@@ -129,17 +144,13 @@ class ViewHandler {
 				this.getSearchDivListener();	
             },
 			activeMember: () => {
-				this.prepareMainDisplay('Active Member', 'activeMember');
-				this.mainContent.appendChild(htmlContent.getUserDetailsPageHTML(data.activeMember));
+				this.displayMemberDetails(data.activeMember, 'Active Member', 'activeMember');
 			},
 			allMembers: () => {
 				this.prepareMainDisplay('All Members', 'allMembers');
 			},
 			addMember: () => {
 				this.prepareMainDisplay('Add Member', 'addMember');
-			},
-			editMember: () => {
-				this.prepareMainDisplay('Edit Member', 'editMember');
 			},
 			itemSearch: () => {
 				this.prepareMainDisplay('Item Search', 'itemSearch');
@@ -161,6 +172,24 @@ class ViewHandler {
         displayOptions[option]();
     }
 
+	displayMemberDetails(member, heading, prevDisplay) {
+		this.clearUserItemsDisplay();
+		this.prepareMainDisplay(heading, prevDisplay);
+		this.mainContent.appendChild(htmlContent.getUserDetailsPageHTML(member));
+		this.displayMemberItems(member);
+	}
+
+	displayMemberItems(user = data.activeMember) {
+		this.main.appendChild(htmlContent.getCurrentRentalsDiv());
+		this.main.appendChild(htmlContent.getPreviousRentalsDiv());
+		user.currentRentals.forEach(item => {
+			document.querySelector('#current-rentals').appendChild(item['item'].getHTML(['userCurrent', 'button'], item));
+		});
+		user.previousRentals.forEach(item => {
+			document.querySelector('#previous-rentals').appendChild(item['item'].getHTML(['userPrevious', 'stockQuantity', 'button'], item));
+		});
+	}
+
 	//Item Card Handlers
 
     handleItemCardBtnClick(e) {
@@ -179,7 +208,7 @@ class ViewHandler {
 			checkin: () => {
 				modals.fadeInModal(modals.getCheckInModalHTML(item, data.activeMember), parent, '100');
 				data.activeMember.checkInItem(item);
-				this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2000', parent, '2500', 'main');
+				this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2000', parent, '2050', 'main');
 			},
 			confirm: () => {
 				const input = parent.querySelector('#days-input');
@@ -381,5 +410,71 @@ class ViewHandler {
 					element.querySelector(`#${input.id}`).value = itemProperties[input.id.split('-')[1]];
 				}
 			});
+	}
+
+	getPropertiesFromUserDiv(element) {
+		let userProperties = {};
+		const children = Array.from(element.children);
+
+		children.filter(child => child.classList.contains('user-property'))
+			.forEach(property => userProperties[property.id.split('-')[1]] = (property.tagName === 'P') ? property.textContent : property.value);
+		
+		return userProperties;
+	}
+	
+	populateEditMemberForm(element, userProperties) {
+		const children = Array.from(element.children);
+		children.filter(child => child.classList.contains('user-property'))
+			.forEach(input => {
+				if(userProperties[input.id.split('-')[1]]) {
+					element.querySelector(`#${input.id}`).value = userProperties[input.id.split('-')[1]];
+				}
+			});
+	}
+
+	handleRemoveMemberClick(parent, member) {
+		if(!member.userHasAnyItem()) {
+			modals.fadeInModal(modals.getConfirmRemoveMemberModal(member), parent, '100');
+		} else {
+			modals.fadeInModal(modals.getRemoveMemberDisallowedModal(), parent, '100');
+			this.clearModalAndUpdateItemCard(document.querySelector('.item-card-modal'), '3000', document.querySelector('.item-card-modal'), '3100');
+		}
+	}
+
+	handleEditMemberClick(e) {
+		const action = e.target.textContent.replace(/\s+/g, '').toLowerCase();
+    	const parent = e.target.parentNode;
+		const modal = document.querySelector('.item-card-modal');
+		let member = library.users.getMemberByAccNum(parseInt(document.querySelector('#user-accNum').textContent));
+		const buttonAction = {
+			edit: () => {
+				const userProperties = this.getPropertiesFromUserDiv(parent);
+				modals.fadeInModal(modals.getEditMemberModal(), parent, '100');
+				this.populateEditMemberForm(parent.querySelector('form'), userProperties);
+			},
+			remove: () => {
+				this.handleRemoveMemberClick(parent, member);
+			},
+			close: () => {
+				library.users.removeMember(member);
+				modals.fadeInModal(modals.getRemoveMemberSuccessModal(), parent, '100');
+				this.updateDisplayAll('2000');
+			},
+			confirm: () => {
+				const userProperties = this.getPropertiesFromUserDiv(parent);
+				const div = parent.parentNode.parentNode;
+				if(library.validateForm(parent)) {
+					member.updateDetails(userProperties);
+					modals.fadeInModal(modals.getEditMemberConfirmModal(member), parent, '100');
+					this.clearModalAndUpdateItemCard(div, '2000', div, '2500');
+					this.updateDisplayAll('2500');
+				 }	
+			},
+			cancel: () => {	
+				this.clearModalAndUpdateItemCard(modal, '100', modal, '150');
+				this.updateDisplayAll('150');
+			}
+		};
+		buttonAction[action]();
 	}
 }

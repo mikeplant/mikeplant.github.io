@@ -78,12 +78,13 @@ class HTMLContent {
         return `
         <div class="user-details">
             <h3>Member Details</h3>
-            <span>Name:</span> <p>${user.name}</p>
-            <span>Account No:</span> <p>${user.accNum}</p>
-            <span>Age:</span> <p>${user.age}</p>
-            <span>Phone:</span> <p>${user.phone}</p>
-            <span>Email:</span> <p>${user.email}</p>
-            <span>Address:</span> <p>${user.address}</p>
+            <span>Name:</span> <p id="user-name" class="user-property">${user.name}</p>
+            <span>Account No:</span> <p id="user-accNum">${user.accNum}</p>
+            <span>Age:</span> <p id="user-age" class="user-property">${user.age}</p>
+            <span>Phone:</span> <p id="user-phone" class="user-property">${user.phone}</p>
+            <span>Email:</span> <p id="user-email" class="user-property">${user.email}</p>
+            <span>Address:</span> <p id="user-address" class="user-property">${user.address}</p>
+            <button id="remove-member-btn" class="selector-btn edit-member-btn">Remove</button><button class="selector-btn edit-member-btn">Edit</button>
         </div>
         <div class="user-details">
             <h3>Library Info</h3>
@@ -95,11 +96,25 @@ class HTMLContent {
         </div>`
     }
 
+    getCurrentRentalsDiv() {
+        const currentRentalsDiv = this.createElement('div', {id: 'current-rentals', className: 'main-content', innerHTML: `<h2>Current Rentals</h2>`});
+        return currentRentalsDiv;
+    }
+
+    getPreviousRentalsDiv() {
+        const previousRentalsDiv = this.createElement('div', {id: 'previous-rentals', className: 'main-content', innerHTML: `<h2>Previous Rentals</h2>`});
+        return previousRentalsDiv;
+    }
+
     getUserDetailsPageHTML(user) {
         const html = this.createElement('div', {
             className: 'sub-content',
-            innerHTML: `${this.getUserDetailsDiv(user)}`
+            innerHTML: this.getUserDetailsDiv(user)
         });
         return html;
+    }
+
+    getUserItemsDiv(option) {
+        const searchContentHTML = this.createElement('div', {id: 'search-results', className: 'main-content', innerHTML: `<h2>Search Results</h2>`});
     }
 }

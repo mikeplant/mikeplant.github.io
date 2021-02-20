@@ -59,6 +59,36 @@ class Modals {
 		return html;
     }
 
+	getConfirmRemoveMemberModal(user) {
+        const html = this.createElement('div', 'className', 'item-card-modal');
+		html.innerHTML = `
+			<div class="confirm-remove-modal-content">
+			<h3>Confirm Account Closure</h3>
+			<p>Are you sure you want to close ${user.name}'s account?</p>
+			<button id="cancel-remove-btn" class="selector-btn edit-member-btn">Cancel</button>
+			<button id="confirm-remove-btn" class="selector-btn edit-member-btn">CLOSE</button>
+			</div>`
+		return html;
+    }
+
+	getRemoveMemberSuccessModal() {
+		const html = this.createElement('div', 'className', 'item-card-modal');
+		html.innerHTML = `
+			<div class="confirm-remove-modal-content">
+			<p>Account closed successfully</p>
+			</div>`
+		return html;
+	}
+
+	getRemoveMemberDisallowedModal() {
+		const html = this.createElement('div', 'className', 'item-card-modal');
+		html.innerHTML = `
+			<div class="confirm-remove-modal-content">
+			<p>A Member can not be removed while they have items checked out</p>
+			</div>`
+		return html;
+	}
+
 	getManualAddConfirmModal(item) {
 		const html = this.createElement('div', 'className', 'add-book-manual-modal');
 		html.innerHTML = `
@@ -125,11 +155,46 @@ class Modals {
 		return editBookModal;
 	}
 
+	getEditMemberModal() {
+		const editMemberModal = htmlContent.createElement('div', {
+			className: 'item-card-modal edit-member-modal', 
+			innerHTML: `
+				<div class="add-book-modal-content">
+					<form>
+						<h3>Confirm details:</h3>
+						<label for="user-name">Name: </label>
+						<input type="text" id="user-name" class="user-property" required>
+						<label for="user-age">Age: </label>
+						<input type="text" id="user-age" class="user-property" required>
+						<label for="user-phone">Phone: </label>
+						<input type="text" id="user-phone" class="user-property" required>
+						<label for="user-email">Email: </label>
+						<input type="text" id="user-email" class="user-property" required>
+						<label for="user-address">Address: </label>
+						<input type="text" id="user-address" class="user-property" required>
+						<span class="required-span">Highlighted fields required</span>
+						<button id="add-book-cancel-btn" class="selector-btn edit-member-btn">Cancel</button><button id="add-book-confirm-btn" class="selector-btn edit-member-btn">Confirm</button>
+						
+					</form>
+				</div>`
+		});
+		return editMemberModal;
+	}
+
 	getRemoveNotAllowedModal() {
 		const html = this.createElement('div', 'className', 'item-card-modal');
 		html.innerHTML = `
 			<div class="check-in-modal-content">
 			<span class="confirm-add-item">This item can not be removed as stock is currently checked out</span>
+			</div>`;
+		return html;
+	}
+
+	getEditMemberConfirmModal(user) {
+		const html = this.createElement('div', 'className', 'item-card-modal');
+		html.innerHTML = `
+			<div class="check-in-modal-content">
+			<p class="confirm-add-item">${user.name}'s details have been updated</p>
 			</div>`;
 		return html;
 	}

@@ -40,6 +40,10 @@ class Member {
         return this.currentRentals.find(rentedItem => rentedItem['item'].stockNum === item.stockNum);
     }
 
+    userHasAnyItem() {
+        return (this.currentRentals.length > 0) ? true : false;
+    }
+
     userHasItem(item) {
         const itemToCheck = item.stockNum;
         let hasItem = false;
@@ -49,6 +53,14 @@ class Member {
             }
         }
         return hasItem;
+    }
+
+    updateDetails(updatedProperties) {
+        this.name = updatedProperties.name;
+        this.age = updatedProperties.age;
+        this.address = updatedProperties.address;
+        this.phone = updatedProperties.phone;
+        this.email = updatedProperties.email;
     }
 
     // Item checking in/out functions ---

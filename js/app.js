@@ -4,6 +4,7 @@ const htmlContent = new HTMLContent();
 const viewHandler = new ViewHandler();
 const modals = new Modals();
 const googleBooksAPI = 'https://www.googleapis.com/books/v1/volumes?q=';
+const main = document.querySelector('main');
 const changeMemberConfirm = document.querySelector('.change-member-confirm');
 const headerNavbar = document.querySelector('#header-navbar');
 const dropdownContent = document.querySelector('.dropdown-content');
@@ -24,9 +25,9 @@ headerNavbar.addEventListener('click', (e) => {
     }
 });
 
-//Item card listener
+//Main Content listener
 
-mainContent.addEventListener('click', (e) => {
+main.addEventListener('click', (e) => {
     if(e.target.classList.contains('manual-add-book-btn')) {
         viewHandler.handleAddItemCardBtnClick(e);
     }
@@ -34,7 +35,13 @@ mainContent.addEventListener('click', (e) => {
     if(e.target.classList.contains('item-card-btn')) {
         viewHandler.handleItemCardBtnClick(e);
     }
+
+    if(e.target.classList.contains('edit-member-btn')) {
+        viewHandler.handleEditMemberClick(e)
+    }
 });
+
+
 
 //Add book search form listener
 

@@ -17,6 +17,14 @@ class Users {
         }
     }
 
+    removeMember(member) {
+        this.members = this.members.filter(existingMember => existingMember.accNum !== member.accNum);
+    }
+
+    getMemberByAccNum(accNum) {
+        return this.members.find(member => member.accNum === accNum);
+    }
+
     validateAccNum(accNum) {
         if(isNaN(accNum) || this.members.find(member => member.accNum === accNum) === undefined) {
             return false;

@@ -2,6 +2,7 @@ TO DO
 
 NEXT - 
 
+Fix display refresh on member details page when checking books in or out. Library info also needs to refresh.
 Fix search button on search form
 Update all books to remove buttons on user banning, viewhandler.
 
@@ -16,6 +17,7 @@ USERS -
 
 Remove returnDue from previous rentals on check in.
 Add late check out counter
+Change age to dob, add function to check age.
 
 DATA - 
 

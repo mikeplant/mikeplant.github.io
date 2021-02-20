@@ -354,6 +354,7 @@ main {
 
 .user-details {
     display: grid;
+    position: relative;
     grid-template-columns: 120px 1fr 1fr 100px 100px;
     grid-template-rows: minmax(40px, 40px);
     width: 45%;
@@ -364,6 +365,23 @@ main {
     grid-column: 1 / span 2;
     margin: 0;
 }
+/* .user-details ul {
+    grid-column: 1 / span 5;
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr 100px 100px;
+    grid-template-rows: minmax(40px, 40px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+} */
+
+/* .user-details li {
+    grid-column: 1;
+} */
+/* .user-details p, .user-details span, .user-details button {
+    align-self: center;
+
+} */
 
 .user-details span {
     grid-column: 1;
@@ -372,6 +390,27 @@ main {
 .user-details p {
     grid-column: 2 / span 4;
     margin: 0;
+}
+
+.user-details button {
+    justify-self: end;
+    align-self: end;
+    /* float: right; */
+}
+
+.user-details .edit-member-btn {
+    grid-column: 5;
+}
+
+.user-details #remove-member-btn {
+    grid-column: 4;
+}
+
+#current-rentals h2, #previous-rentals h2 {
+    width: 100%;
+    margin: 10px 0;
+    padding: 0 5px;
+    text-align: left;
 }
 
 .add-item-search-div {
@@ -449,6 +488,36 @@ main {
     margin: 10px 0;
     padding: 0 13px 16px;
     text-align: left;
+}
+
+#current-rentals, #previous-rentals {
+    min-height: 0;
+}
+
+.current-item, .previous-item {
+    grid-template-columns: minmax(80px, 150px) 1fr;
+    font-size: 1rem;
+}
+
+.current-item button, .previous-item button {
+    grid-column: 2;
+    grid-row: 8;
+}
+
+.current-item {
+    grid-template-rows: repeat(4, 1fr);
+    height: 180px;
+}
+
+.current-item span, .previous-item span {
+    grid-column: unset;
+    justify-self: start;
+}
+
+.previous-item {
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 5px;
+    height: 170px;
 }
 
 .add-book-manual-modal {
