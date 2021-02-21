@@ -91,8 +91,8 @@ class HTMLContent {
         return `
         <div class="user-details">
             <h3>Member Details</h3>
-            <span>Name:</span> <p id="user-name" class="user-property">${user.name}</p>
             <span>Account No:</span> <p id="user-accNum">${user.accNum}</p>
+            <span>Name:</span> <p id="user-name" class="user-property">${user.name}</p>
             <span>Age:</span> <p id="user-age" class="user-property">${user.age}</p>
             <span>Phone:</span> <p id="user-phone" class="user-property">${user.phone}</p>
             <span>Email:</span> <p id="user-email" class="user-property">${user.email}</p>

@@ -47,7 +47,11 @@ class Data {
             newMember.name = member.name;
             newMember.age = member.age;
             newMember.address = member.address;
-            newMember.contactDetails = member.contactDetails;
+            newMember.phone = member.phone;
+            newMember.email = member.email;
+            newMember.joinDate = member.joinDate;
+            newMember.lateReturns = member.lateReturns;
+            newMember.isBanned = member.isBanned;
             newMember.currentRentals = member.currentRentals;
             newMember.previousRentals = member.previousRentals;
             library.users.members.push(newMember);

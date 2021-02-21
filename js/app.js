@@ -122,8 +122,9 @@ if (!data.storageExists) {
     library.users.members.push(new Member(9000, 'Drew Borrowmore', 42, '123, Any Street, Anytown, RE12AD', '01256445556', 'some@email.com'),
                         new Member(9001, 'Toby Lenderson', 45, '456, Some Street, Sometown, BO010KS', '01256541236', 'some@email.com'),
                         new Member(9002, 'Pam Readsley', 32, '42, The Street, Thetown, WR1 7TE', '01256543244', 'some@email.com'),
-                        new Member(9003, 'Larry Loaner', 45, '12, Some Lane, Sometown, BO018KS', '01256541432', 'some@email.com'),
-                        new Member(9004, 'Roger Rentall', 45, '5, Any Avenue, Sometown, BO015KS', '01256541754', 'some@email.com'));
+                        new Member(9003, 'Larry Loaner', 67, '12, Some Lane, Sometown, BO018KS', '01256541432', 'some@email.com'),
+                        new Member(9004, 'Roger Rentall', 22, '5, Any Avenue, Sometown, BO015KS', '01256541754', 'some@email.com'),
+                        new Member(9005, 'Dwrite Shrute', 34, '1, Schrute Farm, Sometown, BE333TS', '01256541432', 'some@email.com'));
 
     data.saveUsers();
     data.saveItems();

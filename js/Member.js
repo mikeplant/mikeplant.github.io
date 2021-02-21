@@ -21,7 +21,11 @@ class Member {
         data.name = this.name;
         data.age = this.age;
         data.address = this.address;
-        data.contactDetails = this.contactDetails;
+        data.phone = this.phone;
+        data.email = this.email;
+        data.joinDate = this.joinDate;
+        data.lateReturns = this.lateReturns;
+        data.isBanned = this.isBanned;
         data.currentRentals = this.currentRentals;
         data.previousRentals = this.previousRentals;
 
