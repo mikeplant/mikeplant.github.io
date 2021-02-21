@@ -199,6 +199,15 @@ class Modals {
 		return html;
 	}
 
+	getAddMemberConfirmModal(user) {
+		const html = this.createElement('div', 'className', 'item-card-modal');
+		html.innerHTML = `
+			<div class="check-in-modal-content">
+			<p class="confirm-add-item">${user.name}'s account has been created</p>
+			</div>`;
+		return html;
+	}
+
 	updateInnerHTML(action, element, item, user, rentalLength) {
 		const html = {
 			confirmCheckout: () => {

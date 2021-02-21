@@ -8,13 +8,15 @@ class ViewHandler {
 		this.prevMember = data.activeMember;
     }
 
-	// Main Display Functions -----
+	// Display Functions -----
 
     displayActiveMember() {
         if(data.activeMember) {
             this.activeMemberSpan.textContent = `${data.activeMember.accNum} - ${data.activeMember.name}`;
         }
     }
+
+	//Display Preparation
 
 	clearCurrentContent() {
 		this.mainContent.innerHTML = '';
@@ -44,6 +46,8 @@ class ViewHandler {
 			document.querySelector('#previous-rentals').remove();
 		}
 	}
+
+	//Handle Display
 
 	handleMainDisplay(option = this.prevDisplay) {
         
@@ -78,6 +82,7 @@ class ViewHandler {
 			},
 			addMember: () => {
 				this.prepareMainDisplay('Add Member', 'addMember');
+				this.mainContent.appendChild(htmlContent.getAddMemberPageHTML());
 			},
 			itemSearch: () => {
 				this.prepareMainDisplay('Item Search', 'itemSearch');
@@ -104,7 +109,25 @@ class ViewHandler {
         displayOptions[option]();
     }
 
-	// Update Display Functions -----
+	displayMemberDetails(member, heading, prevDisplay) {
+		this.clearUserItemsDisplay();
+		this.prepareMainDisplay(heading, prevDisplay);
+		this.mainContent.appendChild(htmlContent.getUserDetailsPageHTML(member));
+		this.displayMemberItems(member);
+	}
+
+	displayMemberItems(member) {
+		this.main.appendChild(htmlContent.getCurrentRentalsDiv());
+		this.main.appendChild(htmlContent.getPreviousRentalsDiv());
+		member.currentRentals.forEach(item => {
+			document.querySelector('#current-rentals').appendChild(item['item'].getHTML(['userCurrent', 'button'], item, member));
+		});
+		member.previousRentals.forEach(item => {
+			document.querySelector('#previous-rentals').appendChild(item['item'].getHTML(['userPrevious', 'stockQuantity', 'button'], item, member));
+		});
+	}
+
+	//Update Display
 
 	updateItemCard(div, option) {
 		const stockNum = parseInt(div.id);
@@ -126,7 +149,7 @@ class ViewHandler {
 		}, timeout);
     }
 
-	clearModalAndUpdateItemCard = (modal, modalTimeout, itemCardElement, cardTimeout, option) => {
+	clearModalAndUpdateDisplay = (modal, modalTimeout, itemCardElement, cardTimeout, option) => {
 		modals.fadeOutModal(modal, modalTimeout);
 		window.setTimeout(() => {
 			if(!isNaN(itemCardElement.id) && itemCardElement.id !== '')	{
@@ -182,24 +205,6 @@ class ViewHandler {
 
 	// Event Handler Functions -----
 
-	displayMemberDetails(member, heading, prevDisplay) {
-		this.clearUserItemsDisplay();
-		this.prepareMainDisplay(heading, prevDisplay);
-		this.mainContent.appendChild(htmlContent.getUserDetailsPageHTML(member));
-		this.displayMemberItems(member);
-	}
-
-	displayMemberItems(member) {
-		this.main.appendChild(htmlContent.getCurrentRentalsDiv());
-		this.main.appendChild(htmlContent.getPreviousRentalsDiv());
-		member.currentRentals.forEach(item => {
-			document.querySelector('#current-rentals').appendChild(item['item'].getHTML(['userCurrent', 'button'], item, member));
-		});
-		member.previousRentals.forEach(item => {
-			document.querySelector('#previous-rentals').appendChild(item['item'].getHTML(['userPrevious', 'stockQuantity', 'button'], item, member));
-		});
-	}
-
 	//Card Handlers
 
     handleItemCardBtnClick(e) {
@@ -218,7 +223,7 @@ class ViewHandler {
 			checkin: () => {
 				modals.fadeInModal(modals.getCheckInModalHTML(item, data.activeMember), parent, '100');
 				data.activeMember.checkInItem(item);
-				this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2000', parent, '2050', 'main');
+				this.clearModalAndUpdateDisplay(parent.querySelector('div'), '2000', parent, '2050', 'main');
 			},
 			confirm: () => {
 				const input = parent.querySelector('#days-input');
@@ -229,11 +234,11 @@ class ViewHandler {
 				} else {
 					modals.updateInnerHTML('confirmCheckout', parent, item, data.activeMember, rentalLength);
 					data.activeMember.checkOutItem(item, rentalLength);
-					this.clearModalAndUpdateItemCard(parent.parentNode, '2000', parent.parentNode.parentNode, '2500', 'main');
+					this.clearModalAndUpdateDisplay(parent.parentNode, '2000', parent.parentNode.parentNode, '2500', 'main');
 				}			
 			},
 			cancel: () => {
-				this.clearModalAndUpdateItemCard(parent.parentNode, '100', parent.parentNode.parentNode, '150', 'main');
+				this.clearModalAndUpdateDisplay(parent.parentNode, '100', parent.parentNode.parentNode, '150', 'main');
 			}
       	};
       	buttonAction[action]();
@@ -249,7 +254,7 @@ class ViewHandler {
 				this.populateAddItemForm(parent.querySelector('form'), itemProperties);
 			},
 			cancel: () => {
-				this.clearModalAndUpdateItemCard(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150', 'main');
+				this.clearModalAndUpdateDisplay(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150', 'main');
 			},
 			confirm: () => {
 				const div = parent.parentNode.parentNode;
@@ -258,10 +263,10 @@ class ViewHandler {
 					library.addItem(Book, itemProperties);
 					if(div.classList.contains('item-card-modal')){
 						modals.updateInnerHTML('confirmAddBook', parent.parentNode, itemProperties);
-						this.clearModalAndUpdateItemCard(div, '2000', div, '2500', 'main');	
+						this.clearModalAndUpdateDisplay(div, '2000', div, '2500', 'main');	
 					} else {
 						modals.fadeInModal(modals.getManualAddConfirmModal(itemProperties), parent.parentNode, '100');
-						this.clearModalAndUpdateItemCard(div.querySelector('.add-book-manual-modal'), '2000', div.querySelector('.add-book-manual-modal'), '2500', 'main');
+						this.clearModalAndUpdateDisplay(div.querySelector('.add-book-manual-modal'), '2000', div.querySelector('.add-book-manual-modal'), '2500', 'main');
 					}
 				}	
 			}
@@ -295,11 +300,11 @@ class ViewHandler {
 					const item = library.getItemByStockNum(parseInt(itemCardID.id))
 					item.updateDetails(itemProperties);
 					modals.updateInnerHTML('confirmEditBook', parent.parentNode, itemProperties);
-					this.clearModalAndUpdateItemCard(div, '2000', itemCardID, '2500', 'edit');	
+					this.clearModalAndUpdateDisplay(div, '2000', itemCardID, '2500', 'edit');	
 				}	
 			},
 			cancel: () => {
-				this.clearModalAndUpdateItemCard(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150', 'edit');
+				this.clearModalAndUpdateDisplay(parent.parentNode.parentNode, '100', parent.parentNode.parentNode, '150', 'edit');
 			}
 		};
 		buttonAction[action]();
@@ -340,17 +345,28 @@ class ViewHandler {
 					member.updateDetails(userProperties);
 					modals.fadeInModal(modals.getEditMemberConfirmModal(member), parent, '100');
 					setTimeout(() => {
-						this.clearModalAndUpdateItemCard(div, '2000', div, '2500');
+						this.clearModalAndUpdateDisplay(div, '2000', div, '2500');
 						this.displayMemberDetails(member, 'Member Details', 'allMembers');
 					}, '2000');
 				 }	
 			},
 			cancel: () => {	
-				this.clearModalAndUpdateItemCard(modal, '100', modal, '150');
+				this.clearModalAndUpdateDisplay(modal, '100', modal, '150');
 				setTimeout(() => this.displayMemberDetails(member, 'Member Details', 'memberDetails'), 150);
 			}
 		};
 		buttonAction[action]();
+	}
+
+	handleAddMemberBtnClick(e) {
+		const form = e.target.parentNode;
+		const userProperties = this.getPropertiesFromUserDiv(form);
+		if (library.validateForm(form)) {
+			library.users.addUser(Member, userProperties);
+			modals.fadeInModal(modals.getAddMemberConfirmModal(userProperties), document.querySelector('.add-member-form-div'), 100);
+			this.clearModalAndUpdateDisplay(document.querySelector('.item-card-modal'), 2000, document.querySelector('.item-card-modal'), 2100);
+			this.clearAllInputs('input', 150);	
+		}
 	}
 
 	//Search Handlers
@@ -450,7 +466,7 @@ class ViewHandler {
 			modals.fadeInModal(modals.getConfirmRemoveModal(item), parent, '100');
 		} else {
 			modals.fadeInModal(modals.getRemoveNotAllowedModal(), parent, '100');
-			this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2500', parent, '3000', 'edit');
+			this.clearModalAndUpdateDisplay(parent.querySelector('div'), '2500', parent, '3000', 'edit');
 		}
 	}
 
@@ -459,11 +475,11 @@ class ViewHandler {
 			modals.fadeInModal(modals.getConfirmRemoveMemberModal(member), parent, '100');
 		} else {
 			modals.fadeInModal(modals.getRemoveMemberDisallowedModal(), parent, '100');
-			this.clearModalAndUpdateItemCard(document.querySelector('.item-card-modal'), '3000', document.querySelector('.item-card-modal'), '3100');
+			this.clearModalAndUpdateDisplay(document.querySelector('.item-card-modal'), '3000', document.querySelector('.item-card-modal'), '3100');
 		}
 	}
 
-	// Other Functions -----
+	// Form Handler Functions -----
 
 	getPropertiesFromItemCard(element) {
 		let itemProperties = {};
@@ -505,7 +521,10 @@ class ViewHandler {
 			});
 	}
 
-
-
-
+	clearAllInputs(inputSelector, timeout) {
+		setTimeout(() => {
+			const inputs = mainContent.querySelectorAll(inputSelector);
+			inputs.forEach(input => input.value = '');
+		}, timeout);
+	}
 }

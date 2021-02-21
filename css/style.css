@@ -29,6 +29,7 @@ header h1, #header-navbar {
 
 header h1 {
     font-family: 'Great Vibes';
+    text-shadow: 1px 3px 15px #131313;
     width: 500px;
     margin: 0 auto;
     padding-top: 35px;
@@ -55,7 +56,8 @@ header a, a:visited {
 }
 
 #header-navbar, .dropdown-content {
-    border: rgb(49, 90, 78) solid 1px;
+    border: rgb(77, 107, 98) solid 1px;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
 #header-navbar {
@@ -151,13 +153,15 @@ main {
     padding: 10px 20px;
     border-top: gainsboro solid 1px;
     border-bottom-right-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
 .main-content, .item-div, #add-books-div, .sub-content, .add-item-form-div, 
     .search-div, .check-out-modal, .check-out-modal-content,
         .check-in-modal-content, .add-book-modal-content, .confirm-remove-modal-content,
-        .user-details, .member-div {
+            .user-details, .member-div, .add-member-form-div {
     border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .main-content {
@@ -170,7 +174,7 @@ main {
     margin: 20px auto;
     padding: 13px 1%;
     background: #fff url("../img/cream_pixels.png") repeat;
-    border: gainsboro solid 1px;
+    border: gainsboro solid 1px;  
     text-align: center;
 }
 
@@ -364,14 +368,14 @@ main {
     text-align: left;
 }
 
-.add-item-form-div, .search-div, .user-details {
+.add-item-form-div, .search-div, .user-details, .add-member-form-div {
     height: 80%;
     background: gray url("../img/farmer.png") repeat;
     color: #000;
     margin: 0 auto;
 }
 
-.search-div, .add-item-form-div form{
+.search-div, .add-item-form-div form, .add-member-form-div, .add-member-form-div form{
     display: grid;
 }
 
@@ -486,15 +490,59 @@ main {
     grid-row: 4;
 }
 
+.add-member-form-div {
+    position: relative;
+    grid-template-columns: 30% 30% 1fr;
+    width: 75%;
+}
+
+.add-member-form-div form {
+    grid-column: 1 / span 2;
+    grid-template-columns: 75px 1fr;
+    border-right: grey dotted 1px;
+}
+
+.add-member-form-div p {
+    grid-column: 3;
+    align-self: center;
+    text-align: center;
+    padding: 15px;
+}
+
+.add-member-form-div h3 {
+    grid-column: 1 / span 2;
+    margin: 0;
+}
+
+.add-member-form-div label {
+    grid-column: 1;
+    align-self: center;
+}
+
+.add-member-form-div input {
+    grid-column: 2;
+}
+
+.add-member-form-div button {
+    grid-column: 2;
+    justify-self: end;
+    align-self: end;
+}
+
 .add-item-form-div {
+    grid-template-columns: 100px 1fr;
     position: relative;
     width: 40%;
 }
 
 .add-item-form-div form {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+.add-item-form-div form, .add-member-form-div form {
     height: 100%;
-    padding: 2%;
-    grid-template-columns: 25% 75%;
+    padding: 2%;  
     grid-template-rows: repeat(10);
     row-gap: 2px;
 }
@@ -506,10 +554,15 @@ main {
 
 .add-item-form-div label {
     grid-column: 1 / 2;
+    align-self: center;
 }
 
 .add-item-form-div input {
     grid-column: 2 / 2;
+}
+
+.add-item-form-div button {
+    align-self: end;
 }
 
 #search-results h2 {

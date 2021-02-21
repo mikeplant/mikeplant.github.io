@@ -130,4 +130,30 @@ class HTMLContent {
     getUserItemsDiv(option) {
         const searchContentHTML = this.createElement('div', {id: 'search-results', className: 'main-content', innerHTML: `<h2>Search Results</h2>`});
     }
+
+    getAddMemberPageHTML() {
+        const addMemberDiv = this.createElement('div', {
+            className: 'sub-content', 
+            innerHTML: `
+                <div class="add-member-form-div">
+                    <form>
+                    <h3>Add a member:</h3>
+                        <label for="user-name">Name: </label>
+                        <input type="text" id="user-name" class="user-property" required>
+                        <label for="user-age">Age: </label>
+                        <input type="text" id="user-age" class="user-property" required>
+                        <label for="user-phone">Phone: </label>
+                        <input type="text" id="user-phone" class="user-property" required>
+                        <label for="user-email">Email: </label>
+                        <input type="text" id="user-email" class="user-property" required>
+                        <label for="user-address">Address: </label>
+                        <input type="text" id="user-address" class="user-property" required>
+                        <span class="required-span">Highlighted fields required</span>
+                        <button id="add-member-btn" class="selector-btn add-member-btn">Add</button>
+                    </form>
+                    <p>Use this form to add a new member to the library.<br><br> All fields are required.</p>
+                </div>`        
+        });
+        return addMemberDiv;
+    }
 }

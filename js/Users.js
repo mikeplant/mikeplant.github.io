@@ -2,6 +2,7 @@ class Users {
     constructor() {
         this.staff = [];
         this.members = [];
+        this.usedMemberAccNums = [9005]
     }
 
     changeActiveMember() {
@@ -45,5 +46,27 @@ class Users {
         } else {
             return true;
         }
+    }
+
+    createUser(type, argsObj) {
+        const newUser = new type();   
+        for (const [key, value] of Object.entries(argsObj)) {
+            newUser[key] = value;
+        }
+        return newUser;
+    }
+
+    assignAccNum(newUser) {
+        const prevRef = this.usedMemberAccNums.slice(-1);
+        const accNum = prevRef[0] + 1;
+        this.usedMemberAccNums.push(accNum);
+        newUser.accNum = accNum;        
+    }
+
+    addUser(type, userToAdd) {   
+        const newUser = this.createUser(Member, userToAdd);
+        this.assignAccNum(newUser);
+        this.members.push(newUser);
+        data.saveUsers();
     }
 }
