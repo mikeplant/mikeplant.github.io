@@ -41,10 +41,10 @@ class HTMLContent {
                     </form>
                 </div>
 
-                <div class="item-search-div add-item-search-div">
+                <div class="search-div add-item-search-div">
                     <h2>Search for a book:</h2>
                     <form class="add-item-search-form">
-                        <input type="text" class="add-item-search-input"><button class="selector-btn item-search-div-btn">Search</button>
+                        <input type="text" class="search-input"><button class="selector-btn item-search-div-btn">Search</button>
                     </form>
                     <p>Find a book to add to the library by any of it's properties.<br>
                         For best results use the book's title, author, or ISBN number.</p>
@@ -55,21 +55,34 @@ class HTMLContent {
 
     getItemSearchDiv() {
         return `
-        <div class="item-search-div">
+        <div class="search-div">
             <h2>Search for an item:</h2>
             <form class="item-search-form">
-                <input type="text" class="add-item-search-input"><button class="selector-btn item-search-div-btn">Search</button>
+                <input type="text" class="search-input"><button class="selector-btn item-search-div-btn">Search</button>
             </form>
             <p>Find an item in the library by any of it's properties.<br>
                 For best results use an item's title, author, or ISBN number.</p>
         </div>`
     }
 
+    getMemberSearchDiv() {
+        return `
+        <div class="search-div">
+            <h2>Search for a member:</h2>
+            <form class="member-search-form">
+                <input type="text" class="search-input"><button class="selector-btn item-search-div-btn">Search</button>
+            </form>
+            <p>Find a member of the library by name or account number.</p>
+        </div>`
+    }
+
     getSearchHTML(type) {
         const searchHTML = this.createElement('div', {
             className: 'sub-content', 
-            innerHTML: `${this.getItemSearchDiv()}`
+            innerHTML: `${(type === 'memberSearch') ? this.getMemberSearchDiv() : this.getItemSearchDiv()}`
         });
+
+        
         searchHTML.querySelector('form').classList.add(type);
         return searchHTML;
     }

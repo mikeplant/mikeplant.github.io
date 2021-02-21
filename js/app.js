@@ -21,7 +21,7 @@ if (data.storageExists) {
 headerNavbar.addEventListener('click', (e) => {
     if(e.target.parentNode.parentNode.classList.contains('dropdown-content')) {
         let option = e.target.className;
-        viewHandler.handleNavbarClick(option);
+        viewHandler.handleMainDisplay(option);
     }
 });
 
@@ -52,7 +52,7 @@ main.addEventListener('click', (e) => {
 mainContent.addEventListener('submit', (e) => {
     e.preventDefault();
     if(e.target.classList.contains('add-item-search-form')) {
-        const uri = encodeURI(document.querySelector('.add-item-search-input').value);
+        const uri = encodeURI(document.querySelector('.search-input').value);
         const search = googleBooksAPI + uri + '&maxResults=40';
         fetch(search)
             .then(response => response.json())
@@ -60,7 +60,7 @@ mainContent.addEventListener('submit', (e) => {
             .catch(err => console.log('Error fetching books', err))
     }
     if(e.target.classList.contains('item-search-form')) {
-        viewHandler.handleItemSearch(document.querySelector('.add-item-search-input').value, e.submitter);
+        viewHandler.handleSearch(document.querySelector('.search-input').value, e.submitter);
     }
 });
 
@@ -120,7 +120,10 @@ if (!data.storageExists) {
     library.addItem(Book, {title: 'Reamde', author:'Neil Stephenson', series:'', genre:'Fiction', pages:'1044', isbn:'0062191497', inStock:1});
 
     library.users.members.push(new Member(9000, 'Drew Borrowmore', 42, '123, Any Street, Anytown, RE12AD', '01256445556', 'some@email.com'),
-                        new Member(9001, 'Toby Lenderson', 45, '456, Some Street, Sometown, BO010KS', '01256541236', 'some@email.com'));
+                        new Member(9001, 'Toby Lenderson', 45, '456, Some Street, Sometown, BO010KS', '01256541236', 'some@email.com'),
+                        new Member(9002, 'Pam Readsley', 32, '42, The Street, Thetown, WR1 7TE', '01256543244', 'some@email.com'),
+                        new Member(9003, 'Larry Loaner', 45, '12, Some Lane, Sometown, BO018KS', '01256541432', 'some@email.com'),
+                        new Member(9004, 'Roger Rentall', 45, '5, Any Avenue, Sometown, BO015KS', '01256541754', 'some@email.com'));
 
     data.saveUsers();
     data.saveItems();

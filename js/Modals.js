@@ -84,7 +84,7 @@ class Modals {
 		const html = this.createElement('div', 'className', 'item-card-modal');
 		html.innerHTML = `
 			<div class="confirm-remove-modal-content">
-			<p>A Member can not be removed while they have items checked out</p>
+			<p>A Member can not be removed while they are active or have items checked out</p>
 			</div>`
 		return html;
 	}

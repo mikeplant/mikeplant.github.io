@@ -154,7 +154,7 @@ main {
 }
 
 .main-content, .item-div, #add-books-div, .sub-content, .add-item-form-div, 
-    .item-search-div, .check-out-modal, .check-out-modal-content,
+    .search-div, .check-out-modal, .check-out-modal-content,
         .check-in-modal-content, .add-book-modal-content, .confirm-remove-modal-content,
         .user-details, .member-div {
     border-radius: 5px;
@@ -364,18 +364,18 @@ main {
     text-align: left;
 }
 
-.add-item-form-div, .item-search-div, .user-details {
+.add-item-form-div, .search-div, .user-details {
     height: 80%;
     background: gray url("../img/farmer.png") repeat;
     color: #000;
     margin: 0 auto;
 }
 
-.item-search-div, .add-item-form-div form{
+.search-div, .add-item-form-div form{
     display: grid;
 }
 
-.item-search-div {
+.search-div {
     width: 95%;
     grid-template-columns: 5% 90% 5%;
     grid-template-rows: 10% 30% 20% 30% 10%;
@@ -446,24 +446,24 @@ main {
     width: 50%;
 }
 
-.item-search-div h2, .item-search-div input, 
-    .item-search-div .selector-btn, .item-search-div p {
+.search-div h2, .search-div input, 
+    .search-div .selector-btn, .search-div p {
         align-self: center;
     }
 
-.item-search-div h2 {
+.search-div h2 {
     grid-column: 2 / span 3;
     grid-row: 2;
     margin: 0;
 }
 
-.item-search-div form input, .item-search-div form .selector-btn {
+.search-div form input, .search-div form .selector-btn {
     grid-column: 1;
     grid-row: 1;
     height: 80%;
 }
 
-.item-search-div form {
+.search-div form {
     grid-column: 2;
     grid-row: 3;
     display: grid;
@@ -471,17 +471,17 @@ main {
     grid-template-rows: 100%;
 }
 
-.item-search-div form input {
+.search-div form input {
     font-size: 1.3em;
     padding-left: 5px;
 }
 
-.item-search-div form .selector-btn {
+.search-div form .selector-btn {
     justify-self: end;
     border-radius: 0 5px 5px 0;
 }
 
-.item-search-div p {
+.search-div p {
     grid-column: 2;
     grid-row: 4;
 }

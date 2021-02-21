@@ -25,6 +25,20 @@ class Users {
         return this.members.find(member => member.accNum === accNum);
     }
 
+    getMembersBySearchTerm(searchTerm) {
+        const sTerm = searchTerm.toLowerCase().trim();
+        let searchResults = [];
+        for (const member of this.members) {
+            //console.log(member)
+            const name = member.name.toString().toLowerCase();
+            const accNum = member.accNum.toString();
+            if (name.includes(sTerm) || accNum.includes(sTerm)) {
+                searchResults.push(member);
+            };
+        }
+        return searchResults;
+    }
+
     validateAccNum(accNum) {
         if(isNaN(accNum) || this.members.find(member => member.accNum === accNum) === undefined) {
             return false;

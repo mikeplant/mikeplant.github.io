@@ -54,6 +54,10 @@ class Member {
         }
     }
 
+    isActive() {
+        return (this.accNum === data.activeMember.accNum) ? true : false;
+    }
+
     getRentedItem(item) {
         return this.currentRentals.find(rentedItem => rentedItem['item'].stockNum === item.stockNum);
     }

@@ -5,6 +5,7 @@ class ViewHandler {
 		this.main = document.querySelector('main');
         this.mainContent = document.querySelector('.main-content');
         this.prevDisplay = 'allItems';
+		this.prevMember = data.activeMember;
     }
 
 	// Main Display Functions -----
@@ -44,6 +45,65 @@ class ViewHandler {
 		}
 	}
 
+	handleMainDisplay(option = this.prevDisplay) {
+        
+		this.clearUserItemsDisplay();
+		this.clearSearchResultsDisplay();
+
+        const displayOptions = {
+            allItems: () => {
+                this.prepareMainDisplay('All Items', 'allItems');
+                library.items.forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'])));
+            },
+            inStock: () => {
+                this.prepareMainDisplay('All In Stock', 'inStock');
+                library.getInStockItems().forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'])));
+            },
+            addItem: () => {
+				this.prepareMainDisplay('Add Items', 'addItem');
+				this.mainContent.appendChild(htmlContent.getAddItemPageHTML());
+            },
+            editItem: () => {
+                this.prepareMainDisplay('Edit Items', 'editItem');
+				this.mainContent.appendChild(htmlContent.getSearchHTML('editSearch'));
+				this.getSearchDivListener();	
+            },
+			activeMember: () => {
+				this.prevMember = data.activeMember;
+				this.displayMemberDetails(data.activeMember, 'Member Details', 'activeMember');
+			},
+			allMembers: () => {
+				this.prepareMainDisplay('All Members', 'allMembers');
+				library.users.members.forEach(member => mainContent.appendChild(member.getHTML()));
+			},
+			addMember: () => {
+				this.prepareMainDisplay('Add Member', 'addMember');
+			},
+			itemSearch: () => {
+				this.prepareMainDisplay('Item Search', 'itemSearch');
+				this.mainContent.appendChild(htmlContent.getSearchHTML('itemSearch'));
+				this.getSearchDivListener();
+			},
+			inStockSearch: () => {
+				this.prepareMainDisplay('In Stock Search', 'inStockSearch');
+				this.mainContent.appendChild(htmlContent.getSearchHTML('inStockSearch'));
+				this.getSearchDivListener();
+			},
+			memberSearch: () => {
+				this.prepareMainDisplay('Member Search', 'memberSearch');
+				this.mainContent.appendChild(htmlContent.getSearchHTML('memberSearch'));
+				this.getSearchDivListener();
+			},
+			changeActiveMember: () => {
+				library.users.changeActiveMember();
+			},
+			memberDetails: () => {
+				this.displayMemberDetails(this.prevMember, 'Member Details', 'memberDetails');
+			}
+        };
+        displayOptions[option]();
+    }
+
 	// Update Display Functions -----
 
 	updateItemCard(div, option) {
@@ -62,7 +122,7 @@ class ViewHandler {
 	updateDisplayAll(timeout) {
 		window.setTimeout(() => {
 			this.displayActiveMember();
-			this.handleNavbarClick();
+			this.handleMainDisplay();
 		}, timeout);
     }
 
@@ -72,7 +132,7 @@ class ViewHandler {
 			if(!isNaN(itemCardElement.id) && itemCardElement.id !== '')	{
 				if(itemCardElement.classList.contains('previous-item') || itemCardElement.classList.contains('current-item')) {
 					this.clearUserItemsDisplay();
-					this.displayMemberItems(library.users.getMemberByAccNum(document.querySelector('#user-accNum')));
+					this.displayMemberDetails(this.prevMember, 'Member Details', 'allMembers');
 				} else {
 					this.updateItemCard(itemCardElement, option);
 				}
@@ -108,6 +168,12 @@ class ViewHandler {
 				searchItems.filter(item => item.isInStock()).forEach(item => {
 					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
 				});
+			},
+			memberSearch: () => {
+				this.main.appendChild(htmlContent.getSearchResultHTML());
+				searchItems.forEach(item => {
+					document.querySelector('#search-results').appendChild(item.getHTML());
+				});
 			}
 		}
 
@@ -115,59 +181,6 @@ class ViewHandler {
 	}
 
 	// Event Handler Functions -----
-
-	handleNavbarClick(option = this.prevDisplay) {
-        
-		this.clearUserItemsDisplay();
-		this.clearSearchResultsDisplay();
-
-        const displayOptions = {
-            allItems: () => {
-                this.prepareMainDisplay('All Items', 'allItems');
-                library.items.forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'])));
-            },
-            inStock: () => {
-                this.prepareMainDisplay('All In Stock', 'inStock');
-                library.getInStockItems().forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'])));
-            },
-            addItem: () => {
-				this.prepareMainDisplay('Add Items', 'addItem');
-				this.mainContent.appendChild(htmlContent.getAddItemPageHTML());
-            },
-            editItem: () => {
-                this.prepareMainDisplay('Edit Items', 'editItem');
-				this.mainContent.appendChild(htmlContent.getSearchHTML('editSearch'));
-				this.getSearchDivListener();	
-            },
-			activeMember: () => {
-				this.displayMemberDetails(data.activeMember, 'Active Member', 'activeMember');
-			},
-			allMembers: () => {
-				this.prepareMainDisplay('All Members', 'allMembers');
-				library.users.members.forEach(member => mainContent.appendChild(member.getHTML()));
-			},
-			addMember: () => {
-				this.prepareMainDisplay('Add Member', 'addMember');
-			},
-			itemSearch: () => {
-				this.prepareMainDisplay('Item Search', 'itemSearch');
-				this.mainContent.appendChild(htmlContent.getSearchHTML('itemSearch'));
-				this.getSearchDivListener();
-			},
-			inStockSearch: () => {
-				this.prepareMainDisplay('In Stock Search', 'inStockSearch');
-				this.mainContent.appendChild(htmlContent.getSearchHTML('inStockSearch'));
-				this.getSearchDivListener();
-			},
-			memberSearch: () => {
-				this.prepareMainDisplay('Member Search', 'memberSearch');
-			},
-			changeActiveMember: () => {
-				library.users.changeActiveMember();
-			}
-        };
-        displayOptions[option]();
-    }
 
 	displayMemberDetails(member, heading, prevDisplay) {
 		this.clearUserItemsDisplay();
@@ -187,12 +200,7 @@ class ViewHandler {
 		});
 	}
 
-	handleMemberCardBtnClick(e) {	
-		const member = library.users.getMemberByAccNum(parseInt(e.target.parentNode.id));
-		this.displayMemberDetails(member, 'Member Details', 'allMembers');
-	}
-
-	//Item Card Handlers
+	//Card Handlers
 
     handleItemCardBtnClick(e) {
 		const parent = e.target.parentNode;
@@ -297,6 +305,54 @@ class ViewHandler {
 		buttonAction[action]();
 	}
 
+	handleMemberCardBtnClick(e) {
+		if(!isNaN(e.target.parentNode.id)) {
+			this.prevMember = library.users.getMemberByAccNum(parseInt(e.target.parentNode.id));
+		}
+		
+		this.displayMemberDetails(this.prevMember, 'Member Details', 'memberDetails');
+	}
+
+	handleEditMemberClick(e) {
+		const action = e.target.textContent.replace(/\s+/g, '').toLowerCase();
+    	const parent = e.target.parentNode;
+		const modal = document.querySelector('.item-card-modal');
+		let member = library.users.getMemberByAccNum(parseInt(document.querySelector('#user-accNum').textContent));
+		const buttonAction = {
+			edit: () => {
+				const userProperties = this.getPropertiesFromUserDiv(parent);
+				modals.fadeInModal(modals.getEditMemberModal(), parent, '100');
+				this.populateEditMemberForm(parent.querySelector('form'), userProperties);
+			},
+			remove: () => {
+				this.handleRemoveMemberClick(parent, member);
+			},
+			close: () => {
+				library.users.removeMember(member);
+				modals.fadeInModal(modals.getRemoveMemberSuccessModal(), parent, '100');
+				this.prevDisplay = 'allMembers';
+				setTimeout(() => this.handleMainDisplay(), 2000);
+			},
+			confirm: () => {
+				const userProperties = this.getPropertiesFromUserDiv(parent);
+				const div = parent.parentNode.parentNode;
+				if(library.validateForm(parent)) {
+					member.updateDetails(userProperties);
+					modals.fadeInModal(modals.getEditMemberConfirmModal(member), parent, '100');
+					setTimeout(() => {
+						this.clearModalAndUpdateItemCard(div, '2000', div, '2500');
+						this.displayMemberDetails(member, 'Member Details', 'allMembers');
+					}, '2000');
+				 }	
+			},
+			cancel: () => {	
+				this.clearModalAndUpdateItemCard(modal, '100', modal, '150');
+				setTimeout(() => this.displayMemberDetails(member, 'Member Details', 'memberDetails'), 150);
+			}
+		};
+		buttonAction[action]();
+	}
+
 	//Search Handlers
 
 	handleAddBookSearch(data) {
@@ -336,7 +392,7 @@ class ViewHandler {
 		});
 	}
 
-	handleItemSearchEvent(searchTerm, event) {
+	handleSearchEvent(searchTerm, event) {
 		const parentClassList = [...event.target.parentNode.classList];
 		let option = '';
 
@@ -349,6 +405,9 @@ class ViewHandler {
 			},
 			editSearch: () => {
 				viewHandler.updateSearchResultsDisplay('edit', library.getItemsBySearchTerm(searchTerm));
+			},
+			memberSearch: () => {
+				viewHandler.updateSearchResultsDisplay('memberSearch', library.users.getMembersBySearchTerm(searchTerm));
 			}
 		};
 
@@ -361,22 +420,25 @@ class ViewHandler {
 		eventOptions[option]();
 	}
 
-	handleItemSearch(searchTerm, event) {
-		this.handleItemSearchEvent(searchTerm, event);
+	handleSearch(searchTerm, event) {
+		this.handleSearchEvent(searchTerm, event);
 		document.querySelector('#search-results').addEventListener('click', (e) => {
 			e.preventDefault();
 			if(e.target.classList.contains('edit-item-card-btn')) {
 				viewHandler.handleEditItemCardBtnClick(e);
 			} else if (e.target.classList.contains('item-card-btn')) {
 				viewHandler.handleItemCardBtnClick(e);
+			} else if (e.target.classList.contains('member-card-btn')) {
+				viewHandler.clearSearchResultsDisplay();
+				viewHandler.handleMemberCardBtnClick(e);
 			}
 		});
 	}
 
 	getSearchDivListener() {
-		document.querySelector('.item-search-div').addEventListener('keyup', (e) => {
-			if(e.target.classList.contains('add-item-search-input')) { 
-				viewHandler.handleItemSearch(document.querySelector('.add-item-search-input').value, e);
+		document.querySelector('.search-div').addEventListener('keyup', (e) => {
+			if (e.target.classList.contains('search-input')) {
+				viewHandler.handleSearch(document.querySelector('.search-input').value, e);
 			}
 		});
 	}
@@ -389,6 +451,15 @@ class ViewHandler {
 		} else {
 			modals.fadeInModal(modals.getRemoveNotAllowedModal(), parent, '100');
 			this.clearModalAndUpdateItemCard(parent.querySelector('div'), '2500', parent, '3000', 'edit');
+		}
+	}
+
+	handleRemoveMemberClick(parent, member) {
+		if(!member.userHasAnyItem() && !member.isActive()) {
+			modals.fadeInModal(modals.getConfirmRemoveMemberModal(member), parent, '100');
+		} else {
+			modals.fadeInModal(modals.getRemoveMemberDisallowedModal(), parent, '100');
+			this.clearModalAndUpdateItemCard(document.querySelector('.item-card-modal'), '3000', document.querySelector('.item-card-modal'), '3100');
 		}
 	}
 
@@ -434,49 +505,7 @@ class ViewHandler {
 			});
 	}
 
-	handleRemoveMemberClick(parent, member) {
-		if(!member.userHasAnyItem()) {
-			modals.fadeInModal(modals.getConfirmRemoveMemberModal(member), parent, '100');
-		} else {
-			modals.fadeInModal(modals.getRemoveMemberDisallowedModal(), parent, '100');
-			this.clearModalAndUpdateItemCard(document.querySelector('.item-card-modal'), '3000', document.querySelector('.item-card-modal'), '3100');
-		}
-	}
 
-	handleEditMemberClick(e) {
-		const action = e.target.textContent.replace(/\s+/g, '').toLowerCase();
-    	const parent = e.target.parentNode;
-		const modal = document.querySelector('.item-card-modal');
-		let member = library.users.getMemberByAccNum(parseInt(document.querySelector('#user-accNum').textContent));
-		const buttonAction = {
-			edit: () => {
-				const userProperties = this.getPropertiesFromUserDiv(parent);
-				modals.fadeInModal(modals.getEditMemberModal(), parent, '100');
-				this.populateEditMemberForm(parent.querySelector('form'), userProperties);
-			},
-			remove: () => {
-				this.handleRemoveMemberClick(parent, member);
-			},
-			close: () => {
-				library.users.removeMember(member);
-				modals.fadeInModal(modals.getRemoveMemberSuccessModal(), parent, '100');
-				this.updateDisplayAll('2000');
-			},
-			confirm: () => {
-				const userProperties = this.getPropertiesFromUserDiv(parent);
-				const div = parent.parentNode.parentNode;
-				if(library.validateForm(parent)) {
-					member.updateDetails(userProperties);
-					modals.fadeInModal(modals.getEditMemberConfirmModal(member), parent, '100');
-					this.clearModalAndUpdateItemCard(div, '2000', div, '2500');
-					this.updateDisplayAll('2500');
-				 }	
-			},
-			cancel: () => {	
-				this.clearModalAndUpdateItemCard(modal, '100', modal, '150');
-				this.updateDisplayAll('150');
-			}
-		};
-		buttonAction[action]();
-	}
+
+
 }

@@ -112,7 +112,11 @@ class Library {
     }
 
     getDateString(date) {
-        return `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`;
+        return  date.toLocaleDateString("en-GB", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                });
     }
 
     // Other functions
