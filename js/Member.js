@@ -28,11 +28,29 @@ class Member {
         return JSON.stringify(data);
     }
 
+    getHTML() {
+        let div = document.createElement('div');
+		div.id = this.accNum;
+		div.className = 'member-div';
+		let html = `
+            <strong>AccNum: </strong><span>${this.accNum}</span>
+            <strong>Name: </strong><span>${this.name}</span>
+            <strong>Account Status: </strong><span>${this.getMemberStatusString()}</span>
+            <strong>Member Since: </strong><span>${library.getDateString(this.joinDate)}</span>`;
+        if(this.accNum === data.activeMember.accNum) {
+            html += `<span class="user-active available">Active</span>`;
+        }
+
+        html += `<button class="selector-btn member-card-btn">Details</button>`;
+        div.innerHTML = html;
+        return div;
+    }
+
     getMemberStatusString() {
         if(this.isBanned) {
             return `Banned`;
         } else {
-            return `Active`;
+            return `Open`;
         }
     }
 

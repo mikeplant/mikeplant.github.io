@@ -39,6 +39,10 @@ main.addEventListener('click', (e) => {
     if(e.target.classList.contains('edit-member-btn')) {
         viewHandler.handleEditMemberClick(e)
     }
+
+    if(e.target.classList.contains('member-card-btn')) {
+        viewHandler.handleMemberCardBtnClick(e);
+    }
 });
 
 

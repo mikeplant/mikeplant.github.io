@@ -124,15 +124,11 @@ class ViewHandler {
         const displayOptions = {
             allItems: () => {
                 this.prepareMainDisplay('All Items', 'allItems');
-                library.items.forEach(item => {
-					this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
-                });
+                library.items.forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'])));
             },
             inStock: () => {
                 this.prepareMainDisplay('All In Stock', 'inStock');
-                library.getInStockItems().forEach(item => {
-					this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
-                });
+                library.getInStockItems().forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'])));
             },
             addItem: () => {
 				this.prepareMainDisplay('Add Items', 'addItem');
@@ -148,6 +144,7 @@ class ViewHandler {
 			},
 			allMembers: () => {
 				this.prepareMainDisplay('All Members', 'allMembers');
+				library.users.members.forEach(member => mainContent.appendChild(member.getHTML()));
 			},
 			addMember: () => {
 				this.prepareMainDisplay('Add Member', 'addMember');
@@ -179,15 +176,20 @@ class ViewHandler {
 		this.displayMemberItems(member);
 	}
 
-	displayMemberItems(user = data.activeMember) {
+	displayMemberItems(member) {
 		this.main.appendChild(htmlContent.getCurrentRentalsDiv());
 		this.main.appendChild(htmlContent.getPreviousRentalsDiv());
-		user.currentRentals.forEach(item => {
-			document.querySelector('#current-rentals').appendChild(item['item'].getHTML(['userCurrent', 'button'], item));
+		member.currentRentals.forEach(item => {
+			document.querySelector('#current-rentals').appendChild(item['item'].getHTML(['userCurrent', 'button'], item, member));
 		});
-		user.previousRentals.forEach(item => {
-			document.querySelector('#previous-rentals').appendChild(item['item'].getHTML(['userPrevious', 'stockQuantity', 'button'], item));
+		member.previousRentals.forEach(item => {
+			document.querySelector('#previous-rentals').appendChild(item['item'].getHTML(['userPrevious', 'stockQuantity', 'button'], item, member));
 		});
+	}
+
+	handleMemberCardBtnClick(e) {	
+		const member = library.users.getMemberByAccNum(parseInt(e.target.parentNode.id));
+		this.displayMemberDetails(member, 'Member Details', 'allMembers');
 	}
 
 	//Item Card Handlers

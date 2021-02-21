@@ -156,7 +156,7 @@ main {
 .main-content, .item-div, #add-books-div, .sub-content, .add-item-form-div, 
     .item-search-div, .check-out-modal, .check-out-modal-content,
         .check-in-modal-content, .add-book-modal-content, .confirm-remove-modal-content,
-        .user-details {
+        .user-details, .member-div {
     border-radius: 5px;
 }
 
@@ -174,7 +174,7 @@ main {
     text-align: center;
 }
 
-.sub-content, .item-div {
+.sub-content, .item-div, .member-div {
     display: inline-block;
     border: rgb(71, 71, 71) solid 1px;
     background: rgb(78, 78, 78) url("../img/tweed.png") repeat;
@@ -183,16 +183,45 @@ main {
     overflow: hidden;
 }
 
-.item-div {
+.member-div {
+    grid-template-columns:  minmax(140px, 80px) 1fr;  
+    min-height: 145px;
+}
+
+.member-div strong {
+    grid-column: 1;
+}
+
+.member-div span {
+    grid-column: 2;
+}
+
+.member-div button {
+    grid-column: 2;
+    justify-self: end;
+    align-self: end;
+}
+
+.member-div .user-active {
+    grid-column: 1;
+    justify-self: start;
+    align-self: end;
+}
+
+.item-div, .member-div {
     display: grid;
     position: relative;
-    grid-template-columns:  minmax(80px, 80px) 1fr 100px;
-    grid-template-rows: repeat(9, 1fr);
+     
     width: fit-content;
-    min-width: 350px;
-    height: 290px;
     margin: 5px;
-    padding: 10px;
+    padding: 10px;    
+}
+
+.item-div {
+    grid-template-columns:  minmax(80px, 80px) 1fr 100px;  
+    grid-template-rows: repeat(9, 1fr);
+    min-width: 350px;
+    height: 250px;
     font-size: 1.2rem;
 }
 
