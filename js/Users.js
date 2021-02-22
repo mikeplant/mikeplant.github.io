@@ -11,11 +11,17 @@ class Users {
             data.activeMember = undefined;
             const newActiveMember = this.members.find(member => member.accNum === accNum);
             data.activeMember = newActiveMember;
+            viewHandler.prevMember = newActiveMember;
             viewHandler.updateDisplayAll();
             data.saveUsers();
         } else {
             alert(`Please enter a valid account number e.g. "9000"`)
         }
+    }
+
+    clearActiveMember() {
+        data.activeMember = undefined;
+        viewHandler.updateDisplayAll();
     }
 
     removeMember(member) {

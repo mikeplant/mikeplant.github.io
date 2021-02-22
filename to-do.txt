@@ -47,6 +47,7 @@ Update search results to include ISBN10??
 
 LAYOUT -
 
+Sort out border on navbar dropdown hover.
 Change main-content and item-div to grid layout
 Sort formatting on confirm checkout modal
 

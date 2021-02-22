@@ -88,25 +88,37 @@ class HTMLContent {
     }
 
     getUserDetailsDiv(user) {
-        return `
-        <div class="user-details">
-            <h3>Member Details</h3>
-            <span>Account No:</span> <p id="user-accNum">${user.accNum}</p>
-            <span>Name:</span> <p id="user-name" class="user-property">${user.name}</p>
-            <span>Age:</span> <p id="user-age" class="user-property">${user.age}</p>
-            <span>Phone:</span> <p id="user-phone" class="user-property">${user.phone}</p>
-            <span>Email:</span> <p id="user-email" class="user-property">${user.email}</p>
-            <span>Address:</span> <p id="user-address" class="user-property">${user.address}</p>
-            <button id="remove-member-btn" class="selector-btn edit-member-btn">Remove</button><button class="selector-btn edit-member-btn">Edit</button>
-        </div>
-        <div class="user-details">
-            <h3>Library Info</h3>
-            <span>Account Status:</span> <p>${user.getMemberStatusString()}</p>
-            <span>Joined:</span> <p>${library.getDateString(user.joinDate)}</p>
-            <span>Current Rentals:</span> <p>${user.currentRentals.length}</p>
-            <span>Total Rentals:</span> <p>${user.previousRentals.length}</p>
-            <span>Late Returns:</span> <p>${user.lateReturns}</p>
-        </div>`
+        if(user) {
+            return `
+                    <div class="user-details">
+                        <h3>Member Details</h3>
+                        <span>Account No:</span> <p id="user-accNum">${user.accNum}</p>
+                        <span>Name:</span> <p id="user-name" class="user-property">${user.name}</p>
+                        <span>Age:</span> <p id="user-age" class="user-property">${user.age}</p>
+                        <span>Phone:</span> <p id="user-phone" class="user-property">${user.phone}</p>
+                        <span>Email:</span> <p id="user-email" class="user-property">${user.email}</p>
+                        <span>Address:</span> <p id="user-address" class="user-property">${user.address}</p>
+                        <button id="remove-member-btn" class="selector-btn edit-member-btn">Remove</button><button class="selector-btn edit-member-btn">Edit</button>
+                    </div>
+                    <div class="user-details">
+                        <h3>Library Info</h3>
+                        <span>Account Status:</span> <p>${user.getMemberStatusString()}</p>
+                        <span>Joined:</span> <p>${library.getDateString(user.joinDate)}</p>
+                        <span>Current Rentals:</span> <p>${user.currentRentals.length}</p>
+                        <span>Total Rentals:</span> <p>${user.previousRentals.length}</p>
+                        <span>Late Returns:</span> <p>${user.lateReturns}</p>
+                    </div>`
+        } else {
+            return `
+                    <div class="user-details">
+                        <h3>Member Details</h3>
+                        <span>No member is active.</span>
+                    </div>
+                    <div class="user-details">
+                        <h3>Library Info</h3>
+                        <span>No member is active.</span>
+                    </div>`
+        }
     }
 
     getCurrentRentalsDiv() {

@@ -13,7 +13,9 @@ class ViewHandler {
     displayActiveMember() {
         if(data.activeMember) {
             this.activeMemberSpan.textContent = `${data.activeMember.accNum} - ${data.activeMember.name}`;
-        }
+        } else {
+			this.activeMemberSpan.textContent = ``;
+		}
     }
 
 	//Display Preparation
@@ -53,15 +55,16 @@ class ViewHandler {
         
 		this.clearUserItemsDisplay();
 		this.clearSearchResultsDisplay();
+		this.prevMember = data.activeMember;
 
         const displayOptions = {
             allItems: () => {
                 this.prepareMainDisplay('All Items', 'allItems');
-                library.items.forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'])));
+                library.items.forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'], undefined, data.activeMember)));
             },
             inStock: () => {
                 this.prepareMainDisplay('All In Stock', 'inStock');
-                library.getInStockItems().forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'])));
+                library.getInStockItems().forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'], undefined, data.activeMember)));
             },
             addItem: () => {
 				this.prepareMainDisplay('Add Items', 'addItem');
@@ -102,6 +105,9 @@ class ViewHandler {
 			changeActiveMember: () => {
 				library.users.changeActiveMember();
 			},
+			clearActiveMember: () => {
+				library.users.clearActiveMember();
+			},
 			memberDetails: () => {
 				this.displayMemberDetails(this.prevMember, 'Member Details', 'memberDetails');
 			}
@@ -117,6 +123,7 @@ class ViewHandler {
 	}
 
 	displayMemberItems(member) {
+		if(member) {
 		this.main.appendChild(htmlContent.getCurrentRentalsDiv());
 		this.main.appendChild(htmlContent.getPreviousRentalsDiv());
 		member.currentRentals.forEach(item => {
@@ -125,6 +132,7 @@ class ViewHandler {
 		member.previousRentals.forEach(item => {
 			document.querySelector('#previous-rentals').appendChild(item['item'].getHTML(['userPrevious', 'stockQuantity', 'button'], item, member));
 		});
+		}
 	}
 
 	//Update Display
@@ -134,7 +142,7 @@ class ViewHandler {
 		const item = library.items.filter(item => item.stockNum === stockNum);
 		let updatedCard;
 		const options = {
-			main: () => {updatedCard = item[0].getHTML(['details', 'stockQuantity', 'button'])},
+			main: () => {updatedCard = item[0].getHTML(['details', 'stockQuantity', 'button'], undefined, this.prevMember)},
 			edit: () => {updatedCard = item[0].getHTML(['details', 'editButtons'])}
 		};
 		options[option]();
@@ -267,6 +275,7 @@ class ViewHandler {
 					} else {
 						modals.fadeInModal(modals.getManualAddConfirmModal(itemProperties), parent.parentNode, '100');
 						this.clearModalAndUpdateDisplay(div.querySelector('.add-book-manual-modal'), '2000', div.querySelector('.add-book-manual-modal'), '2500', 'main');
+						this.clearAllInputs('input', 150);
 					}
 				}	
 			}
@@ -311,11 +320,13 @@ class ViewHandler {
 	}
 
 	handleMemberCardBtnClick(e) {
-		if(!isNaN(e.target.parentNode.id)) {
-			this.prevMember = library.users.getMemberByAccNum(parseInt(e.target.parentNode.id));
+		if(!isNaN(e.target.parentNode.id)) {			
+			const member = library.users.getMemberByAccNum(parseInt(e.target.parentNode.id))
+			this.prevMember = member;
+			this.displayMemberDetails(member, 'Member Details', 'memberDetails');
+		} else {
+			this.displayMemberDetails(this.prevMember, 'Member Details', 'memberDetails');
 		}
-		
-		this.displayMemberDetails(this.prevMember, 'Member Details', 'memberDetails');
 	}
 
 	handleEditMemberClick(e) {

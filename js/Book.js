@@ -53,13 +53,19 @@ class Book {
 	 * stockQuantity - stock quantity of book.
 	 * button - button depending on stock and if user has a copy.
 	 */
-	getHTML(optionsArr, item, member = data.activeMember) {
+	getHTML(optionsArr, item, member) {
 		let div = document.createElement('div');
 		div.id = this.stockNum;
 		div.className = 'item-div';
 		let html = '';
-		const userHasItem = member.userHasItem(this);
-		const memberIsActive = (member.accNum === data.activeMember.accNum) ? true : false;
+		let userHasItem = false;
+		let selectedMemberIsActive = false;
+
+		if(member && data.activeMember) { 
+			selectedMemberIsActive = (member.accNum === data.activeMember.accNum) ? true : false 
+			userHasItem = member.userHasItem(this);
+		};
+		
 
 		const options = {
 			details: () => {
@@ -71,11 +77,13 @@ class Book {
 					<strong>Pages: </strong><span id="item-pages" class="item-property">${this.pages}</span>
 					<strong>ISBN: </strong><span id="item-isbn" class="item-property">${this.isbn}</span>
 					`;
-					if(userHasItem) {
-						if(library.returnIsOverdue(member.getRentedItem(this))) {
-							html += `<span class="user-has-span overdue">Return overdue</span>`;
-						} else {
-							html += `<span class="user-has-span">Checked out by active user</span>`;
+					if(member) {
+						if(userHasItem && selectedMemberIsActive) {
+							if(library.returnIsOverdue(member.getRentedItem(this))) {
+								html += `<span class="user-has-span overdue">Return overdue</span>`;
+							} else {
+								html += `<span class="user-has-span">Checked out by active user</span>`;
+							}
 						}
 					}
 			},
@@ -86,15 +94,10 @@ class Book {
 					<strong>Checked Out: </strong><span>${library.getDateString(item.dateCheckedOut)}</span>
 					<strong>Return Due: </strong><span>${library.getDateString(item.returnDue)}</span>
 					`;
-					if(memberIsActive) {
-						if(userHasItem) {
-							if(library.returnIsOverdue(member.getRentedItem(this))) {
-								html += `<span class="user-has-span overdue">Return overdue</span>`;
-							} else {
-								html += `<span class="user-has-span">Checked out by active user</span>`;
-							}
-						}
+					if(userHasItem && library.returnIsOverdue(member.getRentedItem(this))) {
+						html += `<span class="user-has-span overdue">Return overdue</span>`;
 					}
+
 					div.classList.add('current-item');
 			},
 			userPrevious: () => {
@@ -103,13 +106,11 @@ class Book {
 					<strong>Author: </strong><span id="item-author" class="item-property">${this.author}</span>
 					<strong>Rental Date: </strong><span>${library.getDateString(item.dateCheckedOut)}</span>
 					`;
-					if(memberIsActive) {
-						if(userHasItem) {
-							if(library.returnIsOverdue(member.getRentedItem(this))) {
-								html += `<span class="user-has-span overdue">Return overdue</span>`;
-							} else {
-								html += `<span class="user-has-span">Checked out by active user</span>`;
-							}
+					if(userHasItem) {
+						if(library.returnIsOverdue(member.getRentedItem(this))) {
+							html += `<span class="user-has-span overdue">Return overdue by selected user</span>`;
+						} else {
+							html += `<span class="user-has-span">Checked out by selected user</span>`;
 						}
 					}
 					div.classList.add('previous-item');
@@ -123,10 +124,10 @@ class Book {
 				}
 			},
 			button: () => {
-				if (memberIsActive) {
-					if(this.isInStock() && !userHasItem && !member.isBanned) {
+				if(member) {
+					if(selectedMemberIsActive && this.isInStock() && !userHasItem && !member.isBanned) {
 						html += `<button class="selector-btn item-card-btn">Check Out</button>`;
-					} else if(userHasItem) {
+					} else if(selectedMemberIsActive && userHasItem) {
 						html += `<button class="selector-btn item-card-btn">Check In</button>`;
 					}
 				}

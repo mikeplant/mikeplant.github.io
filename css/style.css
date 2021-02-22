@@ -16,11 +16,10 @@ body {
 
 header {
     position: relative;
-    height: 16vh;
-    min-height: 150px;
-    border-bottom: #2e3b37 solid 5px;
+    height: 160px;
     background: #121f10 url("../img/green-fibers.png") repeat;
     color: #fff;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
 header h1, #header-navbar {
@@ -62,7 +61,7 @@ header a, a:visited {
 
 #header-navbar {
     position: absolute;
-    bottom: -25.5px;
+    bottom: -20.5px;
     left: 20%;
     right: 20%;
     width: 60%;
@@ -87,7 +86,7 @@ header a, a:visited {
 
 #header-navbar li:hover {
     cursor: pointer;
-    background-color: rgb(33, 68, 57);
+    background: rgb(33, 68, 57) url("../img/green-fibers-trans.png");
 }
 
 #header-navbar ul li:hover .dropdown-content {
@@ -110,6 +109,7 @@ nav ul li {
     position: absolute;
     left: -1px;
     background: rgb(62, 114, 98) url("../img/green-fibers-trans.png");
+    border-radius: 0 0 10px 5px;
     margin-top: 10px;
     text-align: left;
     font-size: 1.2rem;
@@ -139,20 +139,21 @@ nav ul li {
 main {
     display: block;
     height: auto;
-    min-height: 80vh;
+    min-height: 100vh;
     background: #fff url("../img/farmer.png") repeat;
     padding-bottom: 20px;
 }
 
 #main-heading {
     display: inline-block;
+    position: relative;
     margin: 0;
     background: #33413C url("../img/green-fibers-trans.png");
     color: #fff;
     width: 230px;
     text-align: center;
     padding: 10px 20px;
-    border-top: gainsboro solid 1px;
+    border-top: #9d9d99 solid 1px;
     border-bottom-right-radius: 5px;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
     text-shadow: 1px 2px 7px #131313;
@@ -741,8 +742,10 @@ main {
 
 footer {
     display: inline-block;
-    margin-bottom: -5px;
-    height: 30px;
+    position: static;
+    bottom: 0;
+    height: 40px;
+    margin: -5px 0;
     width: 100%;
     background: #121f10 url("../img/green-fibers.png") repeat;
     color: #fff;
