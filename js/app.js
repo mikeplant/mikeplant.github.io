@@ -16,6 +16,8 @@ if (data.storageExists) {
     viewHandler.displayActiveMember(); //update
 } 
 
+viewHandler.handleMainDisplay('welcome');
+
 //Navbar listener
 
 headerNavbar.addEventListener('click', (e) => {

@@ -93,6 +93,10 @@ header a, a:visited {
     display: block;
 }
 
+#header-navbar .dropdown-content li:last-of-type:hover {
+    border-radius: 0 0 10px 5px;
+} 
+
 nav ul li {
     position: relative;
     text-shadow: 1px 2px 7px #3a3a3a;
@@ -188,6 +192,10 @@ main {
     color: #fff;
     text-align: left;
     overflow: hidden;
+}
+
+.item-div, .member-div {
+    border-left: #3e6f5e solid 10px;
 }
 
 .member-div {
@@ -300,6 +308,7 @@ main {
     padding: 10px;
     background: gray url("../img/farmer.png") repeat;
     color: #000;
+    border-radius: 0;
 }
 
 .check-out-modal-content h3 {
@@ -391,7 +400,7 @@ main {
 .user-details {
     display: grid;
     position: relative;
-    grid-template-columns: 120px 1fr 1fr 100px 100px;
+    grid-template-columns: 130px 1fr 1fr 100px 100px;
     grid-template-rows: minmax(40px, 40px);
     width: 45%;
     padding: 10px;
@@ -421,6 +430,10 @@ main {
 
 .user-details span {
     grid-column: 1;
+}
+
+span.banned, span.open {
+    grid-column: 2 / span 4;
 }
 
 .user-details p {
@@ -695,6 +708,14 @@ main {
 
 .available, .unavailable {
     font-style: italic;
+}
+
+.banned {
+    color: #ff3e3e;
+}
+
+.open {
+    color: #45af4c;
 }
 
 .available {

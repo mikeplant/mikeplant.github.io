@@ -58,6 +58,9 @@ class ViewHandler {
 		this.prevMember = data.activeMember;
 
         const displayOptions = {
+			welcome: () => {
+				this.prepareMainDisplay('Welcome', 'welcome');
+			},
             allItems: () => {
                 this.prepareMainDisplay('All Items', 'allItems');
                 library.items.forEach(item => this.mainContent.appendChild(item.getHTML(['details', 'stockQuantity', 'button'], undefined, data.activeMember)));
@@ -191,13 +194,13 @@ class ViewHandler {
 			itemSearch: () => {
 				this.main.appendChild(htmlContent.getSearchResultHTML());
 				searchItems.forEach(item => {
-					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
+					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'stockQuantity', 'button',], undefined, data.activeMember));
 				});
 			},
 			inStockSearch: () => {
 				this.main.appendChild(htmlContent.getSearchResultHTML());
 				searchItems.filter(item => item.isInStock()).forEach(item => {
-					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'stockQuantity', 'button']));
+					document.querySelector('#search-results').appendChild(item.getHTML(['details', 'stockQuantity', 'button'], undefined, data.activeMember));
 				});
 			},
 			memberSearch: () => {
@@ -232,6 +235,7 @@ class ViewHandler {
 				modals.fadeInModal(modals.getCheckInModalHTML(item, data.activeMember), parent, '100');
 				data.activeMember.checkInItem(item);
 				this.clearModalAndUpdateDisplay(parent.querySelector('div'), '2000', parent, '2050', 'main');
+				setTimeout (() => {if (data.activeMember.isBanned) { this.handleMainDisplay(); }}, 2050);
 			},
 			confirm: () => {
 				const input = parent.querySelector('#days-input');
@@ -242,7 +246,7 @@ class ViewHandler {
 				} else {
 					modals.updateInnerHTML('confirmCheckout', parent, item, data.activeMember, rentalLength);
 					data.activeMember.checkOutItem(item, rentalLength);
-					this.clearModalAndUpdateDisplay(parent.parentNode, '2000', parent.parentNode.parentNode, '2500', 'main');
+					this.clearModalAndUpdateDisplay(parent.parentNode, '2000', parent.parentNode.parentNode, '2050', 'main');
 				}			
 			},
 			cancel: () => {
@@ -309,7 +313,7 @@ class ViewHandler {
 					const item = library.getItemByStockNum(parseInt(itemCardID.id))
 					item.updateDetails(itemProperties);
 					modals.updateInnerHTML('confirmEditBook', parent.parentNode, itemProperties);
-					this.clearModalAndUpdateDisplay(div, '2000', itemCardID, '2500', 'edit');	
+					this.clearModalAndUpdateDisplay(div, '2000', itemCardID, '2050', 'edit');	
 				}	
 			},
 			cancel: () => {
@@ -482,6 +486,12 @@ class ViewHandler {
 	}
 
 	handleRemoveMemberClick(parent, member) {
+		// if(data.activeMember) {
+		// 	if(member.isActive()) {
+		// 		modals.fadeInModal(modals.getRemoveMemberDisallowedModal(), parent, '100');
+		// 		this.clearModalAndUpdateDisplay(document.querySelector('.item-card-modal'), '3000', document.querySelector('.item-card-modal'), '3100');
+		// 	}
+		// }
 		if(!member.userHasAnyItem() && !member.isActive()) {
 			modals.fadeInModal(modals.getConfirmRemoveMemberModal(member), parent, '100');
 		} else {

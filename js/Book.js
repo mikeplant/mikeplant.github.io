@@ -62,7 +62,7 @@ class Book {
 		let selectedMemberIsActive = false;
 
 		if(member && data.activeMember) { 
-			selectedMemberIsActive = (member.accNum === data.activeMember.accNum) ? true : false 
+			selectedMemberIsActive = (member.isActive());
 			userHasItem = member.userHasItem(this);
 		};
 		

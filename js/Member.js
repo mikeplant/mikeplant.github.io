@@ -54,14 +54,18 @@ class Member {
 
     getMemberStatusString() {
         if(this.isBanned) {
-            return `Banned`;
+            return `<span class="banned">Banned</span>`;
         } else {
-            return `Open`;
+            return `<span class="open">Open</span>`;
         }
     }
 
     isActive() {
-        return (this.accNum === data.activeMember.accNum) ? true : false;
+        if(data.activeMember) { 
+            return (this.accNum === data.activeMember.accNum) ? true : false; 
+        } else { 
+            return false; 
+        }
     }
 
     getRentedItem(item) {

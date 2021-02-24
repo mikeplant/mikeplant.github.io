@@ -4,7 +4,6 @@ NEXT -
 
 Fix display refresh on member details page when checking books in or out. Library info also needs to refresh.
 Fix search button on search form
-Update all books to remove buttons on user banning, viewhandler.
 
 BUGS - 
 
@@ -13,10 +12,13 @@ Confirm edit item span layout.
 
 VIEWHANDLER -
 
+ITEMS - 
+
+Add total stock.
+
 USERS - 
 
 Remove returnDue from previous rentals on check in.
-Add late check out counter
 Change age to dob, add function to check age.
 
 DATA - 
@@ -27,14 +29,13 @@ Save on remove, edit items.
 MODALS -
 
 Make Modals a subclass of HTMLContent?
+Manual Add and edit modals borders square on click.
 
 ADD ITEMS PAGE -
 
 Keyup listener on manual add book form
 Add add book validation - stock quantity
-Clear manual form after submit
 
-* Update manual add form confirmation modal layout. Also form is being removed on confirm. Needs new confirm modal - 
 * Change form to submit, then use formData or form.element to make code more reliable and reusable.
 
 Add text explaining required fields on form - in modal?
@@ -47,7 +48,6 @@ Update search results to include ISBN10??
 
 LAYOUT -
 
-Sort out border on navbar dropdown hover.
 Change main-content and item-div to grid layout
 Sort formatting on confirm checkout modal
 
@@ -61,3 +61,10 @@ GENERAL -
 
 Add rental history to items
 Settings page - max book rentals allowed at a time, max late rentals before blocking, max rental length.
+
+User Banning -
+
+Modal on user ban event.
+Ban date on user page.
+Remove ban on user page.
+Reset late returns on user page.

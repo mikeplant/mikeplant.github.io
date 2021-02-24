@@ -102,8 +102,8 @@ class HTMLContent {
                     </div>
                     <div class="user-details">
                         <h3>Library Info</h3>
-                        <span>Account Status:</span> <p>${user.getMemberStatusString()}</p>
-                        <span>Joined:</span> <p>${library.getDateString(user.joinDate)}</p>
+                        <span>Account Status:</span> ${user.getMemberStatusString()}
+                        <span>Member Since:</span> <p>${library.getDateString(user.joinDate)}</p>
                         <span>Current Rentals:</span> <p>${user.currentRentals.length}</p>
                         <span>Total Rentals:</span> <p>${user.previousRentals.length}</p>
                         <span>Late Returns:</span> <p>${user.lateReturns}</p>
