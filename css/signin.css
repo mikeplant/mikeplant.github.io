@@ -1,36 +1,37 @@
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	color: #fff;
-	font-size: 1em;
-	font-family: "Gotham Rounded A", "Gotham Rounded B", "Gotham Rounded", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	background-color: #fff;
-	background-image: url("../img/green-fibers.png");
-	background-repeat: repeat;
-	margin: 0;
-	display: grid;
-	justify-content: center;
-	align-items: center;
+  color: #fff;
+  font-size: 1em;
+  font-family: "Gotham Rounded A", "Gotham Rounded B", "Gotham Rounded",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  background-image: url("../img/green-fibers.png");
+  background-repeat: repeat;
+  margin: 0;
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
 
 main {
-	width: 100%;
-	height: 100%;
-	margin: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 
 h1 {
-	text-align: center;
-	font-size: 55px;
+  text-align: center;
+  font-size: 55px;
 }
 
 .signInDiv {
-	height: 100%;
-	width: 100%;
-	display: grid;
-	justify-content: center;
-  	align-items: center;
-	margin: auto;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
